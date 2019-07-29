@@ -42,10 +42,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.1\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Or Nechemia\CLionProjects\SP"
+CMAKE_SOURCE_DIR = C:\Users\lenovo\CLionProjects\Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\lenovo\CLionProjects\Project\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Project.dir/depend.make
@@ -58,45 +58,75 @@ include CMakeFiles/Project.dir/flags.make
 
 CMakeFiles/Project.dir/main.c.obj: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Project.dir/main.c.obj"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\main.c.obj   -c "C:\Users\Or Nechemia\CLionProjects\SP\main.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Project.dir/main.c.obj"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\main.c.obj   -c C:\Users\lenovo\CLionProjects\Project\main.c
 
 CMakeFiles/Project.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/main.c.i"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\Or Nechemia\CLionProjects\SP\main.c" > CMakeFiles\Project.dir\main.c.i
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\main.c > CMakeFiles\Project.dir\main.c.i
 
 CMakeFiles/Project.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/main.c.s"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\Or Nechemia\CLionProjects\SP\main.c" -o CMakeFiles\Project.dir\main.c.s
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\main.c -o CMakeFiles\Project.dir\main.c.s
 
 CMakeFiles/Project.dir/linkedList.c.obj: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/linkedList.c.obj: ../linkedList.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project.dir/linkedList.c.obj"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\linkedList.c.obj   -c "C:\Users\Or Nechemia\CLionProjects\SP\linkedList.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project.dir/linkedList.c.obj"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\linkedList.c.obj   -c C:\Users\lenovo\CLionProjects\Project\linkedList.c
 
 CMakeFiles/Project.dir/linkedList.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/linkedList.c.i"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "C:\Users\Or Nechemia\CLionProjects\SP\linkedList.c" > CMakeFiles\Project.dir\linkedList.c.i
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\linkedList.c > CMakeFiles\Project.dir\linkedList.c.i
 
 CMakeFiles/Project.dir/linkedList.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/linkedList.c.s"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "C:\Users\Or Nechemia\CLionProjects\SP\linkedList.c" -o CMakeFiles\Project.dir\linkedList.c.s
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\linkedList.c -o CMakeFiles\Project.dir\linkedList.c.s
+
+CMakeFiles/Project.dir/board.c.obj: CMakeFiles/Project.dir/flags.make
+CMakeFiles/Project.dir/board.c.obj: ../board.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Project.dir/board.c.obj"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\board.c.obj   -c C:\Users\lenovo\CLionProjects\Project\board.c
+
+CMakeFiles/Project.dir/board.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/board.c.i"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\board.c > CMakeFiles\Project.dir\board.c.i
+
+CMakeFiles/Project.dir/board.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/board.c.s"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\board.c -o CMakeFiles\Project.dir\board.c.s
+
+CMakeFiles/Project.dir/errors.c.obj: CMakeFiles/Project.dir/flags.make
+CMakeFiles/Project.dir/errors.c.obj: ../errors.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Project.dir/errors.c.obj"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\errors.c.obj   -c C:\Users\lenovo\CLionProjects\Project\errors.c
+
+CMakeFiles/Project.dir/errors.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/errors.c.i"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\errors.c > CMakeFiles\Project.dir\errors.c.i
+
+CMakeFiles/Project.dir/errors.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/errors.c.s"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\errors.c -o CMakeFiles\Project.dir\errors.c.s
 
 # Object files for target Project
 Project_OBJECTS = \
 "CMakeFiles/Project.dir/main.c.obj" \
-"CMakeFiles/Project.dir/linkedList.c.obj"
+"CMakeFiles/Project.dir/linkedList.c.obj" \
+"CMakeFiles/Project.dir/board.c.obj" \
+"CMakeFiles/Project.dir/errors.c.obj"
 
 # External object files for target Project
 Project_EXTERNAL_OBJECTS =
 
 Project.exe: CMakeFiles/Project.dir/main.c.obj
 Project.exe: CMakeFiles/Project.dir/linkedList.c.obj
+Project.exe: CMakeFiles/Project.dir/board.c.obj
+Project.exe: CMakeFiles/Project.dir/errors.c.obj
 Project.exe: CMakeFiles/Project.dir/build.make
 Project.exe: CMakeFiles/Project.dir/linklibs.rsp
 Project.exe: CMakeFiles/Project.dir/objects1.rsp
 Project.exe: CMakeFiles/Project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Project.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable Project.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Project.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -109,6 +139,6 @@ CMakeFiles/Project.dir/clean:
 .PHONY : CMakeFiles/Project.dir/clean
 
 CMakeFiles/Project.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\Or Nechemia\CLionProjects\SP" "C:\Users\Or Nechemia\CLionProjects\SP" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles\Project.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\lenovo\CLionProjects\Project C:\Users\lenovo\CLionProjects\Project C:\Users\lenovo\CLionProjects\Project\cmake-build-debug C:\Users\lenovo\CLionProjects\Project\cmake-build-debug C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles\Project.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Project.dir/depend
 

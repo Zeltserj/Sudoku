@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include "board.h"
 
 int main() {
-    printf("HELLO, world!\n");
-
+    Cell *cell = alloc_cell();
+    error(10101);
     return 0;
 }
