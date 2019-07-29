@@ -149,6 +149,33 @@ board.c.s:
 	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/board.c.s
 .PHONY : board.c.s
 
+command.obj: command.c.obj
+
+.PHONY : command.obj
+
+# target to build an object file
+command.c.obj:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.obj
+.PHONY : command.c.obj
+
+command.i: command.c.i
+
+.PHONY : command.i
+
+# target to preprocess a source file
+command.c.i:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.i
+.PHONY : command.c.i
+
+command.s: command.c.s
+
+.PHONY : command.s
+
+# target to generate assembly for a file
+command.c.s:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.s
+.PHONY : command.c.s
+
 errors.obj: errors.c.obj
 
 .PHONY : errors.obj
@@ -242,6 +269,9 @@ help:
 	@echo ... board.obj
 	@echo ... board.i
 	@echo ... board.s
+	@echo ... command.obj
+	@echo ... command.i
+	@echo ... command.s
 	@echo ... errors.obj
 	@echo ... errors.i
 	@echo ... errors.s

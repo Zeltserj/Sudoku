@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "C:/Users/lenovo/CLionProjects/Project/board.c" "C:/Users/lenovo/CLionProjects/Project/cmake-build-debug/CMakeFiles/Project.dir/board.c.obj"
+  "C:/Users/lenovo/CLionProjects/Project/command.c" "C:/Users/lenovo/CLionProjects/Project/cmake-build-debug/CMakeFiles/Project.dir/command.c.obj"
   "C:/Users/lenovo/CLionProjects/Project/errors.c" "C:/Users/lenovo/CLionProjects/Project/cmake-build-debug/CMakeFiles/Project.dir/errors.c.obj"
   "C:/Users/lenovo/CLionProjects/Project/linkedList.c" "C:/Users/lenovo/CLionProjects/Project/cmake-build-debug/CMakeFiles/Project.dir/linkedList.c.obj"
   "C:/Users/lenovo/CLionProjects/Project/main.c" "C:/Users/lenovo/CLionProjects/Project/cmake-build-debug/CMakeFiles/Project.dir/main.c.obj"

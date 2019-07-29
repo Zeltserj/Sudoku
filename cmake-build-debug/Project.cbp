@@ -82,6 +82,12 @@
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/board.h">
 			<Option target="Project"/>
 		</Unit>
+		<Unit filename="C:/Users/lenovo/CLionProjects/Project/command.c">
+			<Option target="Project"/>
+		</Unit>
+		<Unit filename="C:/Users/lenovo/CLionProjects/Project/command.h">
+			<Option target="Project"/>
+		</Unit>
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/errors.c">
 			<Option target="Project"/>
 		</Unit>
