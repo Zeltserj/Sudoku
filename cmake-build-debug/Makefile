@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.1\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Or Nechemia\CLionProjects\SP"
+CMAKE_SOURCE_DIR = C:\Users\lenovo\CLionProjects\Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\lenovo\CLionProjects\Project\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles\progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -121,6 +121,60 @@ Project: cmake_check_build_system
 Project/fast:
 	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/build
 .PHONY : Project/fast
+
+board.obj: board.c.obj
+
+.PHONY : board.obj
+
+# target to build an object file
+board.c.obj:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/board.c.obj
+.PHONY : board.c.obj
+
+board.i: board.c.i
+
+.PHONY : board.i
+
+# target to preprocess a source file
+board.c.i:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/board.c.i
+.PHONY : board.c.i
+
+board.s: board.c.s
+
+.PHONY : board.s
+
+# target to generate assembly for a file
+board.c.s:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/board.c.s
+.PHONY : board.c.s
+
+errors.obj: errors.c.obj
+
+.PHONY : errors.obj
+
+# target to build an object file
+errors.c.obj:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/errors.c.obj
+.PHONY : errors.c.obj
+
+errors.i: errors.c.i
+
+.PHONY : errors.i
+
+# target to preprocess a source file
+errors.c.i:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/errors.c.i
+.PHONY : errors.c.i
+
+errors.s: errors.c.s
+
+.PHONY : errors.s
+
+# target to generate assembly for a file
+errors.c.s:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/errors.c.s
+.PHONY : errors.c.s
 
 linkedList.obj: linkedList.c.obj
 
@@ -185,6 +239,12 @@ help:
 	@echo ... Project
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... board.obj
+	@echo ... board.i
+	@echo ... board.s
+	@echo ... errors.obj
+	@echo ... errors.i
+	@echo ... errors.s
 	@echo ... linkedList.obj
 	@echo ... linkedList.i
 	@echo ... linkedList.s
