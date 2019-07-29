@@ -1,7 +1,4 @@
-/**
 
- Created by lenovo on ${DTE}
- **/
 #include "errors.h"
 
 #ifndef PROJECT_BOARD_H
