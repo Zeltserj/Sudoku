@@ -3,7 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Project.dir/linkedList.c.obj"
   "CMakeFiles/Project.dir/board.c.obj"
   "CMakeFiles/Project.dir/errors.c.obj"
-  "CMakeFiles/Project.dir/linkedListCells.c.obj"
+  "CMakeFiles/Project.dir/command.c.obj"
   "Project.pdb"
   "Project.exe"
   "Project.exe.manifest"

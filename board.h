@@ -39,8 +39,16 @@ Cell *alloc_cell(int r, int c);
  * @param value
  * @return allocates a new board of size r*c*c*r or fails
  */
+void set_cell_value(Cell *cell, int value);
+void set_cell_fixed(Cell *cell, int fixed);
+void set_cell_error(Cell *cell, int is_error);
+int get_cell_value(Cell *cell);
+int get_cell_fixed(Cell *cell);
+int get_cell_error(Cell *cell);
+int get_cell_row(Cell *cell);
+int get_cell_col(Cell *cell);
 
-Cell *** alloc_matrix(int size);
+        Cell *** alloc_matrix(int size);
 Board *alloc_board(int r, int c);
 /**
  *
