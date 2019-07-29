@@ -1,5 +1,112 @@
-//
-// Created by Or Nechemia on 29/07/2019.
-//
 
 #include "linkedList.h"
+
+Node *get_head(LinkedList *list) {
+    return list->head;
+}
+
+Node *get_curr(LinkedList *list) {
+    return list->current;
+}
+
+int remove_next_after_curr(LinkedList *list) {
+    Node *next = list->current->next;
+    if (list->current == NULL) {
+        return 020101;
+    }
+    if (list->current->next == NULL) {
+        return 1;
+    }
+    if (list->current->next->next == NULL) {
+        free_node(next);
+        free(list->current->next);
+        return 1;
+    }
+    list->current->next = list->current->next->next;
+    list->current->next->next->prev = list->current;
+    free_node(next);
+    free(next);
+    return 1;
+}
+
+void remove_node(LinkedList *list, Node *node) {
+    if (list->head == node) {
+        list->head = node->next;
+    } else {
+        node->prev->next = node->next;
+    }
+    if(node->next != NULL){
+        node->next->prev = node->prev;
+    }
+    if(list->current == node){
+        if(list->current == list->head){
+            list->current = node->next;
+        }
+        else{
+            list->current = node->prev;
+        }
+    }
+    free(node);
+
+}
+
+void remove_all_after_curr(LinkedList *list) {
+    Node* temp = list->current->next;
+    if(temp != NULL) {
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        while (temp != list->current) {
+            temp = temp->prev;
+            free_node(temp->next);
+            list->len--;
+        }
+    }
+}
+
+void free_node(Node *node) {
+    free(node->next);
+    free(node->prev);
+    free_linkedList_cell(node->changed);
+    free(node->changed);
+    free_command(node->c);
+    free(node->c);
+}
+
+/*TODO: Or: write after linkedListCells */
+void free_linkedList_cell(linkedListCells *changed) {
+
+}
+/*TODO: Or: write after Command */
+void free_command(Command *c) {
+
+}
+
+void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
+    Node* newNode = create_Node(c,changed,prevmode);
+    if(list->current != NULL) {
+        remove_all_after_curr(list);
+        list->current->next = newNode;
+        newNode->prev = list->current;
+    }
+    else{
+        list->current = newNode;
+        list->head = newNode;
+    }
+    list->len++;
+
+}
+Node * create_Node(Command *c, LinkedListCells *changed, int prevmode){
+    Node* newNode = calloc(5, sizeof(int*));
+    newNode->c = c;
+    newNode->changed=changed;
+    newNode->prevmode = prevmode;
+
+}
+int advance_curr(LinkedList *list) {
+    if(list->current == NULL){
+        return 020201;
+    }
+    list->current = list->current->next;
+    return 1;
+}
