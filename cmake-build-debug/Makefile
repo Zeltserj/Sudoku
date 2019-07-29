@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.1\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\lenovo\CLionProjects\Project
+CMAKE_SOURCE_DIR = "C:\Users\Or Nechemia\CLionProjects\SP"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\lenovo\CLionProjects\Project\cmake-build-debug
+CMAKE_BINARY_DIR = "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles\progress.marks"
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -203,6 +203,33 @@ linkedList.c.s:
 	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedList.c.s
 .PHONY : linkedList.c.s
 
+linkedListCells.obj: linkedListCells.c.obj
+
+.PHONY : linkedListCells.obj
+
+# target to build an object file
+linkedListCells.c.obj:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedListCells.c.obj
+.PHONY : linkedListCells.c.obj
+
+linkedListCells.i: linkedListCells.c.i
+
+.PHONY : linkedListCells.i
+
+# target to preprocess a source file
+linkedListCells.c.i:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedListCells.c.i
+.PHONY : linkedListCells.c.i
+
+linkedListCells.s: linkedListCells.c.s
+
+.PHONY : linkedListCells.s
+
+# target to generate assembly for a file
+linkedListCells.c.s:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedListCells.c.s
+.PHONY : linkedListCells.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -248,6 +275,9 @@ help:
 	@echo ... linkedList.obj
 	@echo ... linkedList.i
 	@echo ... linkedList.s
+	@echo ... linkedListCells.obj
+	@echo ... linkedListCells.i
+	@echo ... linkedListCells.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
