@@ -82,12 +82,6 @@
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/board.h">
 			<Option target="Project"/>
 		</Unit>
-		<Unit filename="C:/Users/lenovo/CLionProjects/Project/command.c">
-			<Option target="Project"/>
-		</Unit>
-		<Unit filename="C:/Users/lenovo/CLionProjects/Project/command.h">
-			<Option target="Project"/>
-		</Unit>
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/errors.c">
 			<Option target="Project"/>
 		</Unit>
@@ -98,6 +92,12 @@
 			<Option target="Project"/>
 		</Unit>
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/linkedList.h">
+			<Option target="Project"/>
+		</Unit>
+		<Unit filename="C:/Users/lenovo/CLionProjects/Project/linkedListCells.c">
+			<Option target="Project"/>
+		</Unit>
+		<Unit filename="C:/Users/lenovo/CLionProjects/Project/linkedListCells.h">
 			<Option target="Project"/>
 		</Unit>
 		<Unit filename="C:/Users/lenovo/CLionProjects/Project/main.c">

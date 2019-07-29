@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2019.1\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\Or Nechemia\CLionProjects\SP"
+CMAKE_SOURCE_DIR = C:\Users\lenovo\CLionProjects\Project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug"
+CMAKE_BINARY_DIR = C:\Users\lenovo\CLionProjects\Project\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles\progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "C:\Users\Or Nechemia\CLionProjects\SP\cmake-build-debug\CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -148,33 +148,6 @@ board.s: board.c.s
 board.c.s:
 	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/board.c.s
 .PHONY : board.c.s
-
-command.obj: command.c.obj
-
-.PHONY : command.obj
-
-# target to build an object file
-command.c.obj:
-	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.obj
-.PHONY : command.c.obj
-
-command.i: command.c.i
-
-.PHONY : command.i
-
-# target to preprocess a source file
-command.c.i:
-	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.i
-.PHONY : command.c.i
-
-command.s: command.c.s
-
-.PHONY : command.s
-
-# target to generate assembly for a file
-command.c.s:
-	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/command.c.s
-.PHONY : command.c.s
 
 errors.obj: errors.c.obj
 
@@ -296,9 +269,6 @@ help:
 	@echo ... board.obj
 	@echo ... board.i
 	@echo ... board.s
-	@echo ... command.obj
-	@echo ... command.i
-	@echo ... command.s
 	@echo ... errors.obj
 	@echo ... errors.i
 	@echo ... errors.s

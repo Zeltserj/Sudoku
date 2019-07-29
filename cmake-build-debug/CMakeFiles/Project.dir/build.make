@@ -108,18 +108,18 @@ CMakeFiles/Project.dir/errors.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/errors.c.s"
 	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\errors.c -o CMakeFiles\Project.dir\errors.c.s
 
-CMakeFiles/Project.dir/command.c.obj: CMakeFiles/Project.dir/flags.make
-CMakeFiles/Project.dir/command.c.obj: ../command.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Project.dir/command.c.obj"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\command.c.obj   -c C:\Users\lenovo\CLionProjects\Project\command.c
+CMakeFiles/Project.dir/linkedListCells.c.obj: CMakeFiles/Project.dir/flags.make
+CMakeFiles/Project.dir/linkedListCells.c.obj: ../linkedListCells.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\lenovo\CLionProjects\Project\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Project.dir/linkedListCells.c.obj"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\Project.dir\linkedListCells.c.obj   -c C:\Users\lenovo\CLionProjects\Project\linkedListCells.c
 
-CMakeFiles/Project.dir/command.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/command.c.i"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\command.c > CMakeFiles\Project.dir\command.c.i
+CMakeFiles/Project.dir/linkedListCells.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project.dir/linkedListCells.c.i"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\lenovo\CLionProjects\Project\linkedListCells.c > CMakeFiles\Project.dir\linkedListCells.c.i
 
-CMakeFiles/Project.dir/command.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/command.c.s"
-	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\command.c -o CMakeFiles\Project.dir\command.c.s
+CMakeFiles/Project.dir/linkedListCells.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project.dir/linkedListCells.c.s"
+	C:\TDM-GCC-64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\lenovo\CLionProjects\Project\linkedListCells.c -o CMakeFiles\Project.dir\linkedListCells.c.s
 
 # Object files for target Project
 Project_OBJECTS = \
@@ -127,7 +127,7 @@ Project_OBJECTS = \
 "CMakeFiles/Project.dir/linkedList.c.obj" \
 "CMakeFiles/Project.dir/board.c.obj" \
 "CMakeFiles/Project.dir/errors.c.obj" \
-"CMakeFiles/Project.dir/command.c.obj"
+"CMakeFiles/Project.dir/linkedListCells.c.obj"
 
 # External object files for target Project
 Project_EXTERNAL_OBJECTS =
@@ -136,7 +136,7 @@ Project.exe: CMakeFiles/Project.dir/main.c.obj
 Project.exe: CMakeFiles/Project.dir/linkedList.c.obj
 Project.exe: CMakeFiles/Project.dir/board.c.obj
 Project.exe: CMakeFiles/Project.dir/errors.c.obj
-Project.exe: CMakeFiles/Project.dir/command.c.obj
+Project.exe: CMakeFiles/Project.dir/linkedListCells.c.obj
 Project.exe: CMakeFiles/Project.dir/build.make
 Project.exe: CMakeFiles/Project.dir/linklibs.rsp
 Project.exe: CMakeFiles/Project.dir/objects1.rsp
