@@ -19,6 +19,6 @@ void error(int error_code) {
     if(function == 1){
         printf("memory allocation failure\n");
     }
-    exit(0);
+
 
 }
