@@ -122,6 +122,33 @@ Project/fast:
 	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/build
 .PHONY : Project/fast
 
+linkedList.obj: linkedList.c.obj
+
+.PHONY : linkedList.obj
+
+# target to build an object file
+linkedList.c.obj:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedList.c.obj
+.PHONY : linkedList.c.obj
+
+linkedList.i: linkedList.c.i
+
+.PHONY : linkedList.i
+
+# target to preprocess a source file
+linkedList.c.i:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedList.c.i
+.PHONY : linkedList.c.i
+
+linkedList.s: linkedList.c.s
+
+.PHONY : linkedList.s
+
+# target to generate assembly for a file
+linkedList.c.s:
+	$(MAKE) -f CMakeFiles\Project.dir\build.make CMakeFiles/Project.dir/linkedList.c.s
+.PHONY : linkedList.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -158,6 +185,9 @@ help:
 	@echo ... Project
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... linkedList.obj
+	@echo ... linkedList.i
+	@echo ... linkedList.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

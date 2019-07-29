@@ -76,6 +76,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Or Nechemia/CLionProjects/SP/linkedList.c">
+			<Option target="Project"/>
+		</Unit>
+		<Unit filename="C:/Users/Or Nechemia/CLionProjects/SP/linkedList.h">
+			<Option target="Project"/>
+		</Unit>
 		<Unit filename="C:/Users/Or Nechemia/CLionProjects/SP/main.c">
 			<Option target="Project"/>
 		</Unit>
