@@ -7,6 +7,8 @@
  * cell structure for use in the autofill list, and board structure contains a matrix of these cells
  * contains all information regarding cells (value, erroneous in relation to the board, fixed/free, and cell's location
  */
+ extern int mode;
+ extern int mark_errors;
 typedef struct GameCell{
     int value;
     int fixed;
@@ -123,5 +125,11 @@ void fix_cell(Board* board, int r, int c);
 void unfix_cell(Board* board, int r, int c);
 void set_erroneous(Board* board, int r, int c);
 void set_legal(Board* board, int r, int c);
-
+/**
+ *
+ * @param board != NULL
+ *
+ * prints board to user
+ */
+void print_board(Board *board);
 #endif //PROJECT_BOARD_H
