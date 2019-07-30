@@ -3,7 +3,7 @@
 #define PROJECT_COMMAND_H
 typedef struct UserCommand{
     enum CommandType{invalid = 0, solve, edit, mark_errors,
-            print_board, set, validate,
+            print_board, _set, validate,
             guess, generate, undo, redo,
             save, hint, guess_hint,
             num_solutions, autofill, reset,
