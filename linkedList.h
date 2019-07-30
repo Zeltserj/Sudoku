@@ -48,6 +48,10 @@ void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
 * @return a new node with input arguments as properties. next and prev are both NULL at that point
 */
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode);
+/**
+*
+* @return
+*/
 LinkedList* alloc_linkedList();
 
 /**
