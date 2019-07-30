@@ -117,6 +117,8 @@ int advance_curr(LinkedList *list) {
 
 LinkedList *alloc_linkedList() {
     LinkedList* newList = calloc(3, sizeof(int*));
-
-
+    if(newList == NULL){
+        error(1);
+        exit(0);
+    }
 }
