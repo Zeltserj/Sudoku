@@ -1,4 +1,4 @@
-
+#include <stdlib.h>
 #include "linkedList.h"
 
 Node *get_head(LinkedList *list) {
@@ -12,7 +12,7 @@ Node *get_curr(LinkedList *list) {
 int remove_next_after_curr(LinkedList *list) {
     Node *next = list->current->next;
     if (list->current == NULL) {
-        return 020101;
+        return 020102;
     }
     if (list->current->next == NULL) {
         return 1;
@@ -83,7 +83,7 @@ void free_command(Command *c) {
 }
 
 void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
-    Node* newNode = create_Node(c,changed,prevmode);
+    Node* newNode = alloc_node(c, changed, prevmode);
     if(list->current != NULL) {
         remove_all_after_curr(list);
         list->current->next = newNode;
@@ -96,8 +96,12 @@ void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     list->len++;
 
 }
-Node * create_Node(Command *c, LinkedListCells *changed, int prevmode){
+Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     Node* newNode = calloc(5, sizeof(int*));
+    if(newNode==NULL){
+        error(1);
+        exit(0);
+    }
     newNode->c = c;
     newNode->changed=changed;
     newNode->prevmode = prevmode;
@@ -105,8 +109,14 @@ Node * create_Node(Command *c, LinkedListCells *changed, int prevmode){
 }
 int advance_curr(LinkedList *list) {
     if(list->current == NULL){
-        return 020201;
+        return 020202;
     }
     list->current = list->current->next;
     return 1;
+}
+
+LinkedList *alloc_linkedList() {
+    LinkedList* newList = calloc(3, sizeof(int*));
+
+
 }

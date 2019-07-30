@@ -2,7 +2,7 @@
 #ifndef SP_LINKEDLIST_H
 #define SP_LINKEDLIST_H
 
-#include <adoint.h>
+#include "LinkedListCells.h"
 
 typedef struct NodeLinkedList{
     Command* c;
@@ -46,7 +46,8 @@ void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
 * @param prevmode - the game mode before the command execution
 * @return a new node with input arguments as properties. next and prev are both NULL at that point
 */
-Node * create_Node(Command *c, LinkedListCells *changed, int prevmode);
+Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode);
+LinkedList* alloc_linkedList();
 
 /**
 * advancing the current to the next node.
