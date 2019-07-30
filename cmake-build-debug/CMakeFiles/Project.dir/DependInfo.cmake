@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "C:/Users/Or Nechemia/CLionProjects/SP/board.c" "C:/Users/Or Nechemia/CLionProjects/SP/cmake-build-debug/CMakeFiles/Project.dir/board.c.obj"
+  "C:/Users/Or Nechemia/CLionProjects/SP/command.c" "C:/Users/Or Nechemia/CLionProjects/SP/cmake-build-debug/CMakeFiles/Project.dir/command.c.obj"
   "C:/Users/Or Nechemia/CLionProjects/SP/errors.c" "C:/Users/Or Nechemia/CLionProjects/SP/cmake-build-debug/CMakeFiles/Project.dir/errors.c.obj"
   "C:/Users/Or Nechemia/CLionProjects/SP/linkedList.c" "C:/Users/Or Nechemia/CLionProjects/SP/cmake-build-debug/CMakeFiles/Project.dir/linkedList.c.obj"
   "C:/Users/Or Nechemia/CLionProjects/SP/linkedListCells.c" "C:/Users/Or Nechemia/CLionProjects/SP/cmake-build-debug/CMakeFiles/Project.dir/linkedListCells.c.obj"

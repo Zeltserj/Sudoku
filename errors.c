@@ -25,6 +25,9 @@ char* errors(int errornum){
         case 6:
             out = "invalid command name";
             break;
+        case 7:
+            out = "test";
+            break;
         default:
             out = "Unknown error";
 
