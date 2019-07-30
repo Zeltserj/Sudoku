@@ -4,9 +4,9 @@
 #include "errors.h"
 
 
-char* errors(int errornum){
-    char* out = NULL;
-    switch(errornum){
+char *errors(int errornum) {
+    char *out = NULL;
+    switch (errornum) {
         case 1:
             out = "memory failure";
             break;
@@ -28,20 +28,16 @@ char* errors(int errornum){
 
         default:
             out = "Unknown error";
-
-
     }
 
     return out;
-
-
 }
 
 void error(char *module, char *function, int error_code) {
-   printf("Error: in module: %s, function %s : %s", module, function, errors(error_code));
+    printf("Error: in module: %s, function %s : %s", module, function, errors(error_code));
 }
 
-void input_error(int errornum){
+void input_error(int errornum) {
     printf("Error: Invalid input. %s\n", errors(errornum));
 }
 
