@@ -77,10 +77,6 @@ void free_node(Node *node) {
     free(node->c);
 }
 
-/*TODO: Or: write after Command */
-void free_command(Command *c) {
-
-}
 
 void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     Node* newNode = alloc_node(c, changed, prevmode);
