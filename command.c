@@ -47,7 +47,7 @@ void set_type(Command *command, char *name) {
         command->type = print_board;
     }
     if(strcmp(name, "set") == 0){
-        command->type = set;
+        command->type = _set;
     }
     if(strcmp(name, "validate") == 0){
         command->type = validate;
