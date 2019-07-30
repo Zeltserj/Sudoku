@@ -3,6 +3,7 @@
 #define SP_LINKEDLIST_H
 
 #include "LinkedListCells.h"
+#include "command.h"
 
 typedef struct NodeLinkedList{
     Command* c;
