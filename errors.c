@@ -4,17 +4,38 @@
 #include "errors.h"
 
 
-char* modules[] = {"", "board","linkedList"};
+char* errors(int errornum){
+    char* out = NULL;
+    switch(errornum){
+        case 1:
+            out = "memory failure";
+            break;
+        case 2:
+            out = "empty list";
+            break;
+        case 3:
+            out = "next cell is null";
+            break;
+        case 4:
+            out = "previous cell is null";
+            break;
+        case 5:
+            out = "null name";
+            break;
+        case 6:
+            out = "invalid command name";
+            break;
+        default:
+            out = "Unknown error";
 
-void error(int error_code) {
-    printf("Error: Module: ");
-    int module = error_code / 10000;
-    printf("module num = %d\n", module);
-    printf("%s, ", modules[module]);
-    int function = (error_code%1000)/100;
-    if(function == 1){
-        printf("memory allocation failure\n");
+
     }
 
+    return out;
 
+
+}
+
+void error(char *module, char *function, int error_code) {
+   printf("Error: in module: %s, function %s : %s", module, function, errors(error_code));
 }

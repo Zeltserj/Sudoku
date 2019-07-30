@@ -30,8 +30,8 @@ void set_cell_location(Cell *cell, int r, int c) {
 Cell *alloc_cell(int r, int c) {
     Cell* cell = (Cell*) calloc(1, sizeof(Cell));
     if(cell == NULL){
-        error(10101); /*memory allocation failure*/
-        return NULL;
+        error("board", "alloc_cell", 1); /*memory allocation failure*/
+        exit(0);
     }
     set_cell_location(cell,r,c);
     return cell;
@@ -42,8 +42,8 @@ Cell *** alloc_matrix(int size) {
     int i,j;
     Cell ***matrix = (Cell***)calloc(size, sizeof(Cell**));
     if(matrix == NULL){
-        error(10301);
-        return NULL;
+        error("board", "alloc_matrix", 1);
+        exit(0);
     }
     for(i = 0; i < size; i ++){
         matrix[i] = (Cell**)calloc(size, sizeof(Cell*));
@@ -62,8 +62,8 @@ Cell *** alloc_matrix(int size) {
                     free_row(matrix[j], size);
                 }
                 free(matrix);
-                error(10301);
-                return NULL;
+                error("board", "alloc_matrix", 1);
+                exit(0);
             }
 
         }
@@ -75,9 +75,11 @@ Board *alloc_board(int r, int c) {
 
     Board *board = (Board*) calloc(1, sizeof(Board));
     if(board == NULL){
-        error(10201);
-        return NULL;
+        error("board", "alloc_board", 1);
+        exit(0);
     }
+
+
     board->rows = r;
     board->cols = c;
     board->size = r*c;
@@ -85,7 +87,8 @@ Board *alloc_board(int r, int c) {
     board->matrix = alloc_matrix(board->size);
     if(board->matrix == NULL){
         free(board);
-        error(10201);
+        error("board", "alloc_board", 1);
+        exit(0);
     }
 
     return board;
@@ -133,8 +136,8 @@ void free_board(Board *board) {
 Board *brdcpy(Board *board) {
     Board* out = alloc_board(board->rows, board->cols);
     if(out == NULL){
-        error(10401);
-        return NULL;
+        error("board", "brdcpy", 1);
+        exit(0);
     }
     out->matrix = matrix_copy(board->matrix, board->size);
     out->num_empty = board->num_empty;
@@ -164,7 +167,7 @@ Cell*** matrix_copy(Cell*** matrix, int size){
     int i, j;
     Cell*** out = alloc_matrix(size);
     if(out == NULL){
-        error(10501);
+        error(NULL, NULL, 10501);
         return NULL;
     }
     for(i = 0; i < size; i++){
