@@ -10,7 +10,7 @@ int validate_command(Command *command) {
     int out = 1;
     switch (command->type){
         case INVALID:
-            user_error(6);
+            input_error(6);
             out = 0;
             break;
         case SOLVE:

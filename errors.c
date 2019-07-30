@@ -41,6 +41,11 @@ void error(char *module, char *function, int error_code) {
    printf("Error: in module: %s, function %s : %s", module, function, errors(error_code));
 }
 
-void user_error(int errornum){
+void input_error(int errornum){
     printf("Error: Invalid input. %s\n", errors(errornum));
+}
+
+void command_error(int errornum) {
+    printf("Error: Invalid command: %s\n", errors(errornum));
+
 }
