@@ -1,6 +1,8 @@
 
 #ifndef SP_LINKEDLISTCELLS_H
 #define SP_LINKEDLISTCELLS_H
+
+#include <stdlib.h>
 #include "board.h"
 #include "errors.h"
 
@@ -58,9 +60,21 @@ void move_curr_to_head(LinkedListCells *list);
 */
 NodeCell * alloc_node_cell(Cell* c);
 
+/**
+* allocate memory for linked list of cells.
+* @return the empty list
+*/
 LinkedListCells* alloc_linked_list_cells();
 
+/**
+* free the fields of input node
+* @param node != NULL
+*/
 void free_node_cell(NodeCell *node);
 
+/**
+* free all the nodes in input list and its other fields
+* @param list != NULL
+*/
 void free_linked_list_cells(LinkedListCells *list);
 #endif

@@ -1,13 +1,18 @@
-#include <stdlib.h>
+
 #include "linkedListCells.h"
 
 void add_cell_curr(LinkedListCells *list, Cell *c) {
     NodeCell* newNode;
     NodeCell* temp = list->current->next;
     newNode = alloc_node_cell(c);
+    if(temp!=NULL) {
+        list->current->next->prev = newNode;
+        list->current->next = newNode;
+    }
 
-    list->current->next->prev = newNode;
-    list->current->next = newNode;
+    if(list->head == NULL){
+
+    }
     newNode->prev = list->current;
     newNode->next = temp;
     list->len ++;
@@ -65,14 +70,16 @@ void free_node_cell(NodeCell *node) {
 
 void free_linked_list_cells(LinkedListCells *list) {
     NodeCell* temp= list->current;
-    while(temp->next!= NULL){
-        temp=temp->next;
+    if(temp!=NULL) {
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        while (temp != list->head) {
+            temp = temp->prev;
+            free_node_cell(temp->next);
+        }
+        free(list->current);
+        free_node_cell(list->head);
+        free(list->head);
     }
-    while(temp!=list->head){
-        temp=temp->prev;
-        free_node_cell(temp->next);
-    }
-    free(list->current);
-    free_node_cell(list->head);
-    free(list->head);
 }

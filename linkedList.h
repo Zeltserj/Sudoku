@@ -2,6 +2,7 @@
 #ifndef SP_LINKEDLIST_H
 #define SP_LINKEDLIST_H
 
+#include <stdlib.h>
 #include "linkedListCells.h"
 #include "command.h"
 

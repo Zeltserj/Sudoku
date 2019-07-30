@@ -1,4 +1,4 @@
-#include <stdlib.h>
+
 #include "linkedList.h"
 
 Node *get_head(LinkedList *list) {
