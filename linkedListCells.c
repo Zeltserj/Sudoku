@@ -10,6 +10,7 @@ void add_cell_curr(LinkedListCells *list, Cell *c) {
     list->current->next = newNode;
     newNode->prev = list->current;
     newNode->next = temp;
+    list->len ++;
 }
 
 Cell *get_curr_cell(LinkedListCells *list) {
@@ -56,4 +57,22 @@ LinkedListCells *alloc_linked_list_cells() {
     }
 }
 
+void free_node_cell(NodeCell *node) {
+    free(node->c);
+    free(node->prev);
+    free(node->next);
+}
 
+void free_linked_list_cells(LinkedListCells *list) {
+    NodeCell* temp= list->current;
+    while(temp->next!= NULL){
+        temp=temp->next;
+    }
+    while(temp!=list->head){
+        temp=temp->prev;
+        free_node_cell(temp->next);
+    }
+    free(list->current);
+    free_node_cell(list->head);
+    free(list->head);
+}

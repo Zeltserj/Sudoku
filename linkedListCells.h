@@ -4,7 +4,7 @@
 #include "board.h"
 #include "errors.h"
 
-typedef  struct NodeLinkedListCells{
+typedef struct NodeLinkedListCells{
     Cell* c;
     struct NodeLinkedListCells* prev;
     struct NodeLinkedListCells* next;
@@ -57,7 +57,10 @@ void move_curr_to_head(LinkedListCells *list);
 * @return the new node
 */
 NodeCell * alloc_node_cell(Cell* c);
+
 LinkedListCells* alloc_linked_list_cells();
-void free_node_cell();
-void free_linked_list_cells();
+
+void free_node_cell(NodeCell *node);
+
+void free_linked_list_cells(LinkedListCells *list);
 #endif

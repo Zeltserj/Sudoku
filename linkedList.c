@@ -12,7 +12,7 @@ Node *get_curr(LinkedList *list) {
 int remove_next_after_curr(LinkedList *list) {
     Node *next = list->current->next;
     if (list->current == NULL) {
-        return 020102;
+        error("linkedList","remove_next_after_curr",2);
         exit(0);
     }
     if (list->current->next == NULL) {
@@ -65,13 +65,13 @@ void remove_all_after_curr(LinkedList *list) {
     }
 }
 /*TODO: Or: write after linkedListCells */
-void free_linkedList_cell(LinkedListCells *changed) {
+void free_linked_list_cell(LinkedListCells *changed) {
 
 }
 void free_node(Node *node) {
     free(node->next);
     free(node->prev);
-    free_linkedList_cell(node->changed);
+    free_linked_list_cell(node->changed);
     free(node->changed);
     free_command(node->c);
     free(node->c);
