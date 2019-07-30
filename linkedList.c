@@ -64,14 +64,11 @@ void remove_all_after_curr(LinkedList *list) {
         }
     }
 }
-/*TODO: Or: write after linkedListCells */
-void free_linked_list_cell(LinkedListCells *changed) {
 
-}
 void free_node(Node *node) {
     free(node->next);
     free(node->prev);
-    free_linked_list_cell(node->changed);
+    free_linked_list_cells(node->changed);
     free(node->changed);
     free_command(node->c);
     free(node->c);

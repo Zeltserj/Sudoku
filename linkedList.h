@@ -91,8 +91,5 @@ void remove_all_after_curr(LinkedList *list);
 */
 void free_node(Node *node);
 
-void free_linked_list_cell(LinkedListCells *changed);
-void free_command(Command *c);
-
 
 #endif
