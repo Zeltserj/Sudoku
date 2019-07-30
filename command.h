@@ -1,12 +1,12 @@
 
 #ifndef PROJECT_COMMAND_H
 #define PROJECT_COMMAND_H
-typedef enum CommandType{invalid = 0, solve, edit, mark_errors,
-    print_board, _set, validate,
-    guess, generate, undo, redo,
-    save, hint, guess_hint,
-    num_solutions, autofill, reset,
-    exit_}command_type;
+typedef enum CommandType{INVALID = 0, SOLVE, EDIT, MARK_ERRORS,
+    PRINT_BOARD, SET, VALIDATE,
+    GUESS, GENERATE, UNDO, REDO,
+    SAVE, HINT, GUESS_HINT,
+    NUM_SOLUTIONS, AUTOFILL, RESET,
+    EXIT}command_type;
 typedef struct UserCommand{
     enum CommandType type;
      /*TODO: J: check if an error and none is necessary (seems so)*/

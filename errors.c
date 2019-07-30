@@ -23,7 +23,7 @@ char* errors(int errornum){
             out = "null name";
             break;
         case 6:
-            out = "invalid command name";
+            out = "INVALID command name";
             break;
 
         default:

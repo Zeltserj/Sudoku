@@ -19,7 +19,7 @@ Command *alloc_command(char *name, int *parameters, char *filepath) {
         return NULL;
     }
     if (name == NULL) {
-        command->type = invalid;
+        command->type = INVALID;
         error("command", "alloc_command", 5);
         return command;
     }
@@ -39,58 +39,58 @@ int *get_parameters(Command *command) {
  * @param name != null
  */
 void set_type(Command *command, char *name) {
-    if (strcmp(name, "solve") == 0) {
-        command->type = solve;
+    if (strcmp(name, "SOLVE") == 0) {
+        command->type = SOLVE;
     }
-    if (strcmp(name, "edit") == 0) {
-        command->type = edit;
+    if (strcmp(name, "EDIT") == 0) {
+        command->type = EDIT;
     }
-    if (strcmp(name, "mark_errors") == 0) {
-        command->type = mark_errors;
+    if (strcmp(name, "MARK_ERRORS") == 0) {
+        command->type = MARK_ERRORS;
     }
-    if (strcmp(name, "print_board") == 0) {
-        command->type = print_board;
+    if (strcmp(name, "PRINT_BOARD") == 0) {
+        command->type = PRINT_BOARD;
     }
     if (strcmp(name, "set") == 0) {
-        command->type = _set;
+        command->type = SET;
     }
-    if (strcmp(name, "validate") == 0) {
-        command->type = validate;
+    if (strcmp(name, "VALIDATE") == 0) {
+        command->type = VALIDATE;
     }
-    if (strcmp(name, "guess") == 0) {
-        command->type = guess;
+    if (strcmp(name, "GUESS") == 0) {
+        command->type = GUESS;
     }
-    if (strcmp(name, "generate") == 0) {
-        command->type = generate;
+    if (strcmp(name, "GENERATE") == 0) {
+        command->type = GENERATE;
     }
-    if (strcmp(name, "undo") == 0) {
-        command->type = undo;
+    if (strcmp(name, "UNDO") == 0) {
+        command->type = UNDO;
     }
-    if (strcmp(name, "redo") == 0) {
-        command->type = redo;
+    if (strcmp(name, "REDO") == 0) {
+        command->type = REDO;
     }
-    if (strcmp(name, "save") == 0) {
-        command->type = save;
+    if (strcmp(name, "SAVE") == 0) {
+        command->type = SAVE;
     }
-    if (strcmp(name, "hint") == 0) {
-        command->type = hint;
+    if (strcmp(name, "HINT") == 0) {
+        command->type = HINT;
     }
-    if (strcmp(name, "guess_hint") == 0) {
-        command->type = guess_hint;
+    if (strcmp(name, "GUESS_HINT") == 0) {
+        command->type = GUESS_HINT;
     }
-    if (strcmp(name, "num_solutions") == 0) {
-        command->type = num_solutions;
+    if (strcmp(name, "NUM_SOLUTIONS") == 0) {
+        command->type = NUM_SOLUTIONS;
     }
-    if (strcmp(name, "autofill") == 0) {
-        command->type = autofill;
+    if (strcmp(name, "AUTOFILL") == 0) {
+        command->type = AUTOFILL;
     }
-    if (strcmp(name, "reset") == 0) {
-        command->type = reset;
+    if (strcmp(name, "RESET") == 0) {
+        command->type = RESET;
     }
     if (strcmp(name, "exit") == 0) {
-        command->type = exit_;
+        command->type = EXIT;
     } else {
-        command->type = invalid;
+        command->type = INVALID;
     }
 
 
