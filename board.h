@@ -48,7 +48,7 @@ int get_cell_error(Cell *cell);
 int get_cell_row(Cell *cell);
 int get_cell_col(Cell *cell);
 
-        Cell *** alloc_matrix(int size);
+Cell *** alloc_matrix(int size);
 Board *alloc_board(int r, int c);
 /**
  *
