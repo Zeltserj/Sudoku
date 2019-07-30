@@ -176,11 +176,11 @@ void print_board(Board *board) {
     int i, j;
     int cell;
     for (i = 0; i < board->size; i++) {
-        if ((i % board->rows) == 0) {
+        if ((i % board->cols) == 0) {
             print_dashes(row_length);
         }
         for (j = 0; j < board->size; j++) {
-            if (j % board->cols == 0) {
+            if (j % board->rows == 0) {
                 printf("|");
             }
             cell = get(board,i,j);
