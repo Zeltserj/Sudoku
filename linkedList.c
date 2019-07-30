@@ -75,7 +75,7 @@ void free_node(Node *node) {
 }
 
 
-void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     Node* newNode = alloc_node(c, changed, prevmode);
     if(list->current != NULL) {
         remove_all_after_curr(list);
@@ -115,4 +115,8 @@ LinkedList *alloc_linkedList() {
         error("linkedList","alloc_linkedList",1);
         exit(0);
     }
+}
+
+int get_prev_mode(Node *node) {
+    return node->prevmode;
 }

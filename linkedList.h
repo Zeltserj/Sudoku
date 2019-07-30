@@ -33,6 +33,11 @@ Node *get_head(LinkedList *list);
 Node* get_curr(LinkedList *list);
 
 /**
+* @param node != NULL
+* @return the game mode before node's command was executed
+*/
+int get_prev_mode(Node* node);
+/**
 * adds after current node a new node with input arguments as properties.
 * if current == NULL (the list is empty) than node will become current and head.
 * @param list of nodes from Node type
@@ -40,7 +45,7 @@ Node* get_curr(LinkedList *list);
 * @param changed - a linked list of the cells which had been changed due to the command execution
 * @param prevmode - the game mode before the command execution
 */
-void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
 
 /**
 * @param c - the executed command
