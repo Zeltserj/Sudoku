@@ -13,6 +13,7 @@ int remove_next_after_curr(LinkedList *list) {
     Node *next = list->current->next;
     if (list->current == NULL) {
         return 020102;
+        exit(0);
     }
     if (list->current->next == NULL) {
         return 1;
@@ -63,7 +64,10 @@ void remove_all_after_curr(LinkedList *list) {
         }
     }
 }
+/*TODO: Or: write after linkedListCells */
+void free_linkedList_cell(LinkedListCells *changed) {
 
+}
 void free_node(Node *node) {
     free(node->next);
     free(node->prev);
@@ -73,10 +77,7 @@ void free_node(Node *node) {
     free(node->c);
 }
 
-/*TODO: Or: write after linkedListCells */
-void free_linkedList_cell(linkedListCells *changed) {
 
-}
 /*TODO: Or: write after Command */
 void free_command(Command *c) {
 
@@ -99,7 +100,7 @@ void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     Node* newNode = calloc(5, sizeof(int*));
     if(newNode==NULL){
-        error(1);
+        error("linkedList","alloc_node",1);
         exit(0);
     }
     newNode->c = c;
@@ -109,7 +110,8 @@ Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
 }
 int advance_curr(LinkedList *list) {
     if(list->current == NULL){
-        return 020202;
+        error("linkedList","advance_curr",3);
+        exit(0);
     }
     list->current = list->current->next;
     return 1;
@@ -118,7 +120,7 @@ int advance_curr(LinkedList *list) {
 LinkedList *alloc_linkedList() {
     LinkedList* newList = calloc(3, sizeof(int*));
     if(newList == NULL){
-        error(1);
+        error("linkedList","alloc_linkedList",1);
         exit(0);
     }
 }

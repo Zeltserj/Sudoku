@@ -28,7 +28,7 @@ Cell *get_head_cell(LinkedListCells *list) {
 
 int next_cell(LinkedListCells *list) {
     if (list->current->next == NULL) {
-        error(3);
+        error("linkedListCells","next_cell",3);
         return 0;
     }
     list->current = list->current->next;
@@ -37,7 +37,7 @@ int next_cell(LinkedListCells *list) {
 
 int prev_cell(LinkedListCells *list) {
     if(list->head = list->current) {
-        error(4);
+        error("linkedListCells","prev_cell",4);
         return 0;
     }
     list->current = list->current->prev;
@@ -46,6 +46,14 @@ int prev_cell(LinkedListCells *list) {
 
 void move_curr_to_head(LinkedListCells *list) {
     list->current=list->head;
+}
+
+LinkedListCells *alloc_linked_list_cells() {
+    LinkedListCells* newlist = calloc(3, sizeof(int*));
+    if(newlist == NULL){
+        error("linkedListCells","alloc_linked_list_cells",1);
+        exit(0);
+    }
 }
 
 

@@ -2,7 +2,7 @@
 #ifndef SP_LINKEDLIST_H
 #define SP_LINKEDLIST_H
 
-#include "LinkedListCells.h"
+#include "linkedListCells.h"
 #include "command.h"
 
 typedef struct NodeLinkedList{
@@ -45,12 +45,12 @@ void add(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
 * @param c - the executed command
 * @param changed - a linked list of the cells which had been changed due to the command execution
 * @param prevmode - the game mode before the command execution
-* @return a new node with input arguments as properties. next and prev are both NULL at that point
+* @return pointer to a new node with input arguments as properties. next and prev are both NULL at that point
 */
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode);
 /**
-*
-* @return
+* allocates memory for linked list type.
+* @return a pointer to the empty linked list created
 */
 LinkedList* alloc_linkedList();
 
@@ -91,7 +91,7 @@ void remove_all_after_curr(LinkedList *list);
 */
 void free_node(Node *node);
 
-void free_linkedList_cell(linkedListCells *changed);
+void free_linkedList_cell(LinkedListCells *changed);
 void free_command(Command *c);
 
 
