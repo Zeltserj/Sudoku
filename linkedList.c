@@ -77,9 +77,6 @@ void free_node(Node *node) {
     free(node->c);
 }
 
-/*TODO: Or: write after linkedListCells */
-void free_linkedList_cell(LinkedListCells *changed) {
-
 /*TODO: Or: write after Command */
 void free_command(Command *c) {
 
