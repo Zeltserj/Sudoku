@@ -24,6 +24,11 @@ typedef struct UserCommand{
  */
 Command* alloc_command(char* name, int* parameters, char* filepath);
 
+/**
+ *
+ * @param command
+ * @return getters and setters for all attributes of Command structure
+ */
 int* get_parameters(Command* command);
 char* get_filepath(Command* command);
 command_type get_type(Command* command);
@@ -32,4 +37,4 @@ void set_filepath(Command* command, char* filepath);
 void set_type(Command *command, char *name);
 
 void free_command(Command* command);
-#endif //PROJECT_COMMAND_H
+#endif

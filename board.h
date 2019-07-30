@@ -132,4 +132,4 @@ void set_legal(Board* board, int r, int c);
  * prints board to user
  */
 void print_board(Board *board);
-#endif //PROJECT_BOARD_H
+#endif
