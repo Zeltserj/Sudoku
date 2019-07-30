@@ -2,7 +2,7 @@
 #ifndef SP_LINKEDLIST_H
 #define SP_LINKEDLIST_H
 
-#include "LinkedListCells.h"
+#include "linkedListCells.h"
 #include "command.h"
 
 typedef struct NodeLinkedList{
@@ -91,7 +91,7 @@ void remove_all_after_curr(LinkedList *list);
 */
 void free_node(Node *node);
 
-void free_linkedList_cell(linkedListCells *changed);
+void free_linkedList_cell(LinkedListCells *changed);
 void free_command(Command *c);
 
 
