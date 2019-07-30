@@ -39,52 +39,52 @@ int *get_parameters(Command *command) {
  * @param name != null
  */
 void set_type(Command *command, char *name) {
-    if (strcmp(name, "SOLVE") == 0) {
+    if (strcmp(name, "solve") == 0) {
         command->type = SOLVE;
     }
-    if (strcmp(name, "EDIT") == 0) {
+    if (strcmp(name, "edit") == 0) {
         command->type = EDIT;
     }
-    if (strcmp(name, "MARK_ERRORS") == 0) {
+    if (strcmp(name, "mark_errors") == 0) {
         command->type = MARK_ERRORS;
     }
-    if (strcmp(name, "PRINT_BOARD") == 0) {
+    if (strcmp(name, "print_board") == 0) {
         command->type = PRINT_BOARD;
     }
     if (strcmp(name, "set") == 0) {
         command->type = SET;
     }
-    if (strcmp(name, "VALIDATE") == 0) {
+    if (strcmp(name, "validate") == 0) {
         command->type = VALIDATE;
     }
-    if (strcmp(name, "GUESS") == 0) {
+    if (strcmp(name, "guess") == 0) {
         command->type = GUESS;
     }
-    if (strcmp(name, "GENERATE") == 0) {
+    if (strcmp(name, "generate") == 0) {
         command->type = GENERATE;
     }
-    if (strcmp(name, "UNDO") == 0) {
+    if (strcmp(name, "undo") == 0) {
         command->type = UNDO;
     }
-    if (strcmp(name, "REDO") == 0) {
+    if (strcmp(name, "redo") == 0) {
         command->type = REDO;
     }
-    if (strcmp(name, "SAVE") == 0) {
+    if (strcmp(name, "save") == 0) {
         command->type = SAVE;
     }
-    if (strcmp(name, "HINT") == 0) {
+    if (strcmp(name, "hint") == 0) {
         command->type = HINT;
     }
-    if (strcmp(name, "GUESS_HINT") == 0) {
+    if (strcmp(name, "guess_hint") == 0) {
         command->type = GUESS_HINT;
     }
-    if (strcmp(name, "NUM_SOLUTIONS") == 0) {
+    if (strcmp(name, "num_solutions") == 0) {
         command->type = NUM_SOLUTIONS;
     }
-    if (strcmp(name, "AUTOFILL") == 0) {
+    if (strcmp(name, "autofill") == 0) {
         command->type = AUTOFILL;
     }
-    if (strcmp(name, "RESET") == 0) {
+    if (strcmp(name, "reset") == 0) {
         command->type = RESET;
     }
     if (strcmp(name, "exit") == 0) {
