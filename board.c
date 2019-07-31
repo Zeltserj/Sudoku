@@ -8,7 +8,6 @@ void free_row(Cell **cell_row, int size);
 
 Cell ***matrix_copy(Cell ***matrix, int size);
 
-void cell_copy(Cell *to, Cell *from);
 
 void print_dashes(int length);
 
