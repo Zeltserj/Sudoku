@@ -25,5 +25,5 @@ int execute_command(Command *command) {
 }
 
 void set_mode(int newmode) {
-    mode = newmode;
+     mode = newmode;
 }
