@@ -1,7 +1,9 @@
 
 #include "stack.h"
 
-
+int size_stack(Stack *stack) {
+    return stack->size;
+}
 Stack * alloc_stack() {
     Stack* newSrack = calloc(1,sizeof(int*));
     if(newSrack==NULL){
@@ -25,11 +27,15 @@ void push(Stack *stack, StackNode *node) {
     StackNode* temp= stack->head;
     stack->head = node;
     node->next = temp;
+    stack->size++;
 }
 
 StackNode *pop(Stack *stack) {
     StackNode* temp=stack->head;
-    stack->head=stack->head->next;
+    if(stack->size>0) {
+        stack->head = stack->head->next;
+        stack->size--;
+    }
     return temp;
 }
 
@@ -38,22 +44,29 @@ StackNode *peek(Stack *stack) {
 }
 
 int is_empty_stack(Stack *stack) {
-    return (stack->head==NULL);
+    if(stack->size==0)
+        return 1;
+    return 0;
 }
 
 void free_stack_node(StackNode *node) {
-    free(node->next);
     free(node);
 }
 
 void free_stack(Stack* stack) {
-    StackNode* temp = peek(stack);
-    while(temp!=NULL && !is_empty_stack(stack)){
+    StackNode* temp;
+    if(stack!=NULL && !is_empty_stack(stack)) {
         temp = pop(stack);
-        free(temp);
+        while (temp!= NULL && !is_empty_stack(stack)) {
+            temp = pop(stack);
+            free(temp);
+        }
     }
     free(stack);
+
 }
+
+
 
 
 

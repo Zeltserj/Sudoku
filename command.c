@@ -132,8 +132,10 @@ void set_parameter(Command *command, int *parameters) {
 }
 
 void free_command(Command *command) {
-    free(command->int_parameters);
-    free(command->string_parameters);
+    if(command != NULL) {
+        free(command->int_parameters);
+        free(command->string_parameters);
+    }
     free(command);
 }
 

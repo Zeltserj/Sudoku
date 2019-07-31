@@ -64,10 +64,15 @@ LinkedList* alloc_linkedList();
 * advancing the current to the next node.
 * @pre list != NULL
 * @param list
-* @return 1 if succeeded, otherwise (current.next == NULL), returns error number
 */
-int advance_curr(LinkedList* list);
+void advance_curr(LinkedList *list);
 
+/**
+* moves the current pointer to the previous node.
+* @pre list != NULL
+* @param list
+*/
+void backward_curr(LinkedList *list);
 /**
 * @param list != NULL
 * @return 1 if succeeded, otherwise the number of error
@@ -97,5 +102,12 @@ void remove_all_after_curr(LinkedList *list);
 */
 void free_node(Node *node);
 
+/**
+* frees all the memory allocated for the list and its nodes
+* @param list
+*/
+void free_linked_list(LinkedList* list);
 
+/*TODO: Or: delete later*/
+void print_linked_list_prevmode(LinkedList* list);
 #endif

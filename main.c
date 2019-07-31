@@ -1,12 +1,28 @@
 #include <stdio.h>
 #include "board.h"
 #include "game.h"
+#include "linkedList.h"
 
 int main() {
-   Board *board = alloc_board(5, 3);
-   set(board, 0, 2, 4);
-   set(board, 1, 1, 3);
-   fix_cell(board,1,1);
-   print_board(board);
-    return 0;
+
+    LinkedList *list = alloc_linkedList();
+    add_linked_list(list, NULL, NULL, 4);
+    add_linked_list(list, NULL, NULL, 5);
+    print_linked_list_prevmode(list);
+    printf("curr: %d\n", list->current->prevmode);
+
+    advance_curr(list);
+    printf("curr: %d\n", list->current->prevmode);
+
+    add_linked_list(list, NULL, NULL, 7);
+    advance_curr(list);
+    add_linked_list(list, NULL, NULL, 6);
+    print_linked_list_prevmode(list);
+    printf("curr: %d\n", list->current->prevmode);
+    remove_next_after_curr(list);
+    printf("curr: %d\n", list->current->prevmode);
+
+    print_linked_list_prevmode(list);
+
+
 }
