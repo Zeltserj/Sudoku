@@ -54,6 +54,13 @@ int prev_cell(LinkedListCells *list);
 void move_curr_to_head(LinkedListCells *list);
 
 /**
+* move current pointer to the next cell of the list
+* @param list != NULL
+* @return 1 if succeeded, 0 if there is'nt next cell after current
+*/
+int advance_curr_cell(LinkedListCells *list);
+
+/**
 * create new node contains cell c. next and prev are NULL
 * @param c - cell the output node contains
 * @return the new node

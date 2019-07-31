@@ -44,6 +44,12 @@ Cell *alloc_cell(int r, int c);
 void set_cell_value(Cell *cell, int value);
 void set_cell_fixed(Cell *cell, int fixed);
 void set_cell_error(Cell *cell, int is_error);
+/**
+* copies the values of cell to cell [cell.row][cell.col] of board
+* @param board != NULL
+* @param cell != NULL
+*/
+void set_cell(Board *board, Cell *cell);
 int get_cell_value(Cell *cell);
 int get_cell_fixed(Cell *cell);
 int get_cell_error(Cell *cell);

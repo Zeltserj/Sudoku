@@ -32,6 +32,8 @@ Node *get_head(LinkedList *list);
 */
 Node* get_curr(LinkedList *list);
 
+int is_curr_last(LinkedList* list);
+Command* get_command(Node* node);
 /**
 * @param node != NULL
 * @return the game mode before node's command was executed

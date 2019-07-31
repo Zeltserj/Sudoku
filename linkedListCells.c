@@ -84,3 +84,11 @@ void free_linked_list_cells(LinkedListCells *list) {
         free(list);
     }
 }
+
+int advance_curr_cell(LinkedListCells *list) {
+    if(list->current->next == NULL){
+        return  0;
+    }
+    list->current = list->current->next;
+    return 1;
+}
