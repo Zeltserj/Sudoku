@@ -10,6 +10,7 @@ typedef enum CommandType{INVALID = 0, SOLVE, EDIT, MARK_ERRORS,
 typedef struct UserCommand{
     enum CommandType type;
      /*TODO: J: check if an error and none is necessary (seems so)*/
+     int num_parameters;
     int* int_parameters;
     char* string_parameters;
     /*holds what type of error*/
@@ -29,9 +30,11 @@ Command* alloc_command(char* name, int* parameters, char* filepath);
  * @param command
  * @return getters and setters for all attributes of Command structure
  */
+int get_num_parameters(Command *command);
 int* get_parameters(Command* command);
 char* get_filepath(Command* command);
 command_type get_type(Command* command);
+void set_num_paramters(Command *command, int num_parameters);
 void set_parameter(Command* command, int* parameters);
 void set_filepath(Command* command, char* filepath);
 void set_type(Command *command, char *name);

@@ -131,6 +131,18 @@ void set_parameter(Command *command, int *parameters) {
 
 }
 
+int get_num_parameters(Command *command) {
+    return command->num_parameters;
+}
+
+void set_num_paramters(Command *command, int num_parameters) {
+    command->num_parameters = num_parameters;
+
+}
+
+
+
+
 void free_command(Command *command) {
     if(command != NULL) {
         free(command->int_parameters);
@@ -138,5 +150,3 @@ void free_command(Command *command) {
     }
     free(command);
 }
-
-

@@ -34,6 +34,9 @@ char *errors(int errornum) {
         case 9:
             out = "there are no moves to redo\n";
             break;
+        case 10:
+            out = "non-integral values\n";
+            break;
         default:
             out = "Unknown error";
     }
