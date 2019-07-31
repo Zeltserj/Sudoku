@@ -164,4 +164,14 @@ void print_linked_list_prevmode(LinkedList* list){
     printf("\n");
 }
 
+Command *get_command(Node *node) {
+    return node->c;
+}
+
+int is_curr_last(LinkedList *list) {
+    if (list->current->next==NULL)
+        return 1;
+    return 0;
+}
+
 

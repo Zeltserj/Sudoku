@@ -3,28 +3,47 @@
 #include "game.h"
 
 int execute_command(Board *board, Command *command, LinkedList *moves) {
-    switch (command->type){
-        case SOLVE:break;
-        case EDIT:break;
-        case MARK_ERRORS:break;
-        case PRINT_BOARD:break;
-        case SET:break;
-        case VALIDATE:break;
-        case GUESS:break;
-        case GENERATE:break;
+    switch (command->type) {
+        case SOLVE:
+            break;
+        case EDIT:
+            break;
+        case MARK_ERRORS:
+            break;
+        case PRINT_BOARD:
+            break;
+        case SET:
+            break;
+        case VALIDATE:
+            break;
+        case GUESS:
+            break;
+        case GENERATE:
+            break;
         case UNDO:
-            undo(board,moves);
-            print_board(board);
+            if (undo(board, moves))
+                print_board(board);
+            else
+                command_error(8);
             break;
         case REDO:
+            if(!redo(board,moves))
+                command_error(9);
             break;
-        case SAVE:break;
-        case HINT:break;
-        case GUESS_HINT:break;
-        case NUM_SOLUTIONS:break;
-        case AUTOFILL:break;
-        case RESET:break;
-        case EXIT:break;
+        case SAVE:
+            break;
+        case HINT:
+            break;
+        case GUESS_HINT:
+            break;
+        case NUM_SOLUTIONS:
+            break;
+        case AUTOFILL:
+            break;
+        case RESET:
+            break;
+        case EXIT:
+            break;
     }
 }
 
@@ -36,15 +55,16 @@ void mark_errors_command(int mark) {
     mark_errors = mark;
 }
 
-void undo(Board *board, LinkedList *moves) {
-    Node* temp;
-    if(moves->current==moves->head){
-        command_error(8);
-        exit(0);
+int undo(Board *board, LinkedList *moves) {
+    Node *temp;
+    if (moves->current == moves->head) {
+        return 0;
+    } else {
+        temp = moves->current;
+        backward_curr(moves);
+        change_cells_to(board, temp->changed);
+        return 1;
     }
-    temp = moves->current;
-    backward_curr(moves);
-    change_cells_to(board,temp->changed);
 }
 void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i;
@@ -53,4 +73,17 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
         cell_copy(board,old_values->current);
         advance_curr_cell(old_values);
     }
+}
+
+int redo(Board *board, LinkedList *moves) {
+    Command* c;
+    if (is_curr_last(moves)){
+        return 0;
+    }
+    advance_curr(moves);
+    c = get_command(get_curr(moves));
+    /*c is one of: set/autofill/generate/guess */
+    execute_command(board,c,moves); /*TODO: Or: might changed later to switch and specific methods*/
+    return 1;
+
 }

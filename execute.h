@@ -12,10 +12,12 @@ void set_mode(int new_mode);
 * @param board != NULL
 * @param moves != NULL. A list of moves containd SET/ AUTOFILL/ GENERATE/ GUESS moves.
 * move.current is the last move executed on board
+* @return 1 if succeeded. otherwise 0 (means there are no moves to undo)
 */
-void undo(Board *board, LinkedList *moves);
+int undo(Board *board, LinkedList *moves);
 void change_cells_to(Board *board, LinkedListCells *old_values);
-void redo(Board *board, LinkedList *moves);
+
+int redo(Board *board, LinkedList *moves);
 void mark_errors_command(int mark);
 void print_board_command(Board* board);
 

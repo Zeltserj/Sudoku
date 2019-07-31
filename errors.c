@@ -31,6 +31,9 @@ char *errors(int errornum) {
         case 8:
             out = "there are no moves to undo\n";
             break;
+        case 9:
+            out = "there are no moves to redo\n";
+            break;
         default:
             out = "Unknown error";
     }
