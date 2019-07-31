@@ -45,13 +45,24 @@ Command *parse_input(char *input) {
 }
 
 int *parse_input_parameters(char *string) {
+    int i, len = (int)strlen(string), sum = 0, j = 0;
+    int* out = calloc(len, sizeof(int));
+
     if(string == NULL){
         return NULL;
     }
-    int* out = calloc(256, sizeof(int));
     if(out == NULL){
         error("parser", "parse_input_parameters", 1);
     }
+    for(i = 0; i < len; i++){
+        if(string[i] == '\t' || string[i] == ' '){
+            j++;
+        }
 
-    return NULL;
+        else{
+            out[j] = out[j]*10 + (string[i]-48);
+        }
+
+    }
+    return out;
 }
