@@ -235,6 +235,15 @@ void cell_copy(Cell *to, Cell *from) {
     to->value = from->value;
 }
 
+void set_cell(Board *board, Cell *cell) {
+    int r = get_cell_row(cell);
+    int c = get_cell_col(cell);
+    Cell* b_cell = board->matrix[r][c];
+    cell_copy(b_cell,cell);
+}
+
+
+
 
 
 
