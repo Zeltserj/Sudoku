@@ -19,6 +19,7 @@ int remove_next_after_curr(LinkedList *list) {
         return 1;
     }
     if (list->current->next->next == NULL) {
+        list->current->next = NULL;
         free_node(next);
         list->len--;
         return 1;
@@ -54,6 +55,7 @@ void remove_node(LinkedList *list, Node *node) {
 
 void remove_all_after_curr(LinkedList *list) {
     Node* temp = list->current->next;
+    list->current->next = NULL;
     if(temp != NULL) {
         while (temp->next != NULL) {
             temp = temp->next;
@@ -63,6 +65,7 @@ void remove_all_after_curr(LinkedList *list) {
         free_node(temp);
         list->len--;
     }
+
 }
 
 
@@ -79,7 +82,6 @@ void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int
         list->current = newNode;
         list->head = newNode;
     }
-
 
 }
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){

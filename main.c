@@ -19,10 +19,9 @@ int main() {
     add_linked_list(list, NULL, NULL, 6);
     print_linked_list_prevmode(list);
     printf("curr: %d\n", list->current->prevmode);
-    remove_next_after_curr(list);
+    remove_all_after_curr(list);
     printf("curr: %d\n", list->current->prevmode);
 
     print_linked_list_prevmode(list);
-
 
 }
