@@ -28,7 +28,9 @@ char *errors(int errornum) {
         case 7:
             out = "too many parameters\n";
             break;
-
+        case 10:
+            out = "non-integral values\n";
+            break;
         default:
             out = "Unknown error";
     }
