@@ -28,7 +28,9 @@ char *errors(int errornum) {
         case 7:
             out = "too many parameters\n";
             break;
-
+        case 8:
+            out = "there are no moves to undo\n";
+            break;
         default:
             out = "Unknown error";
     }

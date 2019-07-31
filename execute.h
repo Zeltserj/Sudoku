@@ -4,7 +4,7 @@
 #include "command.h"
 #include "linkedList.h"
 
-int execute_command(Command* command);
+int execute_command(Board *board, Command *command, LinkedList *moves);
 void set_mode(int new_mode);
 
 /**
@@ -14,7 +14,7 @@ void set_mode(int new_mode);
 * move.current is the last move executed on board
 */
 void undo(Board *board, LinkedList *moves);
-
+void change_cells_to(Board *board, LinkedListCells *old_values);
 void redo(Board *board, LinkedList *moves);
 void mark_errors_command(int mark);
 void print_board_command(Board* board);

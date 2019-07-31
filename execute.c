@@ -2,7 +2,7 @@
 #include "execute.h"
 #include "game.h"
 
-int execute_command(Command *command) {
+int execute_command(Board *board, Command *command, LinkedList *moves) {
     switch (command->type){
         case SOLVE:break;
         case EDIT:break;
@@ -13,7 +13,8 @@ int execute_command(Command *command) {
         case GUESS:break;
         case GENERATE:break;
         case UNDO:
-
+            undo(board,moves);
+            print_board(board);
             break;
         case REDO:
             break;
@@ -36,10 +37,14 @@ void mark_errors_command(int mark) {
 }
 
 void undo(Board *board, LinkedList *moves) {
-    Node* temp = moves->current;
-    LinkedListCells* cells = temp->changed;
+    Node* temp;
+    if(moves->current==moves->head){
+        command_error(8);
+        exit(0);
+    }
+    temp = moves->current;
     backward_curr(moves);
-
+    change_cells_to(board,temp->changed);
 }
 void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i;
