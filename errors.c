@@ -27,6 +27,7 @@ char *errors(int errornum) {
             break;
         case 7:
             out = "too many parameters\n";
+            break;
 
         default:
             out = "Unknown error";
@@ -40,7 +41,7 @@ void error(char *module, char *function, int error_code) {
 }
 
 void input_error(int errornum) {
-    printf("Error: Invalid input. %s\n", errors(errornum));
+    printf("Error: Invalid input: %s\n", errors(errornum));
 }
 
 void command_error(int errornum) {
