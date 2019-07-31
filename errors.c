@@ -23,8 +23,10 @@ char *errors(int errornum) {
             out = "null name\n";
             break;
         case 6:
-            out = "INVALID command name\n";
+            out = "invalid command name\n";
             break;
+        case 7:
+            out = "too many parameters\n";
 
         default:
             out = "Unknown error";
