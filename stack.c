@@ -50,6 +50,7 @@ int is_empty_stack(Stack *stack) {
 }
 
 void free_stack_node(StackNode *node) {
+    free(node->next);
     free(node);
 }
 

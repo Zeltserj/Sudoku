@@ -75,8 +75,8 @@ void free_linked_list_cells(LinkedListCells *list) {
     if(list!=NULL) {
         temp = list->head;
         if (temp != NULL) {
-            for(i=0;i<list->len-1;i++){
-                temp=temp->next;
+            for (i = 0; i < list->len - 1; i++) {
+                temp = temp->next;
                 free_node_cell(temp->prev);
             }
             free_node_cell(list->head);

@@ -83,7 +83,6 @@ void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int
         list->head = newNode;
     }
 
-
 }
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     Node* newNode = calloc(5, sizeof(int*));
