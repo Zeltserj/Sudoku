@@ -104,7 +104,7 @@ int is_error(Board* board, int r, int c);
 
 void free_matrix(Cell*** matrix, int size);
 void free_board(Board* board);
-
+void cell_copy(Cell *to, Cell *from);
 
 /**
  *
