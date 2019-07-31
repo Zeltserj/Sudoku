@@ -18,6 +18,7 @@ Command *alloc_command(char *name, int *parameters, char *filepath) {
         error("command", "alloc_command", 1);
         return NULL;
     }
+
     if (name == NULL) {
         command->type = INVALID;
         error("command", "alloc_command", 5);
@@ -41,54 +42,71 @@ int *get_parameters(Command *command) {
 void set_type(Command *command, char *name) {
     if (strcmp(name, "solve") == 0) {
         command->type = SOLVE;
+        return;
     }
     if (strcmp(name, "edit") == 0) {
         command->type = EDIT;
+        return;
     }
     if (strcmp(name, "mark_errors") == 0) {
         command->type = MARK_ERRORS;
+        return;
     }
     if (strcmp(name, "print_board") == 0) {
         command->type = PRINT_BOARD;
+        return;
     }
     if (strcmp(name, "set") == 0) {
         command->type = SET;
+        return;
     }
     if (strcmp(name, "validate") == 0) {
         command->type = VALIDATE;
+        return;
     }
     if (strcmp(name, "guess") == 0) {
         command->type = GUESS;
+        return;
     }
     if (strcmp(name, "generate") == 0) {
         command->type = GENERATE;
+        return;
     }
     if (strcmp(name, "undo") == 0) {
         command->type = UNDO;
+        return;
     }
     if (strcmp(name, "redo") == 0) {
         command->type = REDO;
+        return;
     }
     if (strcmp(name, "save") == 0) {
         command->type = SAVE;
+        return;
     }
     if (strcmp(name, "hint") == 0) {
         command->type = HINT;
+        return;
     }
     if (strcmp(name, "guess_hint") == 0) {
         command->type = GUESS_HINT;
+        return;
     }
     if (strcmp(name, "num_solutions") == 0) {
         command->type = NUM_SOLUTIONS;
+        return;
     }
     if (strcmp(name, "autofill") == 0) {
         command->type = AUTOFILL;
+        return;
     }
     if (strcmp(name, "reset") == 0) {
         command->type = RESET;
+        return;
     }
     if (strcmp(name, "exit") == 0) {
         command->type = EXIT;
+        return;
     } else {
         command->type = INVALID;
     }

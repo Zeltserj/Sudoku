@@ -23,7 +23,10 @@ char *errors(int errornum) {
             out = "null name\n";
             break;
         case 6:
-            out = "INVALID command name\n";
+            out = "invalid command name\n";
+            break;
+        case 7:
+            out = "too many parameters\n";
             break;
 
         default:
@@ -38,7 +41,7 @@ void error(char *module, char *function, int error_code) {
 }
 
 void input_error(int errornum) {
-    printf("Error: Invalid input. %s\n", errors(errornum));
+    printf("Error: Invalid input: %s\n", errors(errornum));
 }
 
 void command_error(int errornum) {
