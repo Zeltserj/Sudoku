@@ -8,22 +8,22 @@ char *errors(int errornum) {
     char *out = NULL;
     switch (errornum) {
         case 1:
-            out = "memory failure";
+            out = "memory failure\n";
             break;
         case 2:
-            out = "empty list";
+            out = "empty list\n";
             break;
         case 3:
-            out = "next cell is null";
+            out = "next cell is null\n";
             break;
         case 4:
-            out = "previous cell is null";
+            out = "previous cell is null\n";
             break;
         case 5:
-            out = "null name";
+            out = "null name\n";
             break;
         case 6:
-            out = "INVALID command name";
+            out = "INVALID command name\n";
             break;
 
         default:
