@@ -11,6 +11,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
         case MARK_ERRORS:
             break;
         case PRINT_BOARD:
+            print_board(board);
             break;
         case SET:
             break;
@@ -87,3 +88,5 @@ int redo(Board *board, LinkedList *moves) {
     return 1;
 
 }
+
+
