@@ -18,7 +18,7 @@ typedef struct GameCell{
 } Cell;
 
 /**
- * Board stucture containg a 2d matrix of *Cell. also keeps it's parameters and number of empty cells
+ * Board structure containing a 2d matrix of *Cell. also keeps its parameters and number of empty cells
  *
  */
 typedef struct GameBoard{
@@ -28,7 +28,9 @@ typedef struct GameBoard{
     Cell*** matrix;
     int num_empty;
 }Board;
-
+/**
+ * All functions assume no null is given, as such is caught beforehand
+ */
 /**
  *
  * @return allocates a new cell or null on memory fault
@@ -42,14 +44,19 @@ Cell *alloc_cell(int r, int c);
  * @return allocates a new board of size r*c*c*r or fails
  */
 void set_cell_value(Cell *cell, int value);
-void set_cell_fixed(Cell *cell, int fixed);
-void set_cell_error(Cell *cell, int is_error);
 /**
-* copies the values of cell to cell [cell.row][cell.col] of board
+* copies the values of cell to board[cell.row][cell.col]
 * @param board != NULL
 * @param cell != NULL
 */
 void set_cell(Board *board, Cell *cell);
+
+/**
+ *
+ * getters and setters to cell structure
+ */
+void set_cell_fixed(Cell *cell, int fixed);
+void set_cell_error(Cell *cell, int is_error);
 int get_cell_value(Cell *cell);
 int get_cell_fixed(Cell *cell);
 int get_cell_error(Cell *cell);

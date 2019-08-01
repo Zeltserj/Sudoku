@@ -150,3 +150,7 @@ void free_command(Command *command) {
     }
     free(command);
 }
+
+char * command_name(Command *command) {
+    return commands[(int)command->type];
+}
