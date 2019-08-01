@@ -17,6 +17,12 @@ void set_cell_fixed(Cell *cell, int fixed) { cell->fixed = fixed; }
 
 void set_cell_error(Cell *cell, int is_error) { cell->error = is_error; }
 
+void set_cell_location(Cell *cell, int r, int c) {
+    cell->row = r;
+    cell->col = c;
+
+}
+
 int get_cell_value(Cell *cell) { return cell->value; }
 
 int get_cell_fixed(Cell *cell) { return cell->fixed; }
@@ -27,12 +33,6 @@ int get_cell_row(Cell *cell) { return cell->row; }
 
 int get_cell_col(Cell *cell) {
     return cell->col;
-}
-
-void set_cell_location(Cell *cell, int r, int c) {
-    cell->row = r;
-    cell->col = c;
-
 }
 
 Cell *alloc_cell(int r, int c) {
@@ -187,7 +187,7 @@ void print_board(Board *board) {
                 printf("    ");
             }
             else if(is_fixed(board,i,j)){
-                printf(" %2d.");
+                printf(" %2d.", cell);
             }
             else if(mode == 2 || (mark_errors && is_error(board, i , j))){
                 printf(" %2d*", cell);
@@ -235,6 +235,7 @@ void cell_copy(Cell *to, Cell *from) {
     to->value = from->value;
 }
 
+/*TODO: let's figure out what's the best way to avoid redundant functions*/
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
