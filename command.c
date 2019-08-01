@@ -11,6 +11,8 @@
 #include "command.h"
 
 
+char* commands[] = {"invalid","solve","edit","mark_errors","print_board","set", "validate",
+                    "guess","generate","undo","redo","save","hint","guess","num_solutions","autofill","reset","exit"};
 
 Command *alloc_command(char *name, int *parameters, char *filepath) {
     Command *command = (Command *) calloc(1, sizeof(Command));
@@ -44,7 +46,7 @@ void set_type(Command *command, char *name) {
         command->type = SOLVE;
         return;
     }
-    if (strcmp(name, "edit") == 0) {
+    if ((strcmp(name, "edit") == 0) ||(strcmp(name, "edit\n") == 0) ) {
         command->type = EDIT;
         return;
     }
