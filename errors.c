@@ -37,6 +37,9 @@ char *errors(int errornum) {
         case 10:
             out = "non-integral values\n";
             break;
+        case 11:
+            out = "input too long\n";
+            break;
         default:
             out = "Unknown error";
     }

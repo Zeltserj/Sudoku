@@ -12,8 +12,6 @@ typedef enum CommandType{INVALID = 0, SOLVE, EDIT, MARK_ERRORS,
     SAVE, HINT, GUESS_HINT,
     NUM_SOLUTIONS, AUTOFILL, RESET,
     EXIT}command_type;
-char* commands[] = {"invalid","solve","edit","mark_errors","print_board","set", "validate",
-                    "guess","generate","undo","redo","save","hint","guess","num_solutions","autofill","reset","exit"};
 typedef struct UserCommand{
     int num_parameters;
     enum CommandType type;
