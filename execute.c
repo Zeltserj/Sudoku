@@ -71,7 +71,7 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i;
     move_curr_to_head(old_values);
     for(i=0;i<old_values->len;i++){
-        cell_copy(board,old_values->current);
+        set_cell(board,old_values->current->c);
         advance_curr_cell(old_values);
     }
 }
