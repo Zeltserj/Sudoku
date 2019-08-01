@@ -268,11 +268,25 @@ int is_legal_col(Board *board, int r, int c, int value) {
 
 int is_legal_block(Board *board, int r, int c, int value) {
     int first_r, first_c;
+    int i,j;
+    first_r = (r/board->rows_block)*board->rows_block;
+    first_c = (c/board->cols_block)*board->cols_block;
 
+    for(i=first_r;i<first_r+board->rows_block;i++){
+        for(j=first_c;j<first_c+board->cols_block;j++){
+            if((i!=r || j!=c) && get(board,i,j)==value ){
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
 int is_legal_value(Board *board, int r, int c, int value) {
-
+    if(is_legal_row(board,r,c,value) || is_legal_col(board,r,c,value) || is_legal_block(board,r,c,value)){
+        return 0;
+    }
+    return 1;
 }
 
 

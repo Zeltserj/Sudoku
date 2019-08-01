@@ -65,6 +65,8 @@ int get_cell_col(Cell *cell);
 
 Cell *** alloc_matrix(int size);
 Board *alloc_board(int r, int c);
+
+/*TODO: Or: board.size???*/
 /**
  *
  * @param board != null
@@ -146,9 +148,39 @@ void set_legal(Board* board, int r, int c);
  */
 void print_board(Board *board);
 
+
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @return 1 if value does not exist in row r on board (exclude cell board[r][c]). 0 otherwise.
+*/
 int is_legal_row(Board* board,int r, int c, int value);
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @return 1 if value does not exist in column c on board (exclude cell board[r][c]). 0 otherwise.
+*/
 int is_legal_col(Board* board,int r, int c, int value);
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @return 1 if value does not exist in cell's (board[r][c]) block on board (exclude that cell).
+* 0 otherwise.
+*/
 int is_legal_block(Board* board,int r, int c, int value);
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @return 1 if value is legal for the cell in board[r][c]. otherwise 0.
+*/
 int is_legal_value(Board* board,int r, int c, int value);
 
 #endif
