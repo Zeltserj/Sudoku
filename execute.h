@@ -32,4 +32,6 @@ int redo(Board *board, LinkedList *moves);
 
 void mark_errors_command(int mark);
 
+int outofill_command(Board* board);
+
 #endif /*SPROJECT_EXECUTE_H*/

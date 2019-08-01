@@ -89,4 +89,14 @@ int redo(Board *board, LinkedList *moves) {
 
 }
 
+int autofill_command(Board *board) {
+    Board* b_cpy = brdcpy(board);
+    int i,j;
+    for(i=0; i<board->size;i++){
+        for(j=0;j<board->size;j++){
+            /*TODO: Or: add get_cell(board, r, c)*/
+        }
+    }
+}
+
 
