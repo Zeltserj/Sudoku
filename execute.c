@@ -91,10 +91,12 @@ int redo(Board *board, LinkedList *moves) {
 
 int autofill_command(Board *board) {
     Board* b_cpy = brdcpy(board);
-    int i,j;
+    int i,j,v;
     for(i=0; i<board->size;i++){
         for(j=0;j<board->size;j++){
-            /*TODO: Or: add get_cell(board, r, c)*/
+            if(get(b_cpy,i,j) != 0 && !is_fixed(b_cpy,i,j)){
+                /*TODO: Or: add function that finds the legal values*/
+            }
         }
     }
 }
