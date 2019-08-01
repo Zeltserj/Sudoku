@@ -22,8 +22,8 @@ typedef struct GameCell{
  *
  */
 typedef struct GameBoard{
-    int rows;
-    int cols;
+    int rows_block;
+    int cols_block;
     int size;
     Cell*** matrix;
     int num_empty;
@@ -145,4 +145,10 @@ void set_legal(Board* board, int r, int c);
  * prints board to user
  */
 void print_board(Board *board);
+
+int is_legal_row(Board* board,int r, int c, int value);
+int is_legal_col(Board* board,int r, int c, int value);
+int is_legal_block(Board* board,int r, int c, int value);
+int is_legal_value(Board* board,int r, int c, int value);
+
 #endif

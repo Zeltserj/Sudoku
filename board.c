@@ -88,8 +88,8 @@ Board *alloc_board(int r, int c) {
     }
 
 
-    board->rows = r;
-    board->cols = c;
+    board->rows_block = r;
+    board->cols_block = c;
     board->size = r * c;
     board->num_empty = r * c * r * c;
     board->matrix = alloc_matrix(board->size);
@@ -142,7 +142,7 @@ void free_board(Board *board) {
 }
 
 Board *brdcpy(Board *board) {
-    Board *out = alloc_board(board->rows, board->cols);
+    Board *out = alloc_board(board->rows_block, board->cols_block);
     if (out == NULL) {
         error("board", "brdcpy", 1);
         exit(0);
@@ -171,15 +171,15 @@ void set_legal(Board *board, int r, int c) {
 }
 
 void print_board(Board *board) {
-    int row_length = (board->size * 4) + board->cols + 1;
+    int row_length = (board->size * 4) + board->cols_block + 1;
     int i, j;
     int cell;
     for (i = 0; i < board->size; i++) {
-        if ((i % board->cols) == 0) {
+        if ((i % board->cols_block) == 0) {
             print_dashes(row_length);
         }
         for (j = 0; j < board->size; j++) {
-            if (j % board->rows == 0) {
+            if (j % board->rows_block == 0) {
                 printf("|");
             }
             cell = get(board,i,j);
@@ -243,6 +243,36 @@ void set_cell(Board *board, Cell *cell) {
     set_cell_error(b_cell,cell->error);
     set_cell_fixed(b_cell,cell->fixed);
     set_cell_value(b_cell,cell->value);
+}
+
+
+int is_legal_row(Board *board, int r, int c, int value) {
+    int i;
+    for(i=0;i<board->size;i++){
+        if(i!=c && get(board,r,i) == value){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int is_legal_col(Board *board, int r, int c, int value) {
+    int i;
+    for(i=0;i<board->size;i++){
+        if(i!=r && get(board,i,c) == value){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int is_legal_block(Board *board, int r, int c, int value) {
+    int first_r, first_c;
+
+}
+
+int is_legal_value(Board *board, int r, int c, int value) {
+
 }
 
 
