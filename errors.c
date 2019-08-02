@@ -8,38 +8,40 @@ char *errors(int errornum) {
     char *out = NULL;
     switch (errornum) {
         case 1:
-            out = "memory failure\n";
+            out = "memory failure";
             break;
         case 2:
-            out = "empty list\n";
+            out = "empty list";
             break;
         case 3:
-            out = "next cell is null\n";
+            out = "next cell is null";
             break;
         case 4:
-            out = "previous cell is null\n";
+            out = "previous cell is null";
             break;
         case 5:
-            out = "null name\n";
+            out = "null name";
             break;
         case 6:
-            out = "invalid command name\n";
+            out = "invalid command name";
             break;
         case 7:
-            out = "too many parameters\n";
+            out = "too many parameters";
             break;
         case 8:
-            out = "there are no moves to undo\n";
+            out = "there are no moves to undo";
             break;
         case 9:
-            out = "there are no moves to redo\n";
+            out = "there are no moves to redo";
             break;
         case 10:
-            out = "non-integral values\n";
+            out = "invalid parameter type";
             break;
         case 11:
-            out = "input too long\n";
+            out = "input too long";
             break;
+        case 12:
+            out = "non-floating point value";
         default:
             out = "Unknown error";
     }
