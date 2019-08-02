@@ -41,6 +41,8 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
         case NUM_SOLUTIONS:
             break;
         case AUTOFILL:
+            autofill_command(board);
+            print_board(board);
             break;
         case RESET:
             break;
@@ -90,7 +92,7 @@ int redo(Board *board, LinkedList *moves) {
 
 }
 
-int autofill_command(Board *board) {
+void autofill_command(Board *board) {
     Board* b_cpy = brdcpy(board);
     int i,j,v;
     for(i=0; i<board->size;i++){
