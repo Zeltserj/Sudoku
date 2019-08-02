@@ -32,6 +32,17 @@ int redo(Board *board, LinkedList *moves);
 
 void mark_errors_command(int mark);
 
-int outofill_command(Board* board);
+
+int autofill_command(Board* board);
+/**
+* goes over all the possible solutions for the cell board[r][c].
+* @param board != NULL
+* @param r < board.size
+* @param c < board.size
+* @return the single solution for the cell, otherwisr 0 - if there isn't a single solution
+*/
+int get_single_value(Board* board,int r, int c);
+
+int set_command(Board* board,int r, int c, int value);
 
 #endif /*SPROJECT_EXECUTE_H*/
