@@ -1,6 +1,7 @@
 
 #include "execute.h"
 #include "game.h"
+#include "solver.h"
 
 int execute_command(Board *board, Command *command, LinkedList *moves) {
     switch (command->type) {
@@ -89,4 +90,36 @@ int redo(Board *board, LinkedList *moves) {
 
 }
 
+int autofill_command(Board *board) {
+    Board* b_cpy = brdcpy(board);
+    int i,j,v;
+    for(i=0; i<board->size;i++){
+        for(j=0;j<board->size;j++){
+            if(get(b_cpy,i,j) == 0) {
+                v = get_single_value(b_cpy, i, j);
+                if (v != 0) {
+                    /*TODO: Or: make sure cells marked as errors if needed*/
+                    set_command(board, i, j, v);
+                }
+            }
+        }
+    }
+    free_board(b_cpy);
+}
+int get_single_value(Board* board,int r, int c){
+    int* sols = get_all_sol_cell(board,r,c);
+    int single_sol=0, i;
+
+    for(i=0;i<board->size;i++){
+        if(sols[i]==1){
+            if(single_sol != 0){
+                free(sols);
+                return 0;
+            }
+            single_sol = i+1;
+        }
+    }
+    free(sols);
+    return single_sol;
+}
 
