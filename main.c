@@ -1,34 +1,36 @@
 #include <stdio.h>
 #include "board.h"
 #include "game.h"
+#include "parser.h"
 #include "linkedList.h"
+
+void print_input_parameters(Command *pCommand);
 
 int main() {
 
- /*   LinkedList *list = alloc_linkedList();
-    Node* temp;
-    add_linked_list(list, NULL, NULL, 4);
-    add_linked_list(list, NULL, NULL, 5);
-    print_linked_list_prevmode(list);
-    printf("curr: %d\n", list->current->prevmode);
+    while(1){
+        printf("please enter input:\n");
+        char *str = calloc(256, sizeof(char));
+        Command* command = parse_input(fgets(str, 256, stdin));
+        printf("command type: %s\n", command_name(command));
+        printf("input parameters: ");
+        print_input_parameters(command);
+        printf("\n");
+        printf("file path: %s\n", get_filepath(command));
+        printf("threshold: %.2f\n", get_threshold(command));
+        printf("num parameters: %d\n", get_num_parameters(command));
+    }
 
-    advance_curr(list);
-    printf("curr: %d\n", list->current->prevmode);
 
-    add_linked_list(list, NULL, NULL, 7);
-    advance_curr(list);
-    add_linked_list(list, NULL, NULL, 6);
-    backward_curr(list);
-    backward_curr(list);
-    print_linked_list_prevmode(list);
-    printf("curr: %d\n", list->current->prevmode);
+}
 
-    remove_all_after_curr(list);
-    *//*remove_next_after_curr(list);/*
-    printf("curr: %d\n", list->current->prevmode);
-    /*printf("temp: %d\n", temp->prevmode);*//*
+void print_input_parameters(Command *pCommand) {
+    int i;
+    if(get_parameters(pCommand) == NULL){
+        return;
+    }
+    for(i = 0; i < pCommand->num_parameters; i++){
+        printf("paramter %d: %d ", i, pCommand->int_parameters[i]);
+    }
 
-    print_linked_list_prevmode(list);
-*/
-    return 1;
 }

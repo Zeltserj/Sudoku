@@ -17,6 +17,7 @@ typedef struct UserCommand{
     enum CommandType type;
     int* int_parameters;
     char* string_parameters;
+    float threshold;
     /*holds what type of error*/
 }Command;
 
@@ -40,10 +41,12 @@ int get_num_parameters(Command *command);
 int* get_parameters(Command* command);
 char* get_filepath(Command* command);
 command_type get_type(Command* command);
+float get_threshold(Command* command);
 void set_num_paramters(Command *command, int num_parameters);
 void set_parameter(Command* command, int* parameters);
 void set_filepath(Command* command, char* filepath);
 void set_type(Command *command, char *name);
+void set_threshold(Command *commnad, float threshold);
 void free_command(Command* command);
 /**
  *
