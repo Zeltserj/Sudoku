@@ -48,4 +48,19 @@ int get_single_value(Board* board,int r, int c);
 
 int set_command(Board* board,int r, int c, int value);
 
+/**
+* undo all moves and insert the pre-changed values to board.
+* @param board != NULL
+* @param moves != NULL
+*/
+void reset_command(Board *board, LinkedList *moves);
+
+/**
+* free all memory allocated for board and moves list
+* @param board != NULL
+* @param moves != NULL
+*/
+void exit_command(Board *board, LinkedList *moves);
+void print_exit_command();
+
 #endif /*SPROJECT_EXECUTE_H*/

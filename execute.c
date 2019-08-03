@@ -1,4 +1,5 @@
 
+#include <stdio.h>
 #include "execute.h"
 #include "game.h"
 #include "solver.h"
@@ -45,8 +46,12 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
             print_board(board);
             break;
         case RESET:
+            reset_command(board,moves);
+            print_board(board);
             break;
         case EXIT:
+            exit_command(board,moves);
+            print_exit_command();
             break;
     }
 }
@@ -123,5 +128,18 @@ int get_single_value(Board* board,int r, int c){
     }
     free(sols);
     return single_sol;
+}
+
+void reset_command(Board *board, LinkedList *moves) {
+    while (undo(board,moves)){}
+}
+
+void exit_command(Board *board, LinkedList *moves) {
+    free_board(board);
+    free_linked_list(moves);
+}
+
+void print_exit_command() {
+    printf("Exiting...\n");
 }
 

@@ -9,7 +9,7 @@
 typedef struct NodeLinkedList{
     Command* c;
     LinkedListCells* changed;
-    int prevmode;
+    int prevmode; /*TODO: Or: unnecessary?*/
     struct NodeLinkedList* next;
     struct NodeLinkedList* prev;
 }Node;
