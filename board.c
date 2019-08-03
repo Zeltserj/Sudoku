@@ -171,15 +171,15 @@ void set_legal(Board *board, int r, int c) {
 }
 
 void print_board(Board *board) {
-    int row_length = (board->size * 4) + board->cols_block + 1;
+    int row_length = (board->size * 4) + board->rows_block + 1;
     int i, j;
     int cell;
     for (i = 0; i < board->size; i++) {
-        if ((i % board->cols_block) == 0) {
+        if ((i % board->rows_block) == 0) {
             print_dashes(row_length);
         }
         for (j = 0; j < board->size; j++) {
-            if (j % board->rows_block == 0) {
+            if (j % board->cols_block == 0) {
                 printf("|");
             }
             cell = get(board,i,j);

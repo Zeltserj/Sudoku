@@ -5,6 +5,7 @@
 #include "board.h"
 
 Board* load(char* path);
+int is_zero(char* c);
 
 /**
 * @param board != NULL
