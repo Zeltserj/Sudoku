@@ -42,6 +42,13 @@ char *errors(int errornum) {
             break;
         case 12:
             out = "non-floating point value";
+            break;
+        case 13:
+            out = "unsuccessful file opening";
+            break;
+        case 14:
+            out = "unsuccessful file writing";
+            break;
         default:
             out = "Unknown error";
     }
