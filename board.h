@@ -154,26 +154,32 @@ void print_board(Board *board);
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same row cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
 * @return 1 if value does not exist in row r on board (exclude cell board[r][c]). 0 otherwise.
 */
-int is_legal_row(Board* board,int r, int c, int value);
+int is_legal_row(Board *board, int r, int c, int value, int mark_illegal);
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same col cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
 * @return 1 if value does not exist in column c on board (exclude cell board[r][c]). 0 otherwise.
 */
-int is_legal_col(Board* board,int r, int c, int value);
+int is_legal_col(Board *board, int r, int c, int value, int mark_illegal);
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same block cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
 * @return 1 if value does not exist in cell's (board[r][c]) block on board (exclude that cell).
 * 0 otherwise.
 */
-int is_legal_block(Board* board,int r, int c, int value);
+int is_legal_block(Board *board, int r, int c, int value, int mark_illegal);
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
@@ -181,6 +187,8 @@ int is_legal_block(Board* board,int r, int c, int value);
 * @param value in range [0,board.size]
 * @return 1 if value is legal for the cell in board[r][c]. otherwise 0.
 */
-int is_legal_value(Board* board,int r, int c, int value);
+int is_legal_value(Board *board, int r, int c, int value);
+
+/*int is_legal_value_set(Board *board, int r, int c, int value, int mark_illegal);*/
 
 #endif

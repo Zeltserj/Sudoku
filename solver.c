@@ -11,7 +11,7 @@ int *get_all_sol_cell(Board *board, int r, int c) {
         exit(0);
     }
     for(i=0;i<board->size;i++){
-        if(is_legal_value(board,r,c,i+1)) {
+        if(is_legal_value(board, r, c, i + 1)) {
             sol[i] = 1;
             num_sol++;
         }

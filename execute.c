@@ -143,3 +143,7 @@ void print_exit_command() {
     printf("Exiting...\n");
 }
 
+int set_command(Board *board, int r, int c, int value) {
+
+}
+
