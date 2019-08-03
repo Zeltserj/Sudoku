@@ -55,30 +55,25 @@ Board *load(char *path) {
     FILE *f = fopen(path, "r");
     Board *b;
     char *c = calloc(3, sizeof(char));
-    int scf_ret;
-    int row, col, m, n, len_c, value;
+    int row, col, m, n, len_c, value,scf_ret;
 
     if (fscanf(f, "%d", &m) == 0 || fscanf(f, "%d", &n) == 0) {
         error("fileaux", "load", 15);
-        free(c);
+        free_load(f, NULL, c);
         return NULL;
     }
-
     b = alloc_board(m, n);
     for (row = 0; row < b->size; row++) {
         for (col = 0; col < b->size; col++) {
             scf_ret = fscanf(f,"%s",c);
-
             if (scf_ret == 0) {
                 error("fileaux", "load", 15);
-                free(c);
-                free_board(b);
+                free_load(f, b, c);
                 return NULL;
             }
             if (scf_ret == EOF) {
                 input_error(16);
-                free(c);
-                free_board(b);
+                free_load(f, b, c);
                 return NULL;
             }
             len_c = strlen(c);
@@ -90,14 +85,12 @@ Board *load(char *path) {
             value = atoi(c);
             if(value==0 && !is_zero(c)){
                 input_error(18);
-                free(c);
-                free_board(b);
+                free_load(f, b, c);
                 return NULL;
             }
             if (value > b->size || value < 0) {
                 input_error(17);
-                free(c);
-                free_board(b);
+                free_load(f, b, c);
                 return NULL;
             }
             set(b, row, col, value);
@@ -106,15 +99,19 @@ Board *load(char *path) {
     scf_ret = fscanf(f,"%s",c);
     if(scf_ret > 0){
         input_error(19);
-        free(c);
-        free_board(b);
-        fclose(f);
+        free_load(f, b, c);
         return NULL;
     }
-    fclose(f);
+    free_load(f, NULL, c);
     return b;
 }
 
+void free_load(FILE *f, Board *b, char *c) {
+    free(c);
+    fclose(f);
+    if(b!=NULL)
+        free_board(b);
+}
 int is_zero(char* c){
     int i=0;
     while(i<strlen(c) && c[i]!= '\0'){
