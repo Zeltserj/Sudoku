@@ -3,21 +3,7 @@
 #ifndef PROJECT_BOARD_H
 #define PROJECT_BOARD_H
 #include "errors.h"
-
-
-/**
- * cell structure for use in the autofill list, and board structure contains a matrix of these cells
- * contains all information regarding cells (value, erroneous in relation to the board, fixed/free, and cell's location
- */
- extern int mode;
- extern int mark_errors;
-typedef struct GameCell{
-    int value;
-    int fixed;
-    int error;
-    int row;
-    int col;
-} Cell;
+#include "cell.h"
 
 /**
  * Board structure containing a 2d matrix of *Cell. also keeps its parameters and number of empty cells
@@ -33,37 +19,14 @@ typedef struct GameBoard{
 /**
  * All functions assume no null is given, as such is caught beforehand
  */
-/**
- *
- * @return allocates a new cell or null on memory fault
- */
-Cell *alloc_cell(int r, int c);
-/**
- *
- * @param r
- * @param c
- * @param value
- * @return allocates a new board of size r*c*c*r or fails
- */
-void set_cell_value(Cell *cell, int value);
+
+
 /**
 * copies the values of cell to board[cell.row][cell.col]
 * @param board != NULL
 * @param cell != NULL
 */
 void set_cell(Board *board, Cell *cell);
-
-/**
- *
- * getters and setters to cell structure
- */
-void set_cell_fixed(Cell *cell, int fixed);
-void set_cell_error(Cell *cell, int is_error);
-int get_cell_value(Cell *cell);
-int get_cell_fixed(Cell *cell);
-int get_cell_error(Cell *cell);
-int get_cell_row(Cell *cell);
-int get_cell_col(Cell *cell);
 
 Cell *** alloc_matrix(int size);
 Board *alloc_board(int r, int c);
@@ -121,7 +84,6 @@ int is_error(Board* board, int r, int c);
 
 void free_matrix(Cell*** matrix, int size);
 void free_board(Board* board);
-void cell_copy(Cell *to, Cell *from);
 
 /**
  *
