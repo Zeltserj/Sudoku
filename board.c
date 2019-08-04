@@ -196,7 +196,6 @@ Cell ***matrix_copy(Cell ***matrix, int size) {
     return out;
 }
 
-/*TODO: let's figure out what's the best way to avoid redundant functions*/
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
@@ -266,6 +265,10 @@ Cell * illegal_neighbour_block(Board *board, int r, int c, int value) {
 
 Cell ** illegal_neighbours(Board *board, int r, int c, int value) {
     Cell** cell_arr = calloc(3, sizeof(Cell*));
+    if(cell_arr == NULL){
+        error("board", "illegal_neighbours", 1);
+        exit(0);
+    }
     cell_arr[0] = illegal_neighbour_row(board, r, c, value);
     cell_arr[1]= illegal_neighbour_col(board, r, c, value);
     cell_arr[2]= illegal_neighbour_block(board, r, c, value);
@@ -295,9 +298,11 @@ int get_num_empty(Board *board) {
 
 int is_legal_value(Board *board, int r, int c, int value) {
     Cell** cell_arr = illegal_neighbours(board,r,c,value);
-    if(cell_arr[0]!= NULL || cell_arr[1]!= NULL || cell_arr[2]!= NULL)
-        return 0;
-    return 1;
+    int out = 1;
+    if(cell_arr[0]!= NULL || cell_arr[1]!= NULL || cell_arr[2]!= NULL){}
+        out = 0;
+    free(cell_arr);
+    return out;
 }
 
 
