@@ -78,7 +78,7 @@ void free_row(Cell **cell_row, int size) {
     free(cell_row);
 }
 
-void set(Board *board, int r, int c, int value) {
+void set_value(Board *board, int r, int c, int value) {
     set_cell_value(board->matrix[r][c], value);
 
 }
@@ -208,13 +208,13 @@ void set_cell(Board *board, Cell *cell) {
 
 /**
 * @param board != NULL
-* @param r in range [0,board.size]
-* @param c in range [0,board.size]
-* @param value in range [0,board.size]
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
 * @return NULL if value does not exist in row r on board (exclude cell board[r][c]).
 * otherwise, return the cell with same value.
 */
-Cell * is_legal_row(Board *board, int r, int c, int value) {
+Cell * illegal_neighbour_row(Board *board, int r, int c, int value) {
     int i;
     for(i=0;i<board->size;i++){
         if(i!=c && get(board,r,i) == value) {
@@ -225,13 +225,13 @@ Cell * is_legal_row(Board *board, int r, int c, int value) {
 }
 /**
 * @param board != NULL
-* @param r in range [0,board.size]
-* @param c in range [0,board.size]
-* @param value in range [0,board.size]
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
 * @return NULL if value does not exist in column r on board (exclude cell board[r][c]).
 * otherwise, return the cell with same value.
 */
-Cell * is_legal_col(Board *board, int r, int c, int value) {
+Cell * illegal_neighbour_col(Board *board, int r, int c, int value) {
     int i;
     for(i=0;i<board->size;i++){
         if(i!=r && get(board,i,c) == value){
@@ -242,13 +242,13 @@ Cell * is_legal_col(Board *board, int r, int c, int value) {
 }
 /**
 * @param board != NULL
-* @param r in range [0,board.size]
-* @param c in range [0,board.size]
-* @param value in range [0,board.size]
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
 * @return 1 if value does not exist in cell's (board[r][c]) block on board (exclude that cell).
 * 0 otherwise.
 */
-Cell * is_legal_block(Board *board, int r, int c, int value) {
+Cell * illegal_neighbour_block(Board *board, int r, int c, int value) {
     int first_r, first_c;
     int i,j;
     first_r = (r/board->rows_block)*board->rows_block;
@@ -264,13 +264,14 @@ Cell * is_legal_block(Board *board, int r, int c, int value) {
     return NULL;
 }
 
-Cell ** is_legal_value(Board *board, int r, int c, int value) {
+Cell ** illegal_neighbours(Board *board, int r, int c, int value) {
     Cell** cell_arr = calloc(3, sizeof(Cell*));
-    cell_arr[0] = is_legal_row(board,r,c,value);
-    cell_arr[1]=is_legal_col(board,r,c,value);
-    cell_arr[2]=is_legal_block(board,r,c,value);
+    cell_arr[0] = illegal_neighbour_row(board, r, c, value);
+    cell_arr[1]= illegal_neighbour_col(board, r, c, value);
+    cell_arr[2]= illegal_neighbour_block(board, r, c, value);
     return cell_arr;
 }
+
 
 int get_size(Board *board) {
     return board->size;
@@ -290,6 +291,13 @@ int is_erroneous(Board *board) {
 
 int get_num_empty(Board *board) {
     return board->num_empty;
+}
+
+int is_legal_value(Board *board, int r, int c, int value) {
+    Cell** cell_arr = illegal_neighbours(board,r,c,value);
+    if(cell_arr[0]!= NULL || cell_arr[1]!= NULL || cell_arr[2]!= NULL)
+        return 0;
+    return 1;
 }
 
 

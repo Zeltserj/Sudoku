@@ -92,3 +92,7 @@ int advance_curr_cell(LinkedListCells *list) {
     list->current = list->current->next;
     return 1;
 }
+
+int get_len(LinkedListCells *list) {
+    return list->len;
+}

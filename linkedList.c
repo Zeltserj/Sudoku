@@ -174,4 +174,8 @@ int is_curr_last(LinkedList *list) {
     return 0;
 }
 
+LinkedListCells * get_changed_cells_list(Node *node) {
+    return node->changed;
+}
+
 

@@ -36,6 +36,7 @@ Cell *get_curr_cell(LinkedListCells *list);
 */
 Cell * get_head_cell(LinkedListCells *list);
 
+int get_len(LinkedListCells* list);
 /**
 * moves current node to next cell on the list
 * @return 1 if succeeded, 0 if there isn't next cell
