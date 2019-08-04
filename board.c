@@ -299,9 +299,11 @@ int get_num_empty(Board *board) {
 
 int is_legal_value(Board *board, int r, int c, int value) {
     Cell** cell_arr = illegal_neighbours(board,r,c,value);
-    if(cell_arr[0]!= NULL || cell_arr[1]!= NULL || cell_arr[2]!= NULL)
-        return 0;
-    return 1;
+    int out = 1;
+    if(cell_arr[0]!= NULL || cell_arr[1]!= NULL || cell_arr[2]!= NULL){}
+        out = 0;
+    free(cell_arr);
+    return out;
 }
 
 
