@@ -1,20 +1,26 @@
 
 #include "linkedListCells.h"
+#include <stdio.h>
 
 void add_cell_after_curr(LinkedListCells *list, Cell *c) {
     NodeCell* newNode;
-    NodeCell* temp = list->current->next;
+    NodeCell* temp;
     newNode = alloc_node_cell(c);
-    if(temp!=NULL) {
-        list->current->next->prev = newNode;
-        list->current->next = newNode;
-    }
+    if(list->current!= NULL) {
+        temp = list->current->next;
 
-    if(list->head == NULL){
+        if (temp != NULL) {
+            list->current->next->prev = newNode;
+            list->current->next = newNode;
+        }
+        newNode->prev = list->current;
+        newNode->next = temp;
+    }
+    else{
+        list->current = newNode;
+        list->head = newNode;
 
     }
-    newNode->prev = list->current;
-    newNode->next = temp;
     list->len ++;
 }
 
@@ -24,6 +30,10 @@ Cell *get_curr_cell(LinkedListCells *list) {
 
 NodeCell * alloc_node_cell(Cell* c) {
     NodeCell* nodeC = calloc(3, sizeof(int*));
+    if(nodeC == NULL){
+        error("linkedListCells","alloc_node_cell",1);
+        exit(0);
+    }
     nodeC->c = c;
     return nodeC;
 }

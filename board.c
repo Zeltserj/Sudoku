@@ -41,7 +41,7 @@ Cell ***alloc_matrix(int size) {
                 error("board", "alloc_matrix", 1);
                 exit(0);
             }
-
+            set_cell_location(matrix[i][j],i,j);
         }
     }
     return matrix;
