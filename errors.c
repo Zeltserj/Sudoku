@@ -74,7 +74,28 @@ char *errors(int errornum) {
             out = "third parameter out of range";
             break;
         case 23:
-            out = "command unavailable in current mode";
+            out = "command unavailable in current mode, only in SOLVE or EDIT";
+            break;
+        case 24:
+            out = "command unavailable in current mode, only in SOLVE";
+            break;
+        case 25:
+            out = "command unavailable in current mode, only in EDIT";
+            break;
+        case 26:
+            out = "cell is fixed";
+            break;
+        case 27:
+            out = "board is erroneous";
+            break;
+        case 30:
+            out = "first parameter has illegal value";
+            break;
+        case 31:
+            out = "second parameter has illegal value";
+            break;
+        case 32:
+            out = "third parameter has illegal value";
             break;
         default:
             out = "Unknown error";

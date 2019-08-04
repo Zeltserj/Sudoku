@@ -51,6 +51,13 @@ void set_value(Board *board, int r, int c, int value); /*TODO: check whether r a
  */
 int get(Board* board, int r, int c);
 
+/**
+ *
+ * @param board != NULL
+ * @return number of empty cells in the board, by attribute
+ */
+int get_num_empty(Board* board);
+
 int get_size(Board* board);
 
 /**
@@ -68,6 +75,12 @@ int is_fixed(Board* board, int r, int c);
  * @return 1 iff cell is erroneous
  */
 int is_error(Board* board, int r, int c);
+/**
+ *
+ * @param board != NULL
+ * @return 1 iff board as an erroneous cell (cell with error attribute == 1) 0 otherwise
+ */
+int is_erroneous(Board* board);
 
 /**
  * @param board

@@ -103,7 +103,7 @@ Command *parse_input(char *input) {
         }
         return out;
     }
-    else if(type == MARK_ERRORS){
+    else if(type == GUESS){
         ptr = strtok(NULL, delim);
         if(ptr == NULL){
             set_num_parameters(out, 0);
