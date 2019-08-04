@@ -64,6 +64,18 @@ char *errors(int errornum) {
         case 19:
             out = "file has more arguments than needed";
             break;
+        case 20:
+            out = "first parameter out of range";
+            break;
+        case 21:
+            out = "second parameter out of range";
+            break;
+        case 22:
+            out = "third parameter out of range";
+            break;
+        case 23:
+            out = "command unavailable in current mode";
+            break;
         default:
             out = "Unknown error";
     }
