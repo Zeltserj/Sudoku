@@ -3,7 +3,7 @@
 #include "game.h"
 #include "parser.h"
 #include "linkedList.h"
-
+#include "commandValidator.h"
 void print_input_parameters(Command *pCommand);
 
 int main() {
@@ -12,13 +12,16 @@ int main() {
         printf("please enter input:\n");
         char *str = calloc(256, sizeof(char));
         Command* command = parse_input(fgets(str, 256, stdin));
-        printf("command type: %s\n", command_name(command));
-        printf("input parameters: ");
-        print_input_parameters(command);
-        printf("\n");
-        printf("file path: %s\n", get_filepath(command));
-        printf("threshold: %.2f\n", get_threshold(command));
-        printf("num parameters: %d\n", get_num_parameters(command));
+        if(validate_command(command)){
+            printf("command type: %s\n", command_name(command));
+            printf("input parameters: ");
+            print_input_parameters(command);
+            printf("\n");
+            printf("file path: %s\n", get_filepath(command));
+            printf("threshold: %.2f\n", get_threshold(command));
+            printf("num parameters: %d\n", get_num_parameters(command));
+        }
+
     }
 
 

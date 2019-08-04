@@ -10,8 +10,6 @@
 #include "parser.h"
 #include "errors.h"
 
-
-
 int get_whitespace_offset(char *copy);
 
 /**
@@ -59,8 +57,10 @@ Command *parse_input(char *input) {
     Command* out = calloc(1, sizeof(Command));
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = NULL;
-    int i, type, len = (int)strlen(input), offset;
+    int i, len = (int)strlen(input), offset;
+    command_type type;
     char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *end_ptr = NULL;
+    FILE *fp = fopen("C:\\Users\\lenovo\\CLionProjects\\SP\\file.txt", "w");
     float threshold;
     if(out == NULL ||input_copy == NULL ){
         error("parser", "paser_input", 1);
@@ -74,57 +74,71 @@ Command *parse_input(char *input) {
     strcpy(input_copy, input);
     name = strtok(input_copy, delim);
     set_type(out, name);
+    type = get_type(out);
+    if(type == INVALID){
+        input_error(6);
+        return out;
+    }
     i = (int)strlen(name);
     offset = get_whitespace_offset(input_copy);
     ptr = &input[offset+i];
     type = (int)get_type(out);
-    if(type == 2){ /*edit command has optional parameter which will be null if not given */
+    if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
         set_filepath(out, ptr);
         if(ptr == NULL || ptr[0] == '\n'){
-            set_num_paramters(out, 0);
+            set_num_parameters(out, 0);
         }
         else{
             ptr = strtok(NULL, delim);
             if(ptr == NULL){
-                set_num_paramters(out, 1);
+                set_num_parameters(out, 1);
             }
             else{
-                set_num_paramters(out, 2);
+                set_num_parameters(out, 2);
             }
         }
         return out;
     }
-    else if(type == 7){
+    else if(type == MARK_ERRORS){
         ptr = strtok(NULL, delim);
         if(ptr == NULL){
-            set_num_paramters(out, 0);
+            set_num_parameters(out, 0);
         }
         else{
             threshold = (float)strtof(ptr, &ptr);
             set_threshold(out, threshold);
-            set_num_paramters(out, 1);
+            set_num_parameters(out, 1);
             ptr = strtok(NULL, delim);
             if(ptr != NULL && ptr[0] != '\n'){
-                set_num_paramters(out, 2);
+                set_num_parameters(out, 2);
             }
         }
         return out;
     }
-    else if(type == 1 || type == 11) /*all commands which don't need int parameters*/{
+    else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
         set_filepath(out, ptr);
-        ptr = strtok(NULL, delim);
-        if(ptr != NULL && ptr[0] != '\n'){
-            set_num_paramters(out, 2); /*to or more parameters doesn't change*/
+        if(ptr == NULL || ptr[0] == '\n'){
+            set_num_parameters(out, 0);
+            return out;
         }
         else{
-            set_num_paramters(out, 1);
+            set_num_parameters(out, 1);
         }
+        ptr = strtok(NULL, delim);
+        fputs(ptr, fp);
+        fclose(fp);
+        if(ptr != NULL && ptr[0] != '\n'){
+            set_num_parameters(out, 2);
+            /*to or more parameters doesn't change*/
+        }
+
+
         return out;
     }
     parameters = parse_input_parameters(ptr, out);
-    set_num_paramters(out, parameters[0]);
+    set_num_parameters(out, parameters[0]);
     parameters = &parameters[0] + 1;
     set_parameter(out, parameters);
     return out;

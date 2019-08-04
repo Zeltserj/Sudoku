@@ -99,7 +99,7 @@ int autofill_command(Board *board) {
                 v = get_single_value(b_cpy, i, j);
                 if (v != 0) {
                     /*TODO: Or: make sure cells marked as errors if needed*/
-                    set_command(board, i, j, v);
+                    /*set_command(board, i, j, v);*/
                 }
             }
         }

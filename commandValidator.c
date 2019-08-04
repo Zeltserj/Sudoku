@@ -8,12 +8,19 @@
 
 int validate_command(Command *command) {
     int out = 1;
-    switch (command->type){
+    int num_parameters = get_num_parameters(command);
+    command_type type = get_type(command);
+    int* parameters = get_parameters(command);
+    char* filepath = get_filepath(command);
+    switch (type){
         case INVALID:
-            input_error(6);
             out = 0;
             break;
         case SOLVE:
+            if(num_parameters != 1){
+                command_error(7);
+                out = 0;
+            }
             break;
         case EDIT:
             break;
@@ -48,6 +55,6 @@ int validate_command(Command *command) {
         case EXIT:
             break;
     }
-    return 0;
+    return out;
 }
 
