@@ -270,11 +270,11 @@ int validate_set(Command *command, Board *board) {
         command_error(7);
         out = 0;
     } else {
+        out = validate_range(parameters, get_size(board), num_parameters);
         parameters[0]--;
         parameters[1]--;
         r = parameters[0];
         c = parameters[1];
-        out = validate_range(parameters, get_size(board), num_parameters);
         if (out == 1 && is_fixed(board, r, c)) {
             command_error(26);
             out = 0;
@@ -286,7 +286,7 @@ int validate_set(Command *command, Board *board) {
 int validate_range(int *parameters, int size, int num_parameters) {
     int i, out = 1;
     for (i = 0; i < num_parameters; i++) {
-        if (parameters[i] < 0 || parameters[i] >= size) {
+        if (parameters[i] < 1 || parameters[i] > size) {
             command_error(20 + i);
             out = 0;
             break;

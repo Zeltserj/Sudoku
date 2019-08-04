@@ -39,9 +39,7 @@ int *parse_input_parameters(char *string, Command *command) {
     while(ptr != NULL && ptr[0] != '\n'){
         out[i] =(int) strtol(ptr, &end_ptr, 10) ;
         if(ptr == end_ptr){
-            set_type(command, "invalid");
-            input_error(10);
-            printf("parameter %d\n", i);
+            out[i] = -1;
         }
         i++;
         ptr = strtok(NULL, delim);

@@ -3,4 +3,4 @@
 #include "parser.h"
 
 int mark_errors = 1;
-int mode = 0;
+int mode = 1;

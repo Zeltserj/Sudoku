@@ -2,8 +2,8 @@
 #ifndef SPROJECT_FILEAUX_H
 #define SPROJECT_FILEAUX_H
 
-#include "board.h"
 #include <stdio.h>
+#include "board.h"
 
 Board* load(char* path);
 int is_zero(char* c);
