@@ -148,7 +148,16 @@ Command *parse_input(char *input) {
     return out;
 }
 
+
+/**
+ *
+ * @param filepath
+ * removes the last '\n' leftover character if one exists
+ */
 void parse_filepath(char *filepath) {
+    if(filepath == NULL){
+        return;
+    }
     int len = (int)strlen(filepath);
     if(filepath[len-1] == '\n'){
         filepath[len-1] = '\0';
