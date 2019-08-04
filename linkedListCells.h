@@ -19,7 +19,8 @@ typedef struct LinkedListCells{
 }LinkedListCells;
 
 /**
-* adds (cfter current) a node to the list contains the cell
+* adds (cfter current) a node to the list contains the cell.
+* if list is empty, adds that node to be head & current
 * @param list of nodes type NodeCell
 * @param c a cell to add
 */

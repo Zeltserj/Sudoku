@@ -151,20 +151,18 @@ int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     int i, err=0;
     for(i=0; i<3;i++){
         if(cell_arr[i] != NULL){
+
             set_erroneous(board,get_cell_row(cell_arr[i]),get_cell_col(cell_arr[i]));
             curr_changed = get_changed_cells_list(get_curr(moves));
-
-            /*TODO: Or: check what happens in free of cell_arr*/
-            if(get_cell_error(cell_arr[i]))
-                add_cell_after_curr(curr_changed,cell_arr[i]);
-            else
-                free(cell_arr[i]);
+            if(get_cell_error(cell_arr[i])) {
+                add_cell_after_curr(curr_changed, cell_arr[i]);
+            }
             err=1;
         }
     }
+
     if(err)
         set_erroneous(board,r,c);
-
     free(cell_arr);
     set_value(board,r,c,value);
 }
