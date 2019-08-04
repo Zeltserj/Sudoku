@@ -205,7 +205,15 @@ void set_cell(Board *board, Cell *cell) {
     set_cell_value(b_cell,cell->value);
 }
 
-
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same row cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
+* @return 1 if value does not exist in row r on board (exclude cell board[r][c]). 0 otherwise.
+*/
 int is_legal_row(Board *board, int r, int c, int value, int mark_illegal) {
     int i;
     for(i=0;i<board->size;i++){
@@ -219,7 +227,15 @@ int is_legal_row(Board *board, int r, int c, int value, int mark_illegal) {
     }
     return 1;
 }
-
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same col cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
+* @return 1 if value does not exist in column c on board (exclude cell board[r][c]). 0 otherwise.
+*/
 int is_legal_col(Board *board, int r, int c, int value, int mark_illegal) {
     int i;
     for(i=0;i<board->size;i++){
@@ -233,7 +249,16 @@ int is_legal_col(Board *board, int r, int c, int value, int mark_illegal) {
     }
     return 1;
 }
-
+/**
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @param value in range [0,board.size]
+* @param mark_illegal - if 1, marks same block cells as erroneous if has the same value (the input value)
+* otherwise, doesn't
+* @return 1 if value does not exist in cell's (board[r][c]) block on board (exclude that cell).
+* 0 otherwise.
+*/
 int is_legal_block(Board *board, int r, int c, int value, int mark_illegal) {
     int first_r, first_c;
     int i,j;
@@ -255,10 +280,10 @@ int is_legal_block(Board *board, int r, int c, int value, int mark_illegal) {
 }
 
 int is_legal_value(Board *board, int r, int c, int value) {
-    if(is_legal_row(board, r, c, value, 0) || is_legal_col(board, r, c, value, 0) || is_legal_block(board, r, c, value, 0)){
-        return 0;
+    if(is_legal_row(board, r, c, value, 0) && is_legal_col(board, r, c, value, 0) && is_legal_block(board, r, c, value, 0)){
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 
