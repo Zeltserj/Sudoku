@@ -3,6 +3,7 @@
 #define SPROJECT_EXECUTE_H
 #include "command.h"
 #include "linkedList.h"
+#include "board.h"
 
 int execute_command(Board *board, Command *command, LinkedList *moves);
 void set_mode(int new_mode);
@@ -62,5 +63,7 @@ void reset_command(Board *board, LinkedList *moves);
 */
 void exit_command(Board *board, LinkedList *moves);
 void print_exit_command();
+
+
 
 #endif /*SPROJECT_EXECUTE_H*/

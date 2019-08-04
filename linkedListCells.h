@@ -3,7 +3,7 @@
 #define SP_LINKEDLISTCELLS_H
 
 #include <stdlib.h>
-#include "board.h"
+#include "cell.h"
 #include "errors.h"
 
 typedef struct NodeLinkedListCells{

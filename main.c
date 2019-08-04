@@ -1,39 +1,24 @@
 #include <stdio.h>
 #include "board.h"
-#include "game.h"
-#include "parser.h"
-#include "linkedList.h"
-#include "commandValidator.h"
-void print_input_parameters(Command *pCommand);
+#include "fileaux.h"
 
 int main() {
+    /*FILE* f = fopen("C:\\Users\\Or Nechemia\\CLionProjects\\SProject\\testopening","w");*/
+    /*Board* b = alloc_board(1,2);*/
+    Board* b2;
+    /*set(b,0,1,2);
+    set(b,0,0,1);
+    set(b,1,1,1);
+    fix_cell(b,0,0);
+    fix_cell(b,1,1);
+    print_board(b);
+    save(b,"C:\\Users\\Or Nechemia\\CLionProjects\\SProject\\test_faux.txt");
+*/
 
-    while(1){
-        printf("please enter input:\n");
-        char *str = calloc(256, sizeof(char));
-        Command* command = parse_input(fgets(str, 256, stdin));
-        if(validate_command(command)){
-            printf("command type: %s\n", command_name(command));
-            printf("input parameters: ");
-            print_input_parameters(command);
-            printf("\n");
-            printf("file path: %s\n", get_filepath(command));
-            printf("threshold: %.2f\n", get_threshold(command));
-            printf("num parameters: %d\n", get_num_parameters(command));
-        }
-
-    }
+    b2=load("C:\\Users\\Or Nechemia\\CLionProjects\\SProject\\test_faux.txt");
+    if(b2!= NULL)
+        print_board(b2);
 
 
-}
-
-void print_input_parameters(Command *pCommand) {
-    int i;
-    if(get_parameters(pCommand) == NULL){
-        return;
-    }
-    for(i = 0; i < pCommand->num_parameters; i++){
-        printf("paramter %d: %d ", i, pCommand->int_parameters[i]);
-    }
-
+    /*fclose(f);*/
 }
