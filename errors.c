@@ -84,6 +84,10 @@ char *errors(int errornum) {
             break;
         case 26:
             out = "cell is fixed";
+            break;
+        case 27:
+            out = "board is erroneous";
+            break;
         case 30:
             out = "first parameter has illegal value";
             break;

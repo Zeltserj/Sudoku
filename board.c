@@ -276,6 +276,22 @@ int get_size(Board *board) {
     return board->size;
 }
 
+int is_erroneous(Board *board) {
+    int i, j;
+    for(i = 0; i < get_size(board); i++){
+        for(j = 0 ; j < get_size(board); j++){
+            if(is_error(board,i,j)){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int get_num_empty(Board *board) {
+    return board->num_empty;
+}
+
 
 
 
