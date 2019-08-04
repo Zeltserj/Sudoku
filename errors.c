@@ -26,7 +26,7 @@ char *errors(int errornum) {
             out = "invalid command name";
             break;
         case 7:
-            out = "too many parameters";
+            out = "incorrect number of parameters";
             break;
         case 8:
             out = "there are no moves to undo";

@@ -11,10 +11,9 @@
  *
  * @param input string from user
  * @return command type == invalid iff:
- * command does not use filepath
- * a non integer value was given to integer commands
+ * command does not use filepath and a non integer value was given to integer commands
  * input length > 256 chars
- *  non float was given to "guess" command
+ * command name not valid
  *
  *
  * exits on memory failure. all else is given to command validator

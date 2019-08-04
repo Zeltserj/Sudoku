@@ -137,7 +137,7 @@ int get_num_parameters(Command *command) {
     return command->num_parameters;
 }
 
-void set_num_paramters(Command *command, int num_parameters) {
+void set_num_parameters(Command *command, int num_parameters) {
     command->num_parameters = num_parameters;
 
 }

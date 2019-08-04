@@ -42,7 +42,7 @@ int* get_parameters(Command* command);
 char* get_filepath(Command* command);
 command_type get_type(Command* command);
 float get_threshold(Command* command);
-void set_num_paramters(Command *command, int num_parameters);
+void set_num_parameters(Command *command, int num_parameters);
 void set_parameter(Command* command, int* parameters);
 void set_filepath(Command* command, char* filepath);
 void set_type(Command *command, char *name);
