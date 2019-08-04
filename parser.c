@@ -12,6 +12,8 @@
 
 int get_whitespace_offset(char *copy);
 
+void parse_filepath(char *filepath);
+
 /**
  *
  * @param string given from user after the command name
@@ -86,12 +88,13 @@ Command *parse_input(char *input) {
     if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
         set_filepath(out, ptr);
+        parse_filepath(get_filepath(out));
         if(ptr == NULL || ptr[0] == '\n'){
             set_num_parameters(out, 0);
         }
         else{
             ptr = strtok(NULL, delim);
-            if(ptr == NULL){
+            if(ptr == NULL || ptr[0] == '\n'){
                 set_num_parameters(out, 1);
             }
             else{
@@ -119,6 +122,7 @@ Command *parse_input(char *input) {
     else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
         set_filepath(out, ptr);
+        parse_filepath(get_filepath(out));
         if(ptr == NULL || ptr[0] == '\n'){
             set_num_parameters(out, 0);
             return out;
@@ -143,6 +147,15 @@ Command *parse_input(char *input) {
     set_parameter(out, parameters);
     return out;
 }
+
+void parse_filepath(char *filepath) {
+    int len = (int)strlen(filepath);
+    if(filepath[len-1] == '\n'){
+        filepath[len-1] = '\0';
+    }
+
+}
+
 /**
  *
  * @param copy != NULL
