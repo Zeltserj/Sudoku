@@ -4,6 +4,8 @@
 #include "game.h"
 #include "solver.h"
 #include "cell.h"
+void increase_conflicts(Cell **cells);
+void decrease_conflicts(Cell **cells);
 
 int execute_command(Board *board, Command *command, LinkedList *moves) {
     switch (command->type) {
@@ -151,7 +153,6 @@ int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     int i, err=0;
     for(i=0; i<3;i++){
         if(cell_arr[i] != NULL){
-
             set_erroneous(board,get_cell_row(cell_arr[i]),get_cell_col(cell_arr[i]));
             curr_changed = get_changed_cells_list(get_curr(moves));
             if(get_cell_error(cell_arr[i])) {
@@ -166,4 +167,13 @@ int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     free(cell_arr);
     set_value(board,r,c,value);
 }
+
+void increase_conflicts(Cell **cells) {
+
+}
+
+void decrease_conflicts(Cell **cells) {
+
+}
+
 
