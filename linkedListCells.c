@@ -1,7 +1,7 @@
 
 #include "linkedListCells.h"
 
-void add_cell_curr(LinkedListCells *list, Cell *c) {
+void add_cell_after_curr(LinkedListCells *list, Cell *c) {
     NodeCell* newNode;
     NodeCell* temp = list->current->next;
     newNode = alloc_node_cell(c);
