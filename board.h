@@ -4,6 +4,7 @@
 #define PROJECT_BOARD_H
 #include "errors.h"
 #include "cell.h"
+#include "linkedList.h"
 
 /**
  * Board structure containing a 2d matrix of *Cell. also keeps its parameters and number of empty cells
@@ -50,6 +51,7 @@ void set(Board* board, int r, int c, int value); /*TODO: check whether r and c a
  */
 int get(Board* board, int r, int c);
 
+int get_size(Board* board);
 
 /**
  * @param board != null
@@ -107,8 +109,7 @@ void print_board(Board *board);
 * @param value in range [0,board.size]
 * @return 1 if value is legal for the cell in board[r][c]. otherwise 0.
 */
-int is_legal_value(Board *board, int r, int c, int value);
+Cell ** is_legal_value(Board *board, int r, int c, int value);
 
-/*int is_legal_value_set(Board *board, int r, int c, int value, int mark_illegal);*/
 
 #endif

@@ -87,6 +87,7 @@ int get(Board *board, int r, int c) {
     return get_cell_value(board->matrix[r][c]);
 }
 
+
 int is_fixed(Board *board, int r, int c) {
     return get_cell_fixed(board->matrix[r][c]);
 }
@@ -210,56 +211,44 @@ void set_cell(Board *board, Cell *cell) {
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
-* @param mark_illegal - if 1, marks same row cells as erroneous if has the same value (the input value)
-* otherwise, doesn't
-* @return 1 if value does not exist in row r on board (exclude cell board[r][c]). 0 otherwise.
+* @return NULL if value does not exist in row r on board (exclude cell board[r][c]).
+* otherwise, return the cell with same value.
 */
-int is_legal_row(Board *board, int r, int c, int value, int mark_illegal) {
+Cell * is_legal_row(Board *board, int r, int c, int value) {
     int i;
     for(i=0;i<board->size;i++){
         if(i!=c && get(board,r,i) == value) {
-            if (mark_illegal) {
-                set_erroneous(board, r, c);
-                set_erroneous(board, r, i);
-            }
-            return 0;
+            return board->matrix[r][i];
         }
     }
-    return 1;
+    return NULL;
 }
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
-* @param mark_illegal - if 1, marks same col cells as erroneous if has the same value (the input value)
-* otherwise, doesn't
-* @return 1 if value does not exist in column c on board (exclude cell board[r][c]). 0 otherwise.
+* @return NULL if value does not exist in column r on board (exclude cell board[r][c]).
+* otherwise, return the cell with same value.
 */
-int is_legal_col(Board *board, int r, int c, int value, int mark_illegal) {
+Cell * is_legal_col(Board *board, int r, int c, int value) {
     int i;
     for(i=0;i<board->size;i++){
         if(i!=r && get(board,i,c) == value){
-            if(mark_illegal){
-                set_erroneous(board,r,c);
-                set_erroneous(board,i,c);
-            }
-            return 0;
+            return board->matrix[i][c];
         }
     }
-    return 1;
+    return NULL;
 }
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]
 * @param value in range [0,board.size]
-* @param mark_illegal - if 1, marks same block cells as erroneous if has the same value (the input value)
-* otherwise, doesn't
 * @return 1 if value does not exist in cell's (board[r][c]) block on board (exclude that cell).
 * 0 otherwise.
 */
-int is_legal_block(Board *board, int r, int c, int value, int mark_illegal) {
+Cell * is_legal_block(Board *board, int r, int c, int value) {
     int first_r, first_c;
     int i,j;
     first_r = (r/board->rows_block)*board->rows_block;
@@ -268,23 +257,25 @@ int is_legal_block(Board *board, int r, int c, int value, int mark_illegal) {
     for(i=first_r;i<first_r+board->rows_block;i++){
         for(j=first_c;j<first_c+board->cols_block;j++){
             if((i!=r || j!=c) && get(board,i,j)==value ){
-                if(mark_illegal){
-                    set_erroneous(board,r,c);
-                    set_erroneous(board,i,j);
-                }
-                return 0;
+                return board->matrix[i][j];
             }
         }
     }
-    return 1;
+    return NULL;
 }
 
-int is_legal_value(Board *board, int r, int c, int value) {
-    if(is_legal_row(board, r, c, value, 0) && is_legal_col(board, r, c, value, 0) && is_legal_block(board, r, c, value, 0)){
-        return 1;
-    }
-    return 0;
+Cell ** is_legal_value(Board *board, int r, int c, int value) {
+    Cell** cell_arr = calloc(3, sizeof(Cell*));
+    cell_arr[0] = is_legal_row(board,r,c,value);
+    cell_arr[1]=is_legal_col(board,r,c,value);
+    cell_arr[2]=is_legal_block(board,r,c,value);
+    return cell_arr;
 }
+
+int get_size(Board *board) {
+    return board->size;
+}
+
 
 
 
