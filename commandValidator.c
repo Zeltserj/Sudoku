@@ -3,7 +3,7 @@
  Created by lenovo on ${DTE}
  **/
 
-
+#include <stdio.h>
 #include "commandValidator.h"
 #include "board.h"
 
@@ -71,15 +71,15 @@ int validate_command(Command *command, Board *board) {
                 value = parameters[2];
                 for (i = 0; i < num_parameters; i++) {
                     if (parameters[i] > size || parameters[i] < 0) {
-                        out = 0;
                         command_error(parameter_error + i);
+                        out = 0;
                         break;
                     }
 
                 }
-                if(is_fixed(board,r,c)){
-                    out = 0;
+                if(out == 1 && is_fixed(board,r,c)){
                     command_error(26);
+                    out = 0;
                 }
             }
 
@@ -87,12 +87,12 @@ int validate_command(Command *command, Board *board) {
             break;
         case VALIDATE:
             if(mode == 0){
-                out = 0;
                 command_error(23);
+                out = 0;
             }
             else if(is_board_invalid){
-                out = 0;
                 command_error(27);
+                out = 0;
             }
             break;
         case GUESS:
@@ -105,7 +105,7 @@ int validate_command(Command *command, Board *board) {
                 out = 0;
             }
             else if(get_threshold(command) > 1 || get_threshold(command) < 0){
-                command_error(23);
+                command_error(20);
                 out = 0;
             }
             else if(is_board_invalid){
@@ -122,7 +122,10 @@ int validate_command(Command *command, Board *board) {
                 command_error(7);
                 out = 0;
             }
-            else if(parameters[0] > get)
+            else if(parameters[0] > get_num_empty(board)){
+                command_error(parameter_error);
+                out = 0;
+            }
             break;
         case UNDO:
             if(mode == 0){
@@ -131,6 +134,10 @@ int validate_command(Command *command, Board *board) {
             }
             break;
         case REDO:
+            if(mode == 0){
+                command_error(23);
+                out = 0;
+            }
             break;
         case SAVE:
             break;

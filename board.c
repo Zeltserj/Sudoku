@@ -196,7 +196,6 @@ Cell ***matrix_copy(Cell ***matrix, int size) {
     return out;
 }
 
-/*TODO: let's figure out what's the best way to avoid redundant functions*/
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
