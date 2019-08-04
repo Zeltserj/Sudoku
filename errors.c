@@ -42,6 +42,28 @@ char *errors(int errornum) {
             break;
         case 12:
             out = "non-floating point value";
+            break;
+        case 13:
+            out = "unsuccessful file opening";
+            break;
+        case 14:
+            out = "unsuccessful file writing";
+            break;
+        case 15:
+            out = "unsuccessful file reading";
+            break;
+        case 16:
+            out = "file does not have enough numbers to fill a board";
+            break;
+        case 17:
+            out = "file error: not all cell values are in range";
+            break;
+        case 18:
+            out = "file error: not all cell values are numbers";
+            break;
+        case 19:
+            out = "file has more arguments than needed";
+            break;
         default:
             out = "Unknown error";
     }

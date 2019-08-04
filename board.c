@@ -171,15 +171,15 @@ void set_legal(Board *board, int r, int c) {
 }
 
 void print_board(Board *board) {
-    int row_length = (board->size * 4) + board->cols_block + 1;
+    int row_length = (board->size * 4) + board->rows_block + 1;
     int i, j;
     int cell;
     for (i = 0; i < board->size; i++) {
-        if ((i % board->cols_block) == 0) {
+        if ((i % board->rows_block) == 0) {
             print_dashes(row_length);
         }
         for (j = 0; j < board->size; j++) {
-            if (j % board->rows_block == 0) {
+            if (j % board->cols_block == 0) {
                 printf("|");
             }
             cell = get(board,i,j);
@@ -246,27 +246,35 @@ void set_cell(Board *board, Cell *cell) {
 }
 
 
-int is_legal_row(Board *board, int r, int c, int value) {
+int is_legal_row(Board *board, int r, int c, int value, int mark_illegal) {
     int i;
     for(i=0;i<board->size;i++){
-        if(i!=c && get(board,r,i) == value){
+        if(i!=c && get(board,r,i) == value) {
+            if (mark_illegal) {
+                set_erroneous(board, r, c);
+                set_erroneous(board, r, i);
+            }
             return 0;
         }
     }
     return 1;
 }
 
-int is_legal_col(Board *board, int r, int c, int value) {
+int is_legal_col(Board *board, int r, int c, int value, int mark_illegal) {
     int i;
     for(i=0;i<board->size;i++){
         if(i!=r && get(board,i,c) == value){
+            if(mark_illegal){
+                set_erroneous(board,r,c);
+                set_erroneous(board,i,c);
+            }
             return 0;
         }
     }
     return 1;
 }
 
-int is_legal_block(Board *board, int r, int c, int value) {
+int is_legal_block(Board *board, int r, int c, int value, int mark_illegal) {
     int first_r, first_c;
     int i,j;
     first_r = (r/board->rows_block)*board->rows_block;
@@ -275,6 +283,10 @@ int is_legal_block(Board *board, int r, int c, int value) {
     for(i=first_r;i<first_r+board->rows_block;i++){
         for(j=first_c;j<first_c+board->cols_block;j++){
             if((i!=r || j!=c) && get(board,i,j)==value ){
+                if(mark_illegal){
+                    set_erroneous(board,r,c);
+                    set_erroneous(board,i,j);
+                }
                 return 0;
             }
         }
@@ -283,11 +295,12 @@ int is_legal_block(Board *board, int r, int c, int value) {
 }
 
 int is_legal_value(Board *board, int r, int c, int value) {
-    if(is_legal_row(board,r,c,value) || is_legal_col(board,r,c,value) || is_legal_block(board,r,c,value)){
+    if(is_legal_row(board, r, c, value, 0) || is_legal_col(board, r, c, value, 0) || is_legal_block(board, r, c, value, 0)){
         return 0;
     }
     return 1;
 }
+
 
 
 

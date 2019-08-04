@@ -32,17 +32,35 @@ int redo(Board *board, LinkedList *moves);
 
 void mark_errors_command(int mark);
 
-
-int autofill_command(Board* board);
+/**
+* fill in each board cell that has only one legal solution.
+* @param board != NULL
+*/
+void autofill_command(Board *board);
 /**
 * goes over all the possible solutions for the cell board[r][c].
 * @param board != NULL
-* @param r < board.size
-* @param c < board.size
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
 * @return the single solution for the cell, otherwisr 0 - if there isn't a single solution
 */
 int get_single_value(Board* board,int r, int c);
 
 int set_command(Board* board,int r, int c, int value);
+
+/**
+* undo all moves and insert the pre-changed values to board.
+* @param board != NULL
+* @param moves != NULL
+*/
+void reset_command(Board *board, LinkedList *moves);
+
+/**
+* free all memory allocated for board and moves list
+* @param board != NULL
+* @param moves != NULL
+*/
+void exit_command(Board *board, LinkedList *moves);
+void print_exit_command();
 
 #endif /*SPROJECT_EXECUTE_H*/

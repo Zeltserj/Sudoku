@@ -1,4 +1,5 @@
 
+#include <stdio.h>
 #include "execute.h"
 #include "game.h"
 #include "solver.h"
@@ -41,10 +42,16 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
         case NUM_SOLUTIONS:
             break;
         case AUTOFILL:
+            autofill_command(board);
+            print_board(board);
             break;
         case RESET:
+            reset_command(board,moves);
+            print_board(board);
             break;
         case EXIT:
+            exit_command(board,moves);
+            print_exit_command();
             break;
     }
 }
@@ -90,7 +97,7 @@ int redo(Board *board, LinkedList *moves) {
 
 }
 
-int autofill_command(Board *board) {
+void autofill_command(Board *board) {
     Board* b_cpy = brdcpy(board);
     int i,j,v;
     for(i=0; i<board->size;i++){
@@ -121,5 +128,22 @@ int get_single_value(Board* board,int r, int c){
     }
     free(sols);
     return single_sol;
+}
+
+void reset_command(Board *board, LinkedList *moves) {
+    while (undo(board,moves)){}
+}
+
+void exit_command(Board *board, LinkedList *moves) {
+    free_board(board);
+    free_linked_list(moves);
+}
+
+void print_exit_command() {
+    printf("Exiting...\n");
+}
+
+int set_command(Board *board, int r, int c, int value) {
+
 }
 
