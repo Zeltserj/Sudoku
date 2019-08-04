@@ -41,7 +41,7 @@ Board *alloc_board(int r, int c);
  *
  * sets cell at (r, c) to value
  */
-void set(Board* board, int r, int c, int value); /*TODO: check whether r and c are in range*/
+void set_value(Board *board, int r, int c, int value); /*TODO: check whether r and c are in range*/
 /**
  *
  * @param board != null
@@ -104,12 +104,19 @@ void print_board(Board *board);
 
 /**
 * @param board != NULL
-* @param r in range [0,board.size]
-* @param c in range [0,board.size]
-* @param value in range [0,board.size]
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
 * @return 1 if value is legal for the cell in board[r][c]. otherwise 0.
 */
-Cell ** is_legal_value(Board *board, int r, int c, int value);
+Cell ** illegal_neighbours(Board *board, int r, int c, int value);
 
-
+/**
+* @param board != NULL
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
+* @return 1 if the value is legal for the cell. 0 otherwise.
+*/
+int is_legal_value(Board *board, int r, int c, int value);
 #endif

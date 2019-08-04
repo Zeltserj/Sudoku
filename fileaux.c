@@ -93,7 +93,7 @@ Board *load(char *path) {
                 free_load(f, b, c);
                 return NULL;
             }
-            set(b, row, col, value);
+            set_value(b, row, col, value);
         }
     }
     scf_ret = fscanf(f,"%s",c);

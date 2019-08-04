@@ -32,6 +32,12 @@ Node *get_head(LinkedList *list);
 */
 Node* get_curr(LinkedList *list);
 
+/**
+* @param node != NULL
+* @return the linked list of cells of input node
+*/
+LinkedListCells * get_changed_cells_list(Node *node);
+
 int is_curr_last(LinkedList* list);
 Command* get_command(Node* node);
 /**
