@@ -37,7 +37,7 @@ void mark_errors_command(int mark);
 * fill in each board cell that has only one legal solution.
 * @param board != NULL
 */
-void autofill_command(Board *board);
+void autofill_command(Board *board, LinkedList *moves);
 /**
 * goes over all the possible solutions for the cell board[r][c].
 * @param board != NULL

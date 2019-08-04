@@ -4,21 +4,32 @@
 #include "game.h"
 #include "solver.h"
 #include "cell.h"
+#include "fileaux.h"
+#include "command.h"
+
 void increase_conflicts(Cell **cells);
 void decrease_conflicts(Cell **cells);
 
 int execute_command(Board *board, Command *command, LinkedList *moves) {
     switch (command->type) {
         case SOLVE:
+            board = load(get_filepath(command));
+            print_board(board);
+            set_mode(1);
             break;
         case EDIT:
+            board = load(get_filepath(command));
+            print_board(board);
+            set_mode(2);
             break;
         case MARK_ERRORS:
+            mark_errors_command(get_parameters(command)[0]);
             break;
         case PRINT_BOARD:
             print_board(board);
             break;
         case SET:
+            set_command(board,moves,get_parameters(command)[0],get_parameters(command)[1],get_parameters(command)[2]);
             break;
         case VALIDATE:
             break;
@@ -37,6 +48,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
                 command_error(9);
             break;
         case SAVE:
+            save(board,get_filepath(command));
             break;
         case HINT:
             break;
@@ -45,7 +57,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
         case NUM_SOLUTIONS:
             break;
         case AUTOFILL:
-            autofill_command(board);
+            autofill_command(board, NULL);
             print_board(board);
             break;
         case RESET:
@@ -101,7 +113,7 @@ int redo(Board *board, LinkedList *moves) {
 
 }
 
-void autofill_command(Board *board) {
+void autofill_command(Board *board, LinkedList *moves) {
     Board* b_cpy = brdcpy(board);
     int i,j,v;
     for(i=0; i<get_size(board);i++){
@@ -110,7 +122,7 @@ void autofill_command(Board *board) {
                 v = get_single_value(b_cpy, i, j);
                 if (v != 0) {
                     /*TODO: Or: make sure cells marked as errors if needed*/
-                    set_command(board, NULL, i, j, v);
+                    set_command(board, moves, i, j, v);
                 }
             }
         }
