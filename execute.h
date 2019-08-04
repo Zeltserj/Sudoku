@@ -47,7 +47,7 @@ void autofill_command(Board *board);
 */
 int get_single_value(Board* board,int r, int c);
 
-int set_command(Board* board,int r, int c, int value);
+int set_command(Board *board, LinkedList *moves, int r, int c, int value);
 
 /**
 * undo all moves and insert the pre-changed values to board.

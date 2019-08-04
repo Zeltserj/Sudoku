@@ -23,7 +23,7 @@ typedef struct LinkedListCells{
 * @param list of nodes type NodeCell
 * @param c a cell to add
 */
-void add_cell_curr(LinkedListCells *list, Cell *c);
+void add_cell_after_curr(LinkedListCells *list, Cell *c);
 /**
 * @param list
 * @return cell of current node of list. NULL if list is empty
