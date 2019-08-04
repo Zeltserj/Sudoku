@@ -8,12 +8,12 @@
 void print_input_parameters(Command *pCommand);
 
 int main() {
-
+    Board *board = alloc_board(5,5);
     while (1) {
         printf("please enter input:\n");
         char *str = calloc(256, sizeof(char));
         Command *command = parse_input(fgets(str, 256, stdin));
-        if (validate_command(command, NULL)) {
+        if (validate_command(command, board)) {
             printf("command type: %s\n", command_name(command));
             printf("input parameters: ");
             print_input_parameters(command);

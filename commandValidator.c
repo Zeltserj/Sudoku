@@ -8,6 +8,10 @@
 #include "board.h"
 
 
+int validate_mark_errors(int num_parameters, const int *parameters);
+
+int validate_solve(int num_parameters);
+
 int validate_command(Command *command, Board *board) {
     int i, out = 1, parameter_error = 20, size = get_size(board),r,c,value;  /*parameter location error codes start at 20*/
     int num_parameters = get_num_parameters(command), is_board_invalid = is_erroneous(board);
@@ -19,10 +23,7 @@ int validate_command(Command *command, Board *board) {
             out = 0;
             break;
         case SOLVE:
-            if (num_parameters != 1) {
-                command_error(7);
-                out = 0;
-            }
+           out = validate_solve(num_parameters);
             break;
         case EDIT:
             if (num_parameters > 1) {
@@ -31,16 +32,7 @@ int validate_command(Command *command, Board *board) {
             }
             break;
         case MARK_ERRORS:
-            if (num_parameters != 1) {
-                command_error(7);
-                out = 0;
-            } else if (parameters[0] > 1 || parameters[0] < 0) {
-                command_error(20);
-                out = 0;
-            } else if (mode != 1) {
-                command_error(24);
-                out = 0;
-            }
+            out = validate_mark_errors(num_parameters, parameters);
             break;
         case PRINT_BOARD:
             if(mode == 0){
@@ -82,8 +74,6 @@ int validate_command(Command *command, Board *board) {
                     out = 0;
                 }
             }
-
-
             break;
         case VALIDATE:
             if(mode == 0){
@@ -159,4 +149,30 @@ int validate_command(Command *command, Board *board) {
     }
     return out;
 }
+
+int validate_solve(int num_parameters) {
+    int out = 1;
+    if (num_parameters != 1) {
+        command_error(7);
+        out = 0;
+    }
+    return out;
+}
+
+int validate_mark_errors(int num_parameters, const int *parameters) {
+    int out = 1;
+    if (mode != 1) {
+        command_error(24);
+        out = 0;
+    }
+    else if (num_parameters != 1) {
+        command_error(7);
+        out = 0;
+    } else if (parameters[0] > 1 || parameters[0] < 0) {
+        command_error(20);
+        out = 0;
+    }
+    return out;
+}
+
 
