@@ -41,6 +41,7 @@ int *parse_input_parameters(char *string, Command *command) {
         if(ptr == end_ptr){
             set_type(command, "invalid");
             input_error(10);
+            printf("parameter %d\n", i);
         }
         i++;
         ptr = strtok(NULL, delim);
