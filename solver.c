@@ -1,7 +1,7 @@
 
 #include "solver.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 int *get_all_sol_cell(Board *board, int r, int c) {
     int* sol = calloc(get_size(board), sizeof(int));
     int i, num_sol=0;
