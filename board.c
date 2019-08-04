@@ -266,6 +266,10 @@ Cell * illegal_neighbour_block(Board *board, int r, int c, int value) {
 
 Cell ** illegal_neighbours(Board *board, int r, int c, int value) {
     Cell** cell_arr = calloc(3, sizeof(Cell*));
+    if(cell_arr == NULL){
+        error("board", "illegal_neighbours", 1);
+        exit(0);
+    }
     cell_arr[0] = illegal_neighbour_row(board, r, c, value);
     cell_arr[1]= illegal_neighbour_col(board, r, c, value);
     cell_arr[2]= illegal_neighbour_block(board, r, c, value);
