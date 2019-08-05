@@ -57,7 +57,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
         case NUM_SOLUTIONS:
             break;
         case AUTOFILL:
-            autofill_command(board, NULL);
+            autofill_command(board, moves);
             print_board(board);
             break;
         case RESET:

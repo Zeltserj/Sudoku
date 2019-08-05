@@ -158,7 +158,7 @@ void print_board(Board *board) {
             else if(is_fixed(board,i,j)){
                 printf(" %2d.", cell);
             }
-            else if(mode == 2 || (mark_errors && is_error(board, i , j))){
+            else if((mode == 2 || mark_errors) && is_error(board, i , j)){
                 printf(" %2d*", cell);
             }
             else{
