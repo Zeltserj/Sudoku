@@ -59,6 +59,11 @@ int get(Board* board, int r, int c);
 int get_num_empty(Board* board);
 
 int get_size(Board* board);
+int get_block_rows(Board* board);
+int get_block_cols(Board* board);
+
+
+Cell* get_cell_cpy(Board* board, int r, int c);
 
 /**
  * @param board != null
@@ -105,8 +110,11 @@ Board * brdcpy(Board* board);
  */
 void fix_cell(Board* board, int r, int c);
 void unfix_cell(Board* board, int r, int c);
-void set_erroneous(Board* board, int r, int c);
-void set_legal(Board* board, int r, int c);
+/*void set_erroneous(Board* board, int r, int c);
+* void set_legal(Board* board, int r, int c);*/
+int increase_error(Board* board, int r, int c);
+int decrease_error(Board* board, int r, int c);
+
 
 /**
  * @param board != NULL
@@ -114,22 +122,4 @@ void set_legal(Board* board, int r, int c);
  */
 void print_board(Board *board);
 
-
-/**
-* @param board != NULL
-* @param r in range [0,board.size-1]
-* @param c in range [0,board.size-1]
-* @param value in range [1,board.size]
-* @return 1 if value is legal for the cell in board[r][c]. otherwise 0.
-*/
-Cell ** illegal_neighbours(Board *board, int r, int c, int value);
-
-/**
-* @param board != NULL
-* @param r in range [0,board.size-1]
-* @param c in range [0,board.size-1]
-* @param value in range [1,board.size]
-* @return 1 if the value is legal for the cell. 0 otherwise.
-*/
-int is_legal_value(Board *board, int r, int c, int value);
 #endif

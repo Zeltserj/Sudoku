@@ -127,6 +127,7 @@ int validate_reset(Command *command) {
     return out;
 }
 
+/*TODO: Or: fix it later*/
 int validate_autofill(Command *command, Board *board) {
     int out = 1;
     if(mode != 1){
@@ -259,6 +260,7 @@ int validate_validate(Command *command, Board *board) {
     return out;
 }
 
+/*TODO: Or: allow third parameter == 0 */
 int validate_set(Command *command, Board *board) {
     int i, out = 1, num_parameters = get_num_parameters(command), *parameters = get_parameters(
             command), r, c, parameter_error = 20;

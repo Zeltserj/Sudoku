@@ -59,10 +59,17 @@ void remove_all_after_curr(LinkedList *list) {
     if(temp != NULL) {
         while (temp->next != NULL) {
             temp = temp->next;
+            temp->prev->next=NULL;
+            printf("remove_all: before first free node %d\n",get_prev_mode(temp->prev));
+            print_linked_list_cells(temp->prev->changed);
             free_node(temp->prev);
+            printf("remove_all: before free node\n");
             list->len--;
         }
+        printf("remove_all: before second free node  %d\n",get_prev_mode(temp));
+        print_linked_list_cells(temp->changed);
         free_node(temp);
+        printf("remove_all: after free node 2\n");
         list->len--;
     }
 
@@ -71,21 +78,26 @@ void remove_all_after_curr(LinkedList *list) {
 
 void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     Node* newNode = alloc_node(c, changed, prevmode);
+    printf("add_linked_list: new node = %d\n",prevmode);
     if(list->current != NULL) {
+        printf("add_linked_list: curr = %d\n",list->current->prevmode);
+        printf("add_linked_list: before remove\n");
+        print_linked_list_prevmode(list);
+        if(changed!= NULL)
+            print_linked_list_cells(changed);
         remove_all_after_curr(list);
+        printf("add_linked_list: after remove\n");
         list->current->next = newNode;
         newNode->prev = list->current;
-        list->len++;
     }
     else{
-        list->len++;
         list->current = newNode;
         list->head = newNode;
     }
-
+    list->len++;
 }
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
-    Node* newNode = calloc(5, sizeof(int*));
+    Node* newNode = (Node*) calloc(1, sizeof(Node));
     if(newNode==NULL){
         error("linkedList","alloc_node",1);
         exit(0);
@@ -93,7 +105,15 @@ Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     newNode->c = c;
     newNode->changed=changed;
     newNode->prevmode = prevmode;
-
+    return newNode;
+}
+LinkedList *alloc_linkedList() {
+    LinkedList* newList = (LinkedList*) calloc(1, sizeof(LinkedList));
+    if(newList == NULL){
+        error("linkedList","alloc_linkedList",1);
+        exit(0);
+    }
+    return newList;
 }
 void advance_curr(LinkedList *list) {
     if(list->current == NULL){
@@ -116,14 +136,6 @@ void backward_curr(LinkedList *list) {
         exit(0);
     }
     list->current=list->current->prev;
-
-}
-LinkedList *alloc_linkedList() {
-    LinkedList* newList = calloc(3, sizeof(int*));
-    if(newList == NULL){
-        error("linkedList","alloc_linkedList",1);
-        exit(0);
-    }
 }
 
 int get_prev_mode(Node *node) {
@@ -132,9 +144,13 @@ int get_prev_mode(Node *node) {
 
 void free_node(Node *node) {
     if(node!= NULL) {
+        printf("free_node: before free_linked_list_cells\n");
         free_linked_list_cells(node->changed);
+        printf("free_node: before free_command\n");
         free_command(node->c);
+        printf("free_node: after free_command\n");
         free(node);
+        printf("free_node: after free_node\n");
     }
 }
 
@@ -174,8 +190,8 @@ int is_curr_last(LinkedList *list) {
     return 0;
 }
 
-LinkedListCells * get_changed_cells_list(Node *node) {
-    return node->changed;
-}
+LinkedListCells * get_changed_cells_list(Node *node) { return node->changed; }
+
+int get_len_linked_list(LinkedList *list) { return list->len; }
 
 

@@ -8,38 +8,66 @@ void add_cell_after_curr(LinkedListCells *list, Cell *c) {
     newNode = alloc_node_cell(c);
     if(list->current!= NULL) {
         temp = list->current->next;
-
         if (temp != NULL) {
             list->current->next->prev = newNode;
-            list->current->next = newNode;
         }
+        list->current->next = newNode;
         newNode->prev = list->current;
         newNode->next = temp;
-    }
-    else{
-        list->current = newNode;
-        list->head = newNode;
 
     }
-    list->len ++;
+    else{
+        list->head = newNode;
+        list->current = list->head;
+    }
+    list->len++;
 }
 
 Cell *get_curr_cell(LinkedListCells *list) {
-    return list->current->c;
+    return list->current->cell;
 }
 
 NodeCell * alloc_node_cell(Cell* c) {
-    NodeCell* nodeC = calloc(3, sizeof(int*));
+    NodeCell* nodeC = (NodeCell*) calloc(1, sizeof(NodeCell));
     if(nodeC == NULL){
         error("linkedListCells","alloc_node_cell",1);
         exit(0);
     }
-    nodeC->c = c;
+    nodeC->cell = c;
     return nodeC;
 }
 
+LinkedListCells *alloc_linked_list_cells() {
+    LinkedListCells* new_list = (LinkedListCells*) calloc(1, sizeof(LinkedListCells));
+    if(new_list == NULL){
+        error("linkedListCells","alloc_linked_list_cells",1);
+        exit(0);
+    }
+    return new_list;
+}
+
+void free_node_cell(NodeCell *node) {
+    if(node != NULL){
+        free(node->cell);
+    }
+    free(node);
+}
+
+void free_linked_list_cells(LinkedListCells *list) {
+    NodeCell* temp;
+    temp=list->head;
+    while(temp->next!=NULL)
+        temp=temp->next;
+    while(temp != list->head){
+        temp=temp->prev;
+        free_node_cell(temp->next);
+    }
+    free_node_cell(temp);
+    free(list);
+}
+
 Cell *get_head_cell(LinkedListCells *list) {
-    return list->head->c;
+    return list->head->cell;
 }
 
 int next_cell(LinkedListCells *list) {
@@ -64,37 +92,6 @@ void move_curr_to_head(LinkedListCells *list) {
     list->current=list->head;
 }
 
-LinkedListCells *alloc_linked_list_cells() {
-    LinkedListCells* newlist = calloc(3, sizeof(int*));
-    if(newlist == NULL){
-        error("linkedListCells","alloc_linked_list_cells",1);
-        exit(0);
-    }
-}
-
-void free_node_cell(NodeCell *node) {
-    free(node->c);
-    free(node->prev);
-    free(node->next);
-    free(node);
-}
-
-void free_linked_list_cells(LinkedListCells *list) {
-    NodeCell* temp;
-    int i;
-    if(list!=NULL) {
-        temp = list->head;
-        if (temp != NULL) {
-            for (i = 0; i < list->len - 1; i++) {
-                temp = temp->next;
-                free_node_cell(temp->prev);
-            }
-            free_node_cell(list->head);
-        }
-        free(list);
-    }
-}
-
 int advance_curr_cell(LinkedListCells *list) {
     if(list->current->next == NULL){
         return  0;
@@ -103,6 +100,21 @@ int advance_curr_cell(LinkedListCells *list) {
     return 1;
 }
 
-int get_len(LinkedListCells *list) {
+int get_len_linked_list_cells(LinkedListCells *list) {
     return list->len;
+}
+
+void print_linked_list_cells(LinkedListCells *list) {
+    NodeCell* temp;
+    Cell* temp_cell;
+    temp = list->head;
+    if(temp!=NULL){
+        while(temp->next!=NULL){
+            temp_cell= temp->cell;
+            printf("[%d][%d]: %d ,",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
+            temp=temp->next;
+        }
+        temp_cell= temp->cell;
+        printf("[%d][%d]: %d\n",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
+    }
 }

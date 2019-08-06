@@ -147,7 +147,9 @@ void set_num_parameters(Command *command, int num_parameters) {
 
 void free_command(Command *command) {
     if(command != NULL) {
+        printf("free_command: before free int_parameters\n");
         free(command->int_parameters);
+        printf("free_command: after free int_parameters\n");
         free(command->string_parameters);
     }
     free(command);

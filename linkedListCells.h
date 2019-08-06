@@ -7,7 +7,7 @@
 #include "errors.h"
 
 typedef struct NodeLinkedListCells{
-    Cell* c;
+    Cell* cell;
     struct NodeLinkedListCells* prev;
     struct NodeLinkedListCells* next;
 }NodeCell;
@@ -37,7 +37,7 @@ Cell *get_curr_cell(LinkedListCells *list);
 */
 Cell * get_head_cell(LinkedListCells *list);
 
-int get_len(LinkedListCells* list);
+int get_len_linked_list_cells(LinkedListCells* list);
 /**
 * moves current node to next cell on the list
 * @return 1 if succeeded, 0 if there isn't next cell
@@ -76,7 +76,7 @@ NodeCell * alloc_node_cell(Cell* c);
 LinkedListCells* alloc_linked_list_cells();
 
 /**
-* free the fields of input node
+* free the ONLY cell field of input node
 * @param node != NULL
 */
 void free_node_cell(NodeCell *node);
@@ -86,4 +86,6 @@ void free_node_cell(NodeCell *node);
 * @param list != NULL
 */
 void free_linked_list_cells(LinkedListCells *list);
+
+void print_linked_list_cells(LinkedListCells* list);
 #endif

@@ -108,7 +108,7 @@ char *errors(int errornum) {
 }
 
 void error(char *module, char *function, int error_code) {
-    printf("Error: in module: %s, function %s : %s", module, function, errors(error_code));
+    printf("Error: in module: %s, function %s : %s\n", module, function, errors(error_code));
 }
 
 void input_error(int errornum) {
