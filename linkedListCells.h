@@ -7,7 +7,7 @@
 #include "errors.h"
 
 typedef struct NodeLinkedListCells{
-    Cell* c;
+    Cell* cell;
     struct NodeLinkedListCells* prev;
     struct NodeLinkedListCells* next;
 }NodeCell;

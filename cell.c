@@ -11,7 +11,6 @@ void set_cell_fixed(Cell *cell, int fixed) { cell->fixed = fixed; }
 void increase_cell_error(Cell *cell) { cell->error++; }
 
 void decrease_cell_error(Cell *cell) { cell->error--; }
-
 void set_cell_location(Cell *cell, int r, int c) {
     cell->row = r;
     cell->col = c;

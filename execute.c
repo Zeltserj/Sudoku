@@ -12,7 +12,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
     LinkedListCells* changed = alloc_linked_list_cells();
     if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
         printf("execute command before adding to moves\n");
-        add_linked_list(moves, command, changed, mode);
+        add_linked_list(moves, command, changed,mode);
         printf("execute command after adding to moves\n");
         advance_curr(moves);
     }
