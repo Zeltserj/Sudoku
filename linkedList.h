@@ -20,6 +20,7 @@ typedef struct LinkedList{
     int len;
 }LinkedList;
 
+int get_len_linked_list(LinkedList* list);
 /**
 * @param list - with pointers to its head and to a current node
 * @return the first node of the list

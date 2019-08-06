@@ -103,6 +103,6 @@ int advance_curr_cell(LinkedListCells *list) {
     return 1;
 }
 
-int get_len(LinkedListCells *list) {
+int get_len_linked_list_cells(LinkedListCells *list) {
     return list->len;
 }

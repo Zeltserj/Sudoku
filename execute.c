@@ -11,6 +11,12 @@ void increase_conflicts(Cell **cells);
 void decrease_conflicts(Cell **cells);
 
 int execute_command(Board *board, Command *command, LinkedList *moves) {
+    LinkedListCells* changed = alloc_linked_list_cells();
+    /*Node* new_node= alloc_node(command,changed,mode);*/
+    add_linked_list(moves,command,changed,mode);
+    if(get_len_linked_list(moves)!=1)
+        advance_curr(moves);
+
     switch (command->type) {
         case SOLVE:
             board = load(get_filepath(command));
@@ -30,6 +36,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
             break;
         case SET:
             set_command(board,moves,get_parameters(command)[0],get_parameters(command)[1],get_parameters(command)[2]);
+            print_board(board);
             break;
         case VALIDATE:
             break;
@@ -94,7 +101,7 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i;
 
     move_curr_to_head(old_values);
-    for(i=0;i<get_len(old_values);i++){
+    for(i=0; i < get_len_linked_list_cells(old_values); i++){
         set_cell(board,get_curr_cell(old_values));
         advance_curr_cell(old_values);
     }
@@ -159,35 +166,141 @@ void print_exit_command() {
     printf("Exiting...\n");
 }
 
-int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
-    Cell** cell_arr = illegal_neighbours(board,r,c,value);
-    LinkedListCells* curr_changed, curr;
-    Node* node;
-    int i, err=0;
-    for(i=0; i<3;i++){
-        if(cell_arr[i] != NULL){
-            set_erroneous(board,get_cell_row(cell_arr[i]),get_cell_col(cell_arr[i]));
-            node = get_curr(moves);
-            curr_changed = get_changed_cells_list(node);
-            printf("after curr_changed\n");
-            if(get_cell_error(cell_arr[i])) {
-                add_cell_after_curr(curr_changed, cell_arr[i]);
-            }
-            err=1;
-        }
+void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
+    Node* curr = get_curr(moves);
+    LinkedListCells* curr_changed = get_changed_cells_list(curr);
+    int prev_value=get(board,r,c);
+    if(value!= prev_value)
+    {
+        validate_cell(board, curr_changed, r, c, prev_value,-1);
+        validate_cell(board,curr_changed,r,c,value,1);
     }
-    if(err)
-        set_erroneous(board,r,c);
-    free(cell_arr);
     set_value(board,r,c,value);
 }
 
-void increase_conflicts(Cell **cells) {
+/**
+* @param board != NULL
+* @param changed_cells != NULL pointer to the list of the changed cells of the command
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
+* @param mark_errors: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
+* 0 otherwise.
+* @return num of conflicts for cell board[r][c] with its row
+*/
+int validate_cell_row(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int mark_errors) {
+    int i, num_errors=0;
 
+    for(i=0;i<get_size(board);i++){
+        if(i!=c && get(board,r,i) == value) {
+            if(mark_errors == 1)
+                increase_error(board,r,i);
+            else if(mark_errors == -1)
+                decrease_error(board,r,i);
+            if(mark_errors != 0)
+                add_cell_after_curr(changed_cells,get_cell_cpy(board,r,i));
+            num_errors++;
+        }
+    }
+
+    return num_errors;
+}
+/**
+* @param board != NULL
+* @param changed_cells != NULL pointer to the list of the changed cells of the command
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
+* @param mark_errors: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
+* 0 otherwise.
+* @return num of conflicts for cell board[r][c] with its column
+*/
+int validate_cell_col(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int mark_errors) {
+    int i, num_errors=0;
+    for(i=0;i<get_size(board);i++){
+        if(i!=r && get(board,i,c) == value){
+            if(mark_errors == 1)
+                increase_error(board,i,c);
+            else if(mark_errors == -1)
+                decrease_error(board,i,c);
+            if(mark_errors != 0)
+                add_cell_after_curr(changed_cells,get_cell_cpy(board,i,c));
+
+            num_errors++;
+        }
+    }
+    return num_errors;
+}
+/**
+* @param board != NULL
+* @param changed_cells != NULL pointer to the list of the changed cells of the command
+* @param r in range [0,board.size-1]
+* @param c in range [0,board.size-1]
+* @param value in range [1,board.size]
+* @param mark_errors: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
+* 0 otherwise.
+* @return num of conflicts for cell board[r][c] with its block.
+*/
+int validate_cell_block(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int mark_errors) {
+    int first_r, first_c;
+    int i,j, num_errors = 0;
+    int block_r = get_block_rows(board);
+    int block_c = get_block_cols(board);
+    first_r = (r/block_r)*block_r;
+    first_c = (c/block_c)*block_c;
+
+    for(i=first_r;i<first_r+block_r;i++){
+        for(j=first_c;j<first_c+block_c;j++){
+            if((i!=r || j!=c) && get(board,i,j)==value ){
+                if(mark_errors == 1)
+                    increase_error(board,i,j);
+                else if(mark_errors == -1)
+                    decrease_error(board,i,j);
+                if(i!=r && j!=c && (mark_errors != 0)) /*row & col conflicts are handled by validate_cell_row/cell. */
+                    add_cell_after_curr(changed_cells,get_cell_cpy(board,i,j));
+                num_errors++;
+            }
+        }
+    }
+    return num_errors;
 }
 
-void decrease_conflicts(Cell **cells) {
-
+int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int mark_errors) {
+    int num_errors, is_valid = 0;
+    int num_err_row, num_err_col, num_err_block;
+    num_err_row = validate_cell_row(board, changed_cells, r, c, value, mark_errors);
+    num_err_col = validate_cell_col(board, changed_cells, r, c, value, mark_errors);
+    num_err_block = validate_cell_block(board, changed_cells, r, c, value, mark_errors);
+    num_errors = num_err_row + num_err_col + num_err_block;
+    if (num_errors == 0)
+        is_valid = 1;
+    if (mark_errors != 0) {
+        while (num_errors != 0) {
+            if (mark_errors > 0)
+                increase_error(board, r, c);
+            else
+                decrease_error(board, r, c);
+            num_errors--;
+        }
+        add_cell_after_curr(changed_cells, get_cell_cpy(board, r, c));
+    }
+    return is_valid;
 }
 
-
+int *get_all_sol_cell(Board *board, int r, int c) {
+    int* sol = calloc(get_size(board), sizeof(int));
+    int i, num_sol=0;
+    if(sol==NULL){
+        error("execute","get_all_sol_cell",1);
+        exit(0);
+    }
+    for(i=0;i<get_size(board);i++){
+        if(validate_cell(board,NULL, r, c, i + 1,0)){
+            sol[i] = 1;
+            num_sol++;
+        }
+    }
+    if(num_sol==0)
+        return NULL;
+    return sol;
+}

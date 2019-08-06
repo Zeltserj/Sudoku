@@ -8,7 +8,9 @@ void set_cell_value(Cell *cell, int value) { cell->value = value; }
 
 void set_cell_fixed(Cell *cell, int fixed) { cell->fixed = fixed; }
 
-void set_cell_error(Cell *cell, int is_error) { cell->error = is_error; }
+void increase_cell_error(Cell *cell) { cell->error++; }
+
+void decrease_cell_error(Cell *cell) { cell->error--; }
 
 void set_cell_location(Cell *cell, int r, int c) {
     cell->row = r;
@@ -45,3 +47,4 @@ void cell_copy(Cell *to, Cell *from) {
     to->fixed = from->fixed;
     to->value = from->value;
 }
+

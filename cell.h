@@ -36,7 +36,8 @@ void set_cell_value(Cell *cell, int value);
  * getters and setters to cell structure
  */
 void set_cell_fixed(Cell *cell, int fixed);
-void set_cell_error(Cell *cell, int is_error);
+void increase_cell_error(Cell *cell);
+void decrease_cell_error(Cell *cell);
 void set_cell_location(Cell *cell, int r, int c);
 int get_cell_value(Cell *cell);
 int get_cell_fixed(Cell *cell);
