@@ -11,11 +11,13 @@
 int execute_command(Board *board, Command *command, LinkedList *moves) {
     LinkedListCells* changed = alloc_linked_list_cells();
     if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
-        printf("execute command before adding to moves\n");
-        add_linked_list(moves, command, changed,mode);
+        printf("execute command before adding to moves.\n");
+        add_linked_list(moves, command, changed,mode++);
         printf("execute command after adding to moves\n");
         advance_curr(moves);
     }
+    else
+        free(changed);
 
     switch (command->type) {
         case SOLVE:
@@ -107,6 +109,7 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
         set_cell(board,curr);
         advance_curr_cell(old_values);
     }
+    move_curr_to_head(old_values);
 }
 
 int redo(Board *board, LinkedList *moves) {
@@ -180,7 +183,9 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
         validate_cell(board,curr_changed,r,c,value,1);
         set_value(board,r,c,value);
     }
-
+    printf("set_command: linked list of command:\n");
+    print_linked_list_cells(curr_changed);
+    printf("done set_command\n");
 }
 
 /**

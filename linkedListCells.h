@@ -76,7 +76,7 @@ NodeCell * alloc_node_cell(Cell* c);
 LinkedListCells* alloc_linked_list_cells();
 
 /**
-* free the fields of input node
+* free the ONLY cell field of input node
 * @param node != NULL
 */
 void free_node_cell(NodeCell *node);

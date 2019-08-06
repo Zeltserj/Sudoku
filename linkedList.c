@@ -55,19 +55,19 @@ void remove_node(LinkedList *list, Node *node) {
 
 void remove_all_after_curr(LinkedList *list) {
     Node* temp = list->current->next;
-    Node* temp2;
     list->current->next = NULL;
     if(temp != NULL) {
         while (temp->next != NULL) {
-            temp2=temp;
             temp = temp->next;
-            temp2->next=NULL;
-            printf("remove_all: before free node 1\n");
+            temp->prev->next=NULL;
+            printf("remove_all: before first free node %d\n",get_prev_mode(temp->prev));
+            print_linked_list_cells(temp->prev->changed);
             free_node(temp->prev);
-            printf("remove_all: before free node 1\n");
+            printf("remove_all: before free node\n");
             list->len--;
         }
-        printf("remove_all: before free node 2\n");
+        printf("remove_all: before second free node  %d\n",get_prev_mode(temp));
+        print_linked_list_cells(temp->changed);
         free_node(temp);
         printf("remove_all: after free node 2\n");
         list->len--;
@@ -78,8 +78,13 @@ void remove_all_after_curr(LinkedList *list) {
 
 void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     Node* newNode = alloc_node(c, changed, prevmode);
+    printf("add_linked_list: new node = %d\n",prevmode);
     if(list->current != NULL) {
+        printf("add_linked_list: curr = %d\n",list->current->prevmode);
         printf("add_linked_list: before remove\n");
+        print_linked_list_prevmode(list);
+        if(changed!= NULL)
+            print_linked_list_cells(changed);
         remove_all_after_curr(list);
         printf("add_linked_list: after remove\n");
         list->current->next = newNode;

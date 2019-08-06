@@ -48,36 +48,22 @@ LinkedListCells *alloc_linked_list_cells() {
 
 void free_node_cell(NodeCell *node) {
     if(node != NULL){
-        printf("free_node_cell: ");
         free(node->cell);
-        printf("1 ; ");
-        free(node->prev);
-        printf("2 ; ");
-        free(node->next);
-        printf("3 ; ");
     }
-    printf("4\n");
     free(node);
 }
 
 void free_linked_list_cells(LinkedListCells *list) {
     NodeCell* temp;
-    int i;
-    if(list!=NULL) {
-        temp = list->head;
-        if (temp != NULL) {
-            for (i = 0; i < list->len - 1; i++) {
-                temp = temp->next;
-                printf("free_linked_list_cells: before free_node_cell 1 \n");
-                free_node_cell(temp->prev);
-                printf("free_linked_list_cells: after free_node_cell 1 \n");
-            }
-            printf("free_linked_list_cells: before free_node_cell 2 \n");
-            free_node_cell(list->head);
-            printf("free_linked_list_cells: after free_node_cell 2 \n");
-        }
-        free(list);
+    temp=list->head;
+    while(temp->next!=NULL)
+        temp=temp->next;
+    while(temp != list->head){
+        temp=temp->prev;
+        free_node_cell(temp->next);
     }
+    free_node_cell(temp);
+    free(list);
 }
 
 Cell *get_head_cell(LinkedListCells *list) {
@@ -119,13 +105,16 @@ int get_len_linked_list_cells(LinkedListCells *list) {
 }
 
 void print_linked_list_cells(LinkedListCells *list) {
-    NodeCell* temp = list->head;
+    NodeCell* temp;
     Cell* temp_cell;
-    while(temp->next!=NULL){
+    temp = list->head;
+    if(temp!=NULL){
+        while(temp->next!=NULL){
+            temp_cell= temp->cell;
+            printf("[%d][%d]: %d ,",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
+            temp=temp->next;
+        }
         temp_cell= temp->cell;
-        printf("[%d][%d]: %d ,",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
-        temp=temp->next;
+        printf("[%d][%d]: %d\n",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
     }
-    temp_cell= temp->cell;
-    printf("[%d][%d]: %d\n",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
 }
