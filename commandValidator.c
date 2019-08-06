@@ -134,7 +134,7 @@ int validate_autofill(Command *command, Board *board) {
         out = 0;
     }
     else if(get_num_parameters(command) != 0)
-    return 0;
+    return out;
 }
 
 int validate_num_solutions(Command *command, Board *board) {

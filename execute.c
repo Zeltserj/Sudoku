@@ -169,7 +169,6 @@ int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
             set_erroneous(board,get_cell_row(cell_arr[i]),get_cell_col(cell_arr[i]));
             node = get_curr(moves);
             curr_changed = get_changed_cells_list(node);
-            printf("after curr_changed\n");
             if(get_cell_error(cell_arr[i])) {
                 add_cell_after_curr(curr_changed, cell_arr[i]);
             }
