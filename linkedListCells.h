@@ -86,4 +86,6 @@ void free_node_cell(NodeCell *node);
 * @param list != NULL
 */
 void free_linked_list_cells(LinkedListCells *list);
+
+void print_linked_list_cells(LinkedListCells* list);
 #endif

@@ -208,10 +208,7 @@ Cell ***matrix_copy(Cell ***matrix, int size) {
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
-    Cell* b_cell = board->matrix[r][c];
-    increase_cell_error(b_cell);
-    set_cell_fixed(b_cell,cell->fixed);
-    set_cell_value(b_cell,cell->value);
+    cell_copy(board->matrix[r][c],cell);
 }
 
 
@@ -237,9 +234,21 @@ int get_num_empty(Board *board) {
     return board->num_empty;
 }
 
-void increase_error(Board *board, int r, int c) { increase_cell_error(board->matrix[r][c]); }
+int increase_error(Board *board, int r, int c) {
+    Cell* cell =board->matrix[r][c];
+    increase_cell_error(cell);
+    if(get_cell_error(cell)==1)
+        return 1;
+    return 0;
+}
 
-void decrease_error(Board *board, int r, int c) { decrease_cell_error(board->matrix[r][c]); }
+int decrease_error(Board *board, int r, int c) {
+    Cell* cell =board->matrix[r][c];
+    decrease_cell_error(cell);
+    if(get_cell_error(cell)==0)
+        return 1;
+    return 0;
+}
 
 Cell *get_cell_cpy(Board *board, int r, int c) {
     Cell* cpy = alloc_cell(r,c);

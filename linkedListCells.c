@@ -8,20 +8,19 @@ void add_cell_after_curr(LinkedListCells *list, Cell *c) {
     newNode = alloc_node_cell(c);
     if(list->current!= NULL) {
         temp = list->current->next;
-
         if (temp != NULL) {
             list->current->next->prev = newNode;
-            list->current->next = newNode;
         }
+        list->current->next = newNode;
         newNode->prev = list->current;
         newNode->next = temp;
-    }
-    else{
-        list->current = newNode;
-        list->head = newNode;
 
     }
-    list->len ++;
+    else{
+        list->head = newNode;
+        list->current = list->head;
+    }
+    list->len++;
 }
 
 Cell *get_curr_cell(LinkedListCells *list) {
@@ -105,4 +104,16 @@ int advance_curr_cell(LinkedListCells *list) {
 
 int get_len_linked_list_cells(LinkedListCells *list) {
     return list->len;
+}
+
+void print_linked_list_cells(LinkedListCells *list) {
+    NodeCell* temp = list->head;
+    Cell* temp_cell;
+    while(temp->next!=NULL){
+        temp_cell= temp->c;
+        printf("[%d][%d]: %d ,",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
+        temp=temp->next;
+    }
+    temp_cell= temp->c;
+    printf("[%d][%d]: %d\n",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
 }

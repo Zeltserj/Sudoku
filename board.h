@@ -112,8 +112,8 @@ void fix_cell(Board* board, int r, int c);
 void unfix_cell(Board* board, int r, int c);
 /*void set_erroneous(Board* board, int r, int c);
 * void set_legal(Board* board, int r, int c);*/
-void increase_error(Board* board, int r, int c);
-void decrease_error(Board* board, int r, int c);
+int increase_error(Board* board, int r, int c);
+int decrease_error(Board* board, int r, int c);
 
 
 /**

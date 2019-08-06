@@ -55,10 +55,13 @@ void remove_node(LinkedList *list, Node *node) {
 
 void remove_all_after_curr(LinkedList *list) {
     Node* temp = list->current->next;
+    Node* temp2;
     list->current->next = NULL;
     if(temp != NULL) {
         while (temp->next != NULL) {
+            temp2=temp;
             temp = temp->next;
+            temp2->next=NULL;
             free_node(temp->prev);
             list->len--;
         }
@@ -75,14 +78,12 @@ void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int
         remove_all_after_curr(list);
         list->current->next = newNode;
         newNode->prev = list->current;
-        list->len++;
     }
     else{
-        list->len++;
         list->current = newNode;
         list->head = newNode;
     }
-
+    list->len++;
 }
 Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     Node* newNode = calloc(5, sizeof(int*));
@@ -116,7 +117,6 @@ void backward_curr(LinkedList *list) {
         exit(0);
     }
     list->current=list->current->prev;
-
 }
 LinkedList *alloc_linkedList() {
     LinkedList* newList = calloc(3, sizeof(int*));
