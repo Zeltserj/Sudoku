@@ -7,26 +7,39 @@
 #include "fileaux.h"
 #include "command.h"
 
+
 /*TODO: Or: the first node in moves has command==NULL therefore moves is not empty*/
-int execute_command(Board *board, Command *command, LinkedList *moves) {
-    LinkedListCells* changed = alloc_linked_list_cells();
-    if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
-        printf("execute command before adding to moves.\n");
-        add_linked_list(moves, command, changed,mode++);
-        printf("execute command after adding to moves\n");
-        advance_curr(moves);
+int execute(Board **game_board, Command *command, LinkedList **game_moves){
+    return execute_command(game_board,command,game_moves,0);
+}
+int execute_command(Board **game_board, Command *command, LinkedList **game_moves, int is_redo) {
+    Board* board = *game_board;
+    LinkedList* moves= *game_moves;
+    LinkedListCells* changed;
+
+    if(!is_redo){
+        changed = alloc_linked_list_cells();
+        if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
+            add_linked_list(moves, command, changed, mode);
+            advance_curr(moves);
+        }
+        else
+            free(changed);
     }
-    else
-        free(changed);
 
     switch (command->type) {
         case SOLVE:
             board = load(get_filepath(command));
+            *game_board = board;
             print_board(board);
             set_mode(1);
             break;
         case EDIT:
+            /*free_board(board);
+            free_linked_list(moves);
+            moves = alloc_linked_list_cells();*/
             board = load(get_filepath(command));
+            *game_board = board;
             print_board(board);
             set_mode(2);
             break;
@@ -37,7 +50,7 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
             print_board(board);
             break;
         case SET:
-            set_command(board,moves,get_parameters(command)[0],get_parameters(command)[1],get_parameters(command)[2]);
+            set_command(board, moves, get_parameters(command)[0], get_parameters(command)[1], get_parameters(command)[2]);
             print_board(board);
             break;
         case VALIDATE:
@@ -53,11 +66,11 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
                 command_error(8);
             break;
         case REDO:
-            if(!redo(board,moves))
+            if(!redo(board, moves))
                 command_error(9);
             break;
         case SAVE:
-            save(board,get_filepath(command));
+            save(board, get_filepath(command));
             break;
         case HINT:
             break;
@@ -70,11 +83,11 @@ int execute_command(Board *board, Command *command, LinkedList *moves) {
             print_board(board);
             break;
         case RESET:
-            reset_command(board,moves);
+            reset_command(board, moves);
             print_board(board);
             break;
         case EXIT:
-            exit_command(board,moves);
+            exit_command(board, moves);
             print_exit_command();
             break;
     }
@@ -113,16 +126,29 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
 }
 
 int redo(Board *board, LinkedList *moves) {
-    Command* c;
-    if (is_curr_last(moves)){
+    Command *c;
+    if (is_curr_last(moves)) {
         return 0;
     }
     advance_curr(moves);
     c = get_command(get_curr(moves));
     /*c is one of: set/autofill/generate/guess */
-    execute_command(board,c,moves); /*TODO: Or: might changed later to switch and specific methods*/
+    execute_command(&board,c,&moves,1);
+/*    switch (c->type) {
+        case SET:
+            set_command(board, moves, get_parameters(c)[0], get_parameters(c)[1], get_parameters(c)[2]);
+            print_board(board);
+            break;
+        case AUTOFILL:
+            autofill_command(board, moves);
+            print_board(board);
+            break;
+        case GENERATE:
+            break;
+        case GUESS:
+            break;
+    }*/
     return 1;
-
 }
 
 void autofill_command(Board *board, LinkedList *moves) {
@@ -183,8 +209,6 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
         validate_cell(board,curr_changed,r,c,value,1);
         set_value(board,r,c,value);
     }
-    printf("set_command: linked list of command:\n");
-    print_linked_list_cells(curr_changed);
-    printf("done set_command\n");
+
 }
 

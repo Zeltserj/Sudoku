@@ -1,7 +1,3 @@
-/**
-
- Created by lenovo on ${DTE}
- **/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,50 +15,50 @@ void parse_filepath(char *filepath);
  * @param string given from user after the command name
  * @return an array of integers corresponding to the parameters. if index i of parameters failed (not an integer), -1 is returned
  */
-int *parse_input_parameters(char *string, Command *command) {
-    int i = 1, len ;
-    int* out;
+int parse_input_parameters(char *string, int *parameters) {
+    int i = 0, len;
     char *ptr, *input_copy, *end_ptr;
     char delim[] = " \t";
-    if(string == NULL){
+    if (string == NULL) {
         return NULL;
     }
-    len = (int)strlen(string);
-    out = calloc(len, sizeof(int));
-    input_copy = (char*)malloc(len* sizeof(char));
-    if(out == NULL || input_copy == NULL){
+    len = (int) strlen(string);
+    input_copy = (char *) malloc(len * sizeof(char));
+    if (input_copy == NULL) {
         error("parser", "parse_input_parameters", 1);
         exit(0);
     }
     strcpy(input_copy, string);
     ptr = strtok(input_copy, delim);
-    while(ptr != NULL && ptr[0] != '\n'){
-        out[i] =(int) strtol(ptr, &end_ptr, 10) ;
-        if(ptr == end_ptr){
-            out[i] = -1;
+    while (ptr != NULL && ptr[0] != '\n') {
+        parameters[i] = (int) strtol(ptr, &end_ptr, 10);
+        if (ptr == end_ptr) {
+            parameters[i] = -1;
         }
         i++;
         ptr = strtok(NULL, delim);
     }
-    out = realloc(out,  (i)*sizeof(int));
-    if(out == NULL){
-        error("parser", "parse_input_parameters", 1);
-        exit(0);
+    if (i > 0) {
+        parameters = realloc(parameters, (i) * sizeof(int));
+        if (parameters == NULL) {
+            error("parser", "parse_input_parameters", 1);
+            exit(0);
+        }
     }
-    out[0] = i-1;
     free(input_copy);
-    return out;
+
+    return i;
 }
 
 Command *parse_input(char *input) {
     Command* out = calloc(1, sizeof(Command));
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
-    int *parameters = NULL;
-    int i, len = (int)strlen(input), offset;
+    int *parameters = calloc(256, sizeof(int));
+    int i, len = (int)strlen(input), offset, num_parameters;
     command_type type;
-    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *end_ptr = NULL;
+    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL;
     float threshold;
-    if(out == NULL ||input_copy == NULL ){
+    if(out == NULL ||input_copy == NULL || parameters == NULL){
         error("parser", "paser_input", 1);
         exit(0);
     }
@@ -137,9 +133,8 @@ Command *parse_input(char *input) {
 
         return out;
     }
-    parameters = parse_input_parameters(ptr, out);
-    set_num_parameters(out, parameters[0]);
-    parameters = &parameters[0] + 1;
+    num_parameters = parse_input_parameters(ptr, parameters);
+    set_num_parameters(out, num_parameters);
     set_parameter(out, parameters);
     return out;
 }

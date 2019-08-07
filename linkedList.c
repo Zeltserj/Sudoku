@@ -60,16 +60,9 @@ void remove_all_after_curr(LinkedList *list) {
         while (temp->next != NULL) {
             temp = temp->next;
             temp->prev->next=NULL;
-            printf("remove_all: before first free node %d\n",get_prev_mode(temp->prev));
-            print_linked_list_cells(temp->prev->changed);
-            free_node(temp->prev);
-            printf("remove_all: before free node\n");
             list->len--;
         }
-        printf("remove_all: before second free node  %d\n",get_prev_mode(temp));
-        print_linked_list_cells(temp->changed);
         free_node(temp);
-        printf("remove_all: after free node 2\n");
         list->len--;
     }
 
@@ -78,15 +71,8 @@ void remove_all_after_curr(LinkedList *list) {
 
 void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
     Node* newNode = alloc_node(c, changed, prevmode);
-    printf("add_linked_list: new node = %d\n",prevmode);
     if(list->current != NULL) {
-        printf("add_linked_list: curr = %d\n",list->current->prevmode);
-        printf("add_linked_list: before remove\n");
-        print_linked_list_prevmode(list);
-        if(changed!= NULL)
-            print_linked_list_cells(changed);
         remove_all_after_curr(list);
-        printf("add_linked_list: after remove\n");
         list->current->next = newNode;
         newNode->prev = list->current;
     }
@@ -144,20 +130,14 @@ int get_prev_mode(Node *node) {
 
 void free_node(Node *node) {
     if(node!= NULL) {
-        printf("free_node: before free_linked_list_cells\n");
         free_linked_list_cells(node->changed);
-        printf("free_node: before free_command\n");
-        printf("free_node: command: %s\n",command_name(node->c));
         free_command(node->c);
-        printf("free_node: after free_command\n");
         free(node);
-        printf("free_node: after free_node\n");
     }
 }
 
 void free_linked_list(LinkedList *list) {
     Node* temp;
-    /*int i;*/
     if(list != NULL) {
         temp=list->head;
         while(temp->next != NULL){
@@ -168,16 +148,6 @@ void free_linked_list(LinkedList *list) {
             free_node(temp->next);
         }
         free(list);
-
-        /*temp = list->head;
-        if(temp!=NULL) {
-            for (i = 0; i < list->len - 1; i++) {
-                temp = temp->next;
-                free(temp->prev);
-            }
-            free_node(list->head);
-        }
-        free(list);*/
     }
 }
 

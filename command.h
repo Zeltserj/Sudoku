@@ -55,4 +55,5 @@ void free_command(Command* command);
  *
  */
 char * command_name(Command* command);
+void print_input_parameters(Command *pCommand);
 #endif

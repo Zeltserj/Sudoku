@@ -27,10 +27,10 @@ int save(Board *board, char *path) {
                 fclose(f);
                 return 0;
             }
-            if(is_fixed(board,r,c)){
-                temp=fputs(".",f);
-                if(temp<0){
-                    error("fileaux","save",14);
+            if(is_fixed(board,r,c) || (get(board,r,c)!=0 && mode==2)) {
+                temp = fputs(".", f);
+                if (temp < 0) {
+                    error("fileaux", "save", 14);
                     fclose(f);
                     return 0;
                 }

@@ -79,7 +79,6 @@ int validate_command(Command *command, Board *board) {
             break;
         case SAVE:
             out = validate_save(command, board);
-            printf("num_of_parameters: %d\n", get_num_parameters(command));
             break;
         case HINT:
             out = validate_hint(command, board);
@@ -264,7 +263,6 @@ int validate_validate(Command *command, Board *board) {
     return out;
 }
 
-/*TODO: Or: allow third parameter == 0 */
 int validate_set(Command *command, Board *board) {
     int i, out = 1, num_parameters = get_num_parameters(command), *parameters = get_parameters(
             command), r, c, parameter_error = 20;
@@ -276,7 +274,11 @@ int validate_set(Command *command, Board *board) {
         command_error(7);
         out = 0;
     } else {
-        out = validate_range(parameters, get_size(board), num_parameters);
+        out = validate_range(parameters, get_size(board), num_parameters-1);
+        if(parameters[2]<0 || parameters[2]>get_size(board)){
+            command_error(22);
+            out = 0;
+        }
         parameters[0]--;
         parameters[1]--;
         r = parameters[0];

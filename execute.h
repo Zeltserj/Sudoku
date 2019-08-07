@@ -5,7 +5,8 @@
 #include "linkedList.h"
 #include "board.h"
 
-int execute_command(Board *board, Command *command, LinkedList *moves);
+int execute(Board **game_board, Command *command, LinkedList **game_moves);
+int execute_command(Board **game_board, Command *command, LinkedList **game_moves, int is_redo);
 void set_mode(int new_mode);
 
 /**
