@@ -127,7 +127,6 @@ int validate_reset(Command *command) {
     return out;
 }
 
-/*TODO: Or: fix it later*/
 int validate_autofill(Command *command, Board *board) {
     int out = 1;
     if(mode != 1){

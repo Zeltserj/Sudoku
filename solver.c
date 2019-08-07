@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/*TODO: Or: moved  get_all_sol_cell to execute, to avoid include*/
-
 /**
 * @param board != NULL
 * @param changed_cells != NULL pointer to the list of the changed cells of the command

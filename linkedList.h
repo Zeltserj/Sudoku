@@ -9,7 +9,6 @@
 typedef struct NodeLinkedList{
     Command* c;
     LinkedListCells* changed;
-    int prevmode; /*TODO: Or: unnecessary?*/
     struct NodeLinkedList* next;
     struct NodeLinkedList* prev;
 }Node;
@@ -117,6 +116,5 @@ void free_node(Node *node);
 */
 void free_linked_list(LinkedList* list);
 
-/*TODO: Or: delete later*/
-void print_linked_list_prevmode(LinkedList* list);
+void print_linked_list(LinkedList* list);
 #endif

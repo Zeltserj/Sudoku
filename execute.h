@@ -63,7 +63,7 @@ void reset_command(Board *board, LinkedList *moves);
 * @param moves != NULL
 */
 void exit_command(Board *board, LinkedList *moves);
-void print_exit_command();
+
 
 
 #endif /*SPROJECT_EXECUTE_H*/

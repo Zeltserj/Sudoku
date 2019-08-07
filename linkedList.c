@@ -151,11 +151,14 @@ void free_linked_list(LinkedList *list) {
     }
 }
 
-void print_linked_list_prevmode(LinkedList* list){
+void print_linked_list(LinkedList* list){
     Node* temp=list->head;
     printf("Linked list:\n");
     while(temp!=NULL){
-        printf("%d, ",temp->prevmode);
+        if(temp->c!= NULL)
+            printf("%s, ",command_name(temp->c));
+        else
+            printf("command is null ; ");
         temp=temp->next;
     }
     printf("\n");
