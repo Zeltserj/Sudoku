@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "errors.h"
 
-
 char *errors(int errornum) {
     char *out = NULL;
     switch (errornum) {
@@ -91,6 +90,8 @@ char *errors(int errornum) {
         case 28:
             out = "cell is not empty";
             break;
+        case 29:
+            out = "gurobi optimizer error";
         case 30:
             out = "first parameter has illegal value";
             break;
@@ -118,4 +119,8 @@ void input_error(int errornum) {
 void command_error(int errornum) {
     printf("Error: Invalid command: %s\n", errors(errornum));
 
+}
+
+void gurobi_error(int _error, GRBenv *env) {
+    printf("ERROR %d GRBgetdblattrarray(): %s\n", _error, GRBgeterrormsg(env));
 }
