@@ -79,6 +79,7 @@ int validate_command(Command *command, Board *board) {
             break;
         case SAVE:
             out = validate_save(command, board);
+            printf("num_of_parameters: %d\n", get_num_parameters(command));
             break;
         case HINT:
             out = validate_hint(command, board);
@@ -134,8 +135,11 @@ int validate_autofill(Command *command, Board *board) {
         command_error(24);
         out = 0;
     }
-    else if(get_num_parameters(command) != 0)
-    return 0;
+    else if(get_num_parameters(command) != 0){
+        command_error(7);
+        out = 0;
+    }
+    return out;
 }
 
 int validate_num_solutions(Command *command, Board *board) {
@@ -190,7 +194,7 @@ int validate_save(Command *command, Board *board) {
     if (mode == 0) {
         command_error(23);
         out = 0;
-    } else if (num_parameters != 0) {
+    } else if (num_parameters != 1) {
         command_error(7);
         out = 0;
     } else if (mode == 2 && is_erroneous(board)) {

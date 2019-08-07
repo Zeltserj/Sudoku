@@ -61,7 +61,6 @@ Command *parse_input(char *input) {
     int i, len = (int)strlen(input), offset;
     command_type type;
     char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *end_ptr = NULL;
-    FILE *fp = fopen("C:\\Users\\lenovo\\CLionProjects\\SP\\file.txt", "w");
     float threshold;
     if(out == NULL ||input_copy == NULL ){
         error("parser", "paser_input", 1);
@@ -130,8 +129,6 @@ Command *parse_input(char *input) {
             set_num_parameters(out, 1);
         }
         ptr = strtok(NULL, delim);
-        fputs(ptr, fp);
-        fclose(fp);
         if(ptr != NULL && ptr[0] != '\n'){
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/

@@ -148,6 +148,7 @@ void set_num_parameters(Command *command, int num_parameters) {
 void free_command(Command *command) {
     if(command != NULL) {
         printf("free_command: before free int_parameters\n");
+
         free(command->int_parameters);
         printf("free_command: after free int_parameters\n");
         free(command->string_parameters);
@@ -165,4 +166,14 @@ char * command_name(Command *command) {
 
 void set_threshold(Command *commnad, float threshold) {
     commnad->threshold = threshold;
+}
+void print_input_parameters(Command *pCommand) {
+    int i;
+    if (get_parameters(pCommand) == NULL) {
+        return;
+    }
+    for (i = 0; i < pCommand->num_parameters; i++) {
+        printf("paramter %d: %d ", i, pCommand->int_parameters[i]);
+    }
+
 }
