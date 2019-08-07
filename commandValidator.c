@@ -41,7 +41,7 @@ int validate_reset(Command *command);
 int validate_exit(Command *command);
 
 int validate_command(Command *command, Board *board) {
-    int out = 1;
+    int out;
     command_type type = get_type(command);
     switch (type) {
         case INVALID:
@@ -135,6 +135,10 @@ int validate_autofill(Command *command, Board *board) {
     }
     else if(get_num_parameters(command) != 0){
         command_error(7);
+        out = 0;
+    }
+    else if(is_erroneous(board)){
+        command_error(27);
         out = 0;
     }
     return out;
@@ -263,8 +267,8 @@ int validate_validate(Command *command, Board *board) {
 }
 
 int validate_set(Command *command, Board *board) {
-    int i, out = 1, num_parameters = get_num_parameters(command), *parameters = get_parameters(
-            command), r, c, parameter_error = 20;
+    int  out , num_parameters = get_num_parameters(command), *parameters = get_parameters(
+            command), r, c;
 
     if (mode == 0) {
         command_error(23);
