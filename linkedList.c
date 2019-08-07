@@ -147,6 +147,7 @@ void free_node(Node *node) {
         printf("free_node: before free_linked_list_cells\n");
         free_linked_list_cells(node->changed);
         printf("free_node: before free_command\n");
+        printf("free_node: command: %s\n",command_name(node->c));
         free_command(node->c);
         printf("free_node: after free_command\n");
         free(node);
@@ -156,9 +157,19 @@ void free_node(Node *node) {
 
 void free_linked_list(LinkedList *list) {
     Node* temp;
-    int i;
+    /*int i;*/
     if(list != NULL) {
-        temp = list->head;
+        temp=list->head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        while(temp != list->head){
+            temp=temp->prev;
+            free_node(temp->next);
+        }
+        free(list);
+
+        /*temp = list->head;
         if(temp!=NULL) {
             for (i = 0; i < list->len - 1; i++) {
                 temp = temp->next;
@@ -166,7 +177,7 @@ void free_linked_list(LinkedList *list) {
             }
             free_node(list->head);
         }
-        free(list);
+        free(list);*/
     }
 }
 

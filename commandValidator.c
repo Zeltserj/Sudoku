@@ -134,7 +134,10 @@ int validate_autofill(Command *command, Board *board) {
         command_error(24);
         out = 0;
     }
-    else if(get_num_parameters(command) != 0)
+    else if(get_num_parameters(command) != 0){
+        command_error(7);
+        out = 0;
+    }
     return out;
 }
 
