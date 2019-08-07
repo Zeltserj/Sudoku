@@ -1,8 +1,3 @@
-/**
-
- Created by lenovo on ${DTE}
- **/
-
 
 #ifndef SP_COMMANDVALIDATOR_H
 #define SP_COMMANDVALIDATOR_H

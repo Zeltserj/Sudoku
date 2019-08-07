@@ -4,7 +4,7 @@
 #define PROJECT_BOARD_H
 #include "errors.h"
 #include "cell.h"
-#include "linkedList.h"
+
 
 /**
  * Board structure containing a 2d matrix of *Cell. also keeps its parameters and number of empty cells

@@ -1,9 +1,4 @@
-/**
 
- Created by lenovo on ${DTE}
- **/
-
-#include <stdio.h>
 #include "commandValidator.h"
 #include "board.h"
 

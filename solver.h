@@ -2,7 +2,7 @@
 #define SPROJECT_SOLVER_H
 
 #include "board.h"
-
+#include "linkedList.h"
 /**
 * @param board != NULL
 * @param r in range [0,board.size]

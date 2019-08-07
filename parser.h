@@ -1,8 +1,3 @@
-/**
-
- Created by lenovo on ${DTE}
- **/
-
 
 #ifndef SP_PARSER_H
 #define SP_PARSER_H
