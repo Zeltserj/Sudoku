@@ -40,28 +40,22 @@ LinkedListCells * get_changed_cells_list(Node *node);
 
 int is_curr_last(LinkedList* list);
 Command* get_command(Node* node);
-/**
-* @param node != NULL
-* @return the game mode before node's command was executed
-*/
-int get_prev_mode(Node* node);
+
 /**
 * adds after current node a new node with input arguments as properties.
 * if current == NULL (the list is empty) than node will become current and head.
 * @param list of nodes from Node type
 * @param c - the executed command
 * @param changed - a linked list of the cells which had been changed due to the command execution
-* @param prevmode - the game mode before the command execution
 */
-void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode);
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed);
 
 /**
 * @param c - the executed command
 * @param changed - a linked list of the cells which had been changed due to the command execution
-* @param prevmode - the game mode before the command execution
 * @return pointer to a new node with input arguments as properties. next and prev are both NULL at that point
 */
-Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode);
+Node *alloc_node(Command *c, LinkedListCells *changed);
 /**
 * allocates memory for linked list type.
 * @return a pointer to the empty linked list created

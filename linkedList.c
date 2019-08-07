@@ -69,8 +69,8 @@ void remove_all_after_curr(LinkedList *list) {
 }
 
 
-void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int prevmode) {
-    Node* newNode = alloc_node(c, changed, prevmode);
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed) {
+    Node* newNode = alloc_node(c, changed);
     if(list->current != NULL) {
         remove_all_after_curr(list);
         list->current->next = newNode;
@@ -82,7 +82,7 @@ void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed, int
     }
     list->len++;
 }
-Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
+Node *alloc_node(Command *c, LinkedListCells *changed) {
     Node* newNode = (Node*) calloc(1, sizeof(Node));
     if(newNode==NULL){
         error("linkedList","alloc_node",1);
@@ -90,7 +90,6 @@ Node * alloc_node(Command *c, LinkedListCells *changed, int prevmode){
     }
     newNode->c = c;
     newNode->changed=changed;
-    newNode->prevmode = prevmode;
     return newNode;
 }
 LinkedList *alloc_linkedList() {
@@ -124,9 +123,6 @@ void backward_curr(LinkedList *list) {
     list->current=list->current->prev;
 }
 
-int get_prev_mode(Node *node) {
-    return node->prevmode;
-}
 
 void free_node(Node *node) {
     if(node!= NULL) {

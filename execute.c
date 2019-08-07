@@ -20,7 +20,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     if(!is_redo){
         changed = alloc_linked_list_cells();
         if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
-            add_linked_list(moves, command, changed, mode);
+            add_linked_list(moves, command, changed);
             advance_curr(moves);
         }
         else

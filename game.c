@@ -16,7 +16,7 @@ void init_game() {
     char *str = calloc(256, sizeof(char));
     int exit=0, won=0, exe_ret;
     mode = 0;
-    add_linked_list(moves,NULL,NULL,0);
+    add_linked_list(moves, NULL, NULL);
     while(!exit && !won){
         printf("enter input:\n");
         command = parse_input(fgets(str, 256, stdin));
