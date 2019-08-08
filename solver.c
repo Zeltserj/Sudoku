@@ -214,7 +214,7 @@ int generate_variable_array(Board *board, int *super_array, int *dic_array) {
             /*optimization: get the solution array for empty cells only*/
             solution_for_cell = get_all_sol_cell(board, i, j);
             for (v = 0; v < dim; v++) {
-                if (get(board, i, j) == 0 && solution_for_cell[v] == 1) {
+                if (get(board, i, j) == 0 && solution_for_cell != NULL && solution_for_cell[v] == 1) {
                     super_array[get_super_index(i, j, v, dim)] = 0;
                     dic_array[get_super_index(i, j, v, dim)] = var_count;
                     var_count++;}
@@ -263,6 +263,7 @@ int ILP_solve(Board *board, int *super_array) {
         exit(0);
     }
     var_count = generate_variable_array(board, super_array, dictionary_array);
+
     var_arr = calloc(var_count, sizeof(double));
     objective = calloc(var_count, sizeof(double));
     vtype = calloc(var_count, sizeof(char));
@@ -298,7 +299,7 @@ int ILP_solve(Board *board, int *super_array) {
 
     _error = set_col_constraints(model, super_array, size, dictionary_array);
     if (_error) { gurobi_error(_error, env); }
-    printf("set_cell_constraints OK\n");
+
 
     _error = set_block_constraints(model, super_array, size, dictionary_array, get_block_rows(board),
                                    get_block_cols(board));
@@ -310,12 +311,15 @@ int ILP_solve(Board *board, int *super_array) {
     _error = GRBwrite(model,"sudoku.lp");
     if(_error){gurobi_error(_error,env);}
 
-    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+    _error = GRBwrite(model,"sudoku.sol");
     if(_error){gurobi_error(_error,env);}
-    if(optimstatus != GRB_OPTIMAL){
-        return 0; /*Board not solvable*/
-    }
 
+    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+    if(_error){printf("gurobi errored in optimstats\n"); gurobi_error(_error,env);}
+    if(optimstatus != GRB_OPTIMAL){
+        return 0;
+    }
+    printf("optimstatus: %d, GRB_OPTIMAL: %d, GRB_INF_OR_UBD: %d\n", optimstatus, GRB_OPTIMAL, GRB_INF_OR_UNBD);
     _error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, var_count, var_arr);
     if(_error){gurobi_error(_error,env);}
 
@@ -359,7 +363,7 @@ int generate_block_constraints(GRBmodel *model, int size, int row_start, int col
                     val[size_count] = 1.0;
                 }
             }
-            if (size_count > 1) {
+            if (size_count > 0) {
                 _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1.0, NULL);
                 if (_error) {
                     error("solver", "generate block constraints", 29);
@@ -386,7 +390,7 @@ int set_col_constraints(GRBmodel *model, int *super_array, int size, int *dic_ar
                     size_count++;
                 }
             }
-            if (size_count > 1) {
+            if (size_count > 0) {
                 _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1.0, NULL);
                 if (_error) {
                     error("solver", "set col constraints", 29);
@@ -425,20 +429,20 @@ int set_cell_constraints(GRBmodel *model, int *super_array, int size, int *dic_a
                 if (super_array[get_super_index(i, j, v, size)] == 0) {
                     ind[size_count] = get_gurobi_index(i,j,v,size,dic_array);
                     val[size_count] = 1.0;
-                    printf("size_count: %d\n", size_count);
                     size_count++;
                 }
-            }
-            if (size_count > 1) {
-                _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1, NULL);
-                if (_error) {
-                    return _error;
-                }
-            }
-            size_count = 0;
-        }
 
+            }
+
+            if (size_count > 0) {
+                _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1, NULL);
+                if (_error) {return _error;}
+                size_count = 0;
+
+            }
+        }
     }
+
     return 0;
 }
 
@@ -457,7 +461,7 @@ int set_row_constraints(GRBmodel *model, int *super_array, int size, int *dic_ar
                     size_count++;
                 }
             }
-            if (size_count > 1) {
+            if (size_count > 0) {
                 _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1.0, NULL);
                 if (_error) {
                     error("solver", "set row constraints", 29);
@@ -468,5 +472,26 @@ int set_row_constraints(GRBmodel *model, int *super_array, int size, int *dic_ar
         }
 
     }
+    return 0;
+}
+
+int generate_solution(Board* board){
+    int size = get_size(board), i, j, v,solved;
+    int* solution = calloc(size*size*size, sizeof(int));
+    solved = ILP_solve(board, solution);
+    if(solved){
+        for(i = 0; i < size; i ++){
+            for(j= 0; j < size; j++){
+                if(get(board,i,j) == 0){
+                    for( v = 0; v< size; v++){
+                        if(solution[get_super_index(i,j,v,size)]==1){
+                            set_value(board,i,j,v+1);
+                        }
+                    }
+                }
+            }
+        }
+    return 1;}
+    else{printf("unsolvable\n");}
     return 0;
 }

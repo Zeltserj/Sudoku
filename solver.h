@@ -12,6 +12,7 @@
 */
 int *get_all_sol_cell(Board *board, int r, int c);
 int ILP_solve(Board *board, int *super_array);
+int generate_solution(Board* board);
 
 /**
 * @param board != NULL
