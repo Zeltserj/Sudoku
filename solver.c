@@ -311,11 +311,6 @@ int ILP_solve(Board *board, int *super_array) {
     _error = GRBwrite(model,"sudoku.lp");
     if(_error){gurobi_error(_error,env);}
 
-    _error = GRBwrite(model,"sudoku.sol");
-    if(_error){gurobi_error(_error,env);}
-
-    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
-    if(_error){ gurobi_error(_error,env);}
     if(optimstatus != GRB_OPTIMAL){
         free(var_arr);
         free(dictionary_array);
@@ -325,6 +320,12 @@ int ILP_solve(Board *board, int *super_array) {
         GRBfreeenv(env);
         return 0;
     }
+
+    _error = GRBwrite(model,"sudoku.sol");
+    if(_error){gurobi_error(_error,env);}
+
+    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+    if(_error){ gurobi_error(_error,env);}
 
     _error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, var_count, var_arr);
     if(_error){gurobi_error(_error,env);}
