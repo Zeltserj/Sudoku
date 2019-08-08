@@ -315,11 +315,17 @@ int ILP_solve(Board *board, int *super_array) {
     if(_error){gurobi_error(_error,env);}
 
     _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
-    if(_error){printf("gurobi errored in optimstats\n"); gurobi_error(_error,env);}
+    if(_error){ gurobi_error(_error,env);}
     if(optimstatus != GRB_OPTIMAL){
+        free(var_arr);
+        free(dictionary_array);
+        free(vtype);
+        free(objective);
+        GRBfreemodel(model);
+        GRBfreeenv(env);
         return 0;
     }
-    printf("optimstatus: %d, GRB_OPTIMAL: %d, GRB_INF_OR_UBD: %d\n", optimstatus, GRB_OPTIMAL, GRB_INF_OR_UNBD);
+
     _error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, var_count, var_arr);
     if(_error){gurobi_error(_error,env);}
 
