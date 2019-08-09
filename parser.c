@@ -117,9 +117,6 @@ Command *parse_input(char *input) {
         return out;
     }
     else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
-        /*printf("parse_input: before ptr\n");
-        free (ptr);
-        printf("parse_input: after ptr\n");*/
         ptr = strtok(NULL, delim);
         temp = cpy_input(ptr,0,strlen(ptr));
         set_filepath(out, temp);
