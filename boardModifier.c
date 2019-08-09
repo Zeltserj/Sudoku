@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "gurobi_c.h"
 #include "execute.h"
-#include "solver.h"
+#include "boardModifier.h"
 #include "linkedList.h"
 
 void set_LP_type(double *objective, char *vtype, int count, int is_binary);
@@ -525,4 +525,30 @@ int autofill(Board* board, LinkedList *moves){
         }
     }
     free_board(b_cpy);
+    return count;
+}
+void change_cells_to(Board *board, LinkedListCells *old_values) {
+    int i, len = get_len_linked_list_cells(old_values);
+    Cell* curr;
+    move_curr_to_head(old_values);
+    for(i=0; i < len; i++){
+        curr=get_curr_cell(old_values);
+        set_cell(board,curr);
+        advance_curr_cell(old_values);
+    }
+    move_curr_to_head(old_values);
+}
+
+void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
+    Node* curr = get_curr(moves);
+    LinkedListCells* curr_changed = get_changed_cells_list(curr);
+    int prev_value=get(board,r,c);
+    if(value!= prev_value)
+    {
+        add_cell_after_curr(curr_changed,get_cell_cpy(board,r,c));
+        if(is_error(board,r,c))
+            validate_cell(board, curr_changed, r, c, prev_value,-1);
+        validate_cell(board,curr_changed,r,c,value,1);
+        set_value(board,r,c,value);
+    }
 }
