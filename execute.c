@@ -1,8 +1,7 @@
 
 #include <stdio.h>
 #include "execute.h"
-#include "game.h"
-#include "solver.h"
+#include "boardModifier.h"
 #include "cell.h"
 #include "fileaux.h"
 #include "command.h"
@@ -105,7 +104,6 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case EXIT:
             exit_command(board, moves);
             succeeded =1;
-            print_exit_command();
             break;
     }
     if(command->type != SET && command->type != GENERATE && command->type != GUESS && command->type != AUTOFILL) {
@@ -125,7 +123,7 @@ void mark_errors_command(int mark) {
 int undo(Board *board, LinkedList *moves) {
     Node *temp;
     Node* curr = get_curr(moves);
-    if ( get_command(curr) == NULL) {
+    if (get_command(curr) == NULL) {
         return 0;
     } else {
         temp = curr;
@@ -136,17 +134,7 @@ int undo(Board *board, LinkedList *moves) {
         return 1;
     }
 }
-void change_cells_to(Board *board, LinkedListCells *old_values) {
-    int i, len = get_len_linked_list_cells(old_values);
-    Cell* curr;
-    move_curr_to_head(old_values);
-    for(i=0; i < len; i++){
-        curr=get_curr_cell(old_values);
-        set_cell(board,curr);
-        advance_curr_cell(old_values);
-    }
-    move_curr_to_head(old_values);
-}
+
 
 int redo(Board *board, LinkedList *moves) {
     Command *c;
@@ -190,19 +178,6 @@ void exit_command(Board *board, LinkedList *moves) {
 }
 
 
-void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
-    Node* curr = get_curr(moves);
-    LinkedListCells* curr_changed = get_changed_cells_list(curr);
-    int prev_value=get(board,r,c);
-    if(value!= prev_value)
-    {
-        add_cell_after_curr(curr_changed,get_cell_cpy(board,r,c));
-        if(is_error(board,r,c))
-            validate_cell(board, curr_changed, r, c, prev_value,-1);
-        validate_cell(board,curr_changed,r,c,value,1);
-        set_value(board,r,c,value);
-    }
-}
 
 
 

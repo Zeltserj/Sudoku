@@ -18,11 +18,6 @@ void set_mode(int new_mode);
 */
 int undo(Board *board, LinkedList *moves);
 
-/** update board cells to the values of the cells in old_values (error/value/fixed)
-* @param board != NULL
-* @param old_values != NULL. a list of NodeCell
-*/
-void change_cells_to(Board *board, LinkedListCells *old_values);
 
 /**
 * redo the next move after moves.current.
@@ -48,7 +43,7 @@ void autofill_command(Board *board, LinkedList *moves);
 */
 int get_single_value(Board* board,int r, int c);
 
-void set_command(Board *board, LinkedList *moves, int r, int c, int value);
+
 
 /**
 * undo all moves and insert the pre-changed values to board.
