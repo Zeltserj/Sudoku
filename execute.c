@@ -161,19 +161,7 @@ int redo(Board *board, LinkedList *moves) {
 }
 
 void autofill_command(Board *board, LinkedList *moves) {
-    Board* b_cpy = brdcpy(board);
-    int i,j,v;
-    for(i=0; i<get_size(board);i++){
-        for(j=0;j<get_size(board);j++){
-            if(get(b_cpy,i,j) == 0) {
-                v = get_single_value(b_cpy, i, j);
-                if (v != 0) {
-                    set_command(board, moves, i, j, v);
-                }
-            }
-        }
-    }
-    free_board(b_cpy);
+    autofill(board, moves);
 }
 int get_single_value(Board* board,int r, int c){
     int* sols = get_all_sol_cell(board,r,c);

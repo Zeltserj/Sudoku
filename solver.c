@@ -5,7 +5,7 @@
 #include "gurobi_c.h"
 #include "execute.h"
 #include "solver.h"
-
+#include "linkedList.h"
 
 void set_LP_type(double *objective, char *vtype, int count, int is_binary);
 
@@ -253,14 +253,18 @@ void filter_variables(int *super_array, double *sol_array, int size) {
 int ILP_solve(Board *board, int *super_array) {
     GRBenv *env = NULL;
     GRBmodel *model = NULL;
-    int size = get_size(board), _error = 0, var_count, optimstatus;
+    int size = get_size(board), _error = 0, var_count, optimstatus,autofills;
     double *objective, *var_arr;
     char *vtype;
     int *dictionary_array = calloc(size * size * size, sizeof(int));
-
+    Board* b_cpy = brdcpy(board);
     if (super_array == NULL || dictionary_array == NULL) {
         error("solver", "ILP_solve", 1);
         exit(0);
+    }
+    autofills = autofill(board,NULL);
+    while(autofills > 0){
+        autofills = autofill(board, NULL);
     }
     var_count = generate_variable_array(board, super_array, dictionary_array);
 
@@ -308,8 +312,11 @@ int ILP_solve(Board *board, int *super_array) {
     _error = GRBoptimize(model);
     if (_error) { gurobi_error(_error, env); }
 
-    _error = GRBwrite(model,"sudoku.lp");
+    _error = GRBwrite(model,"sudokuWithAutofill.lp");
     if(_error){gurobi_error(_error,env);}
+
+    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
+    if(_error){ gurobi_error(_error,env);}
 
     if(optimstatus != GRB_OPTIMAL){
         free(var_arr);
@@ -324,8 +331,6 @@ int ILP_solve(Board *board, int *super_array) {
     _error = GRBwrite(model,"sudoku.sol");
     if(_error){gurobi_error(_error,env);}
 
-    _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
-    if(_error){ gurobi_error(_error,env);}
 
     _error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, var_count, var_arr);
     if(_error){gurobi_error(_error,env);}
@@ -498,7 +503,26 @@ int generate_solution(Board* board){
                 }
             }
         }
-    return 1;}
-    else{printf("unsolvable\n");}
+        return 1;}
     return 0;
+}
+
+int autofill(Board* board, LinkedList *moves){
+    Board* b_cpy = brdcpy(board);
+    int i,j,v, count = 0;
+    for(i=0; i<get_size(board);i++){
+        for(j=0;j<get_size(board);j++){
+            if(get(b_cpy,i,j) == 0) {
+                v = get_single_value(b_cpy, i, j);
+                if (v != 0) {
+                    if(moves != NULL)
+                        set_command(board, moves, i, j, v);
+                    else
+                        set_value(board,i,j,v);
+                count++;
+                }
+            }
+        }
+    }
+    free_board(b_cpy);
 }

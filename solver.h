@@ -11,7 +11,26 @@
 * board[r][c], otherwise cell i is 0.
 */
 int *get_all_sol_cell(Board *board, int r, int c);
+
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0. THIS FUNCTIONS CHANGES THE BOARD, MUST RECEIVE A COPY OF GAME BOARD
+ * @param super_array a size*size*size empty array
+ * @return 1 iff board is solvable and ILP succeeded.
+ * Input board is autofilled until no more cells can be automatically filled, and
+ * then utilises gurobi optimizer in order to solve the board with minimal amount of variables and constraints.
+ *  super_array[i*size^2 + j*size +v] == 0 iff the value v is legal for board(i,j) AND the cell is empty (after multiple autofills)
+ *
+ *
+ */
 int ILP_solve(Board *board, int *super_array);
+
+
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0.
+ * @return 1 iff the board is solvable, and the input board now holds the solution.
+ */
 int generate_solution(Board* board);
 
 /**
@@ -27,4 +46,13 @@ int generate_solution(Board* board);
 */
 int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int inc_or_dec);
 
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0.
+ * @param moves
+ * @return number of cells that were autofilled by the function
+ * if moves != NULL the function calls set_command which adds the moves to the linked list.
+ * otherwise it simply sets the value in the board TODO: WE NEED TO ADDRESS THIS BECAUSE THIS OBSTRUCTS MODULARITY
+ */
+int autofill(Board* board, LinkedList *moves);
 #endif /*SPROJECT_SOLVER_H*/

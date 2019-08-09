@@ -20,7 +20,7 @@ int parse_input_parameters(char *string, int *parameters) {
     char *ptr, *input_copy, *end_ptr;
     char delim[] = " \t";
     if (string == NULL) {
-        return NULL;
+        return 0;
     }
     len = (int) strlen(string);
     input_copy = (char *) malloc(len * sizeof(char));
