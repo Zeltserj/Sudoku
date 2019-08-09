@@ -278,7 +278,6 @@ int generate_solution(Board* board){
         }
         return 1;}
     return 0;
-    return count;
 }
 void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i, len = get_len_linked_list_cells(old_values);
