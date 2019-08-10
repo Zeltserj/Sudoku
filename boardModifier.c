@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "execute.h"
 #include "boardModifier.h"
 #include "linkedList.h"
@@ -35,6 +36,9 @@ int **allocate_int_matrix(int size) {
     }
     return matrix;
 }
+
+
+/*TODO: Or: moved  get_all_sol_cell to execute, to avoid include*/
 
 /**
 * @param board != NULL
@@ -149,18 +153,14 @@ int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, in
     num_err_col = validate_cell_col(board, changed_cells, r, c, value, inc_or_dec);
     num_err_block = validate_cell_block(board, changed_cells, r, c, value, inc_or_dec);
     num_errors = num_err_row + num_err_col + num_err_block;
-    /*printf("[%d][%d], value: %d , row: %d, col: %d, block: %d\n",r,c,value,num_err_row,num_err_col,num_err_block);*/
-    if (num_errors == 0) {
+    if (num_errors == 0)
         is_valid = 1;
-    }
     if (inc_or_dec != 0) {
         while (num_errors != 0) {
-            if (inc_or_dec > 0) {
+            if (inc_or_dec > 0)
                 increase_error(board, r, c);
-            }
-            else {
+            else
                 decrease_error(board, r, c);
-            }
             num_errors--;
         }
     }
@@ -214,23 +214,13 @@ int generate_variable_array(Board *board, int *super_array, int *dic_array) {
     return var_count;
 }
 
-/**
- *
- * @param super_array a size^3+1 array with -1 in irrelevant values (x(i,j,k) not sent to gurobi optimizer) and 0 where variables where sent
- * @param sol_array is the output of the gurobi module
- * @param size size of sol_array
- *
- * the function matches the instances of the solution array with their respective indices in the super array,
- * so they could be accessed with respect to location on the board
- *
- */
 
 
-int ILP_solve(Board *board, int *super_array) {
+int solve(Board *board, double *super_array, int gurobi_mode) {
     int size = get_size(board), var_count, autofills;
     int *dictionary_array = calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
-        error("solver", "ILP_solve", 1);
+        error("solver", "solve", 1);
         exit(0);
     }
     autofills = autofill(board,NULL);
@@ -239,7 +229,7 @@ int ILP_solve(Board *board, int *super_array) {
     }
 
     var_count = generate_variable_array(board, super_array, dictionary_array);
-    return gurobi_solve_ILP(board,super_array,dictionary_array,var_count);
+    return gurobi_solve(board, super_array, dictionary_array, var_count, gurobi_mode);
 }
 
 int autofill(Board* board, LinkedList *moves){
@@ -262,10 +252,11 @@ int autofill(Board* board, LinkedList *moves){
     free_board(b_cpy);
     return count;
 }
+
 int generate_solution(Board* board){
     int size = get_size(board), i, j, v,solved;
-    int* solution = calloc(size*size*size, sizeof(int));
-    solved = ILP_solve(board, solution);
+    double* solution = calloc(size*size*size, sizeof(double));
+    solved = solve(board, solution, ILP);
     if(solved){
         for(i = 0; i < size; i ++){
             for(j= 0; j < size; j++){
@@ -281,7 +272,6 @@ int generate_solution(Board* board){
         return 1;}
     return 0;
 }
-
 void change_cells_to(Board *board, LinkedListCells *old_values) {
     int i, len = get_len_linked_list_cells(old_values);
     Cell* curr;
@@ -421,4 +411,26 @@ int set_first_cell(Board *brd_cpy, Stack *stack, int *next_cell) {
         set_value(brd_cpy,next_r,next_c,0);
     }
     return 1;
+}
+
+double *get_probability_array(Board *board, double *solution, int i, int j) {
+    double* out;
+    int v, size = get_size(board),index;
+    out = calloc(size, sizeof(double));
+    if(out == NULL){
+        error("boardModifier", "get_proability_array", 1);
+        exit(0);
+    }
+    if(get(board,i,j) != 0){
+        out[get(board,i,j)-1] = 1.0;
+        return out;
+    }
+    for(v = 0; v < size; v++){
+        index = get_super_index(i,j,v,size);
+        if(solution[index] != -1){
+            out[v] = solution[index];
+        }
+    }
+
+    return out;
 }
