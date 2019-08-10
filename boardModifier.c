@@ -31,9 +31,6 @@ int **allocate_int_matrix(int size) {
     return matrix;
 }
 
-
-/*TODO: Or: moved  get_all_sol_cell to execute, to avoid include*/
-
 /**
 * @param board != NULL
 * @param changed_cells != NULL pointer to the list of the changed cells of the command
@@ -211,23 +208,13 @@ int generate_variable_array(Board *board, int *super_array, int *dic_array) {
     return var_count;
 }
 
-/**
- *
- * @param super_array a size^3+1 array with -1 in irrelevant values (x(i,j,k) not sent to gurobi optimizer) and 0 where variables where sent
- * @param sol_array is the output of the gurobi module
- * @param size size of sol_array
- *
- * the function matches the instances of the solution array with their respective indices in the super array,
- * so they could be accessed with respect to location on the board
- *
- */
 
 
-int ILP_solve(Board *board, int *super_array) {
+int solve(Board *board, int *super_array, int mode) {
     int size = get_size(board), var_count, autofills;
     int *dictionary_array = calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
-        error("solver", "ILP_solve", 1);
+        error("solver", "solve", 1);
         exit(0);
     }
     autofills = autofill(board,NULL);
@@ -236,7 +223,7 @@ int ILP_solve(Board *board, int *super_array) {
     }
 
     var_count = generate_variable_array(board, super_array, dictionary_array);
-    return gurobi_solve_ILP(board,super_array,dictionary_array,var_count);
+    return gurobi_solve(board, super_array, dictionary_array, var_count, mode);
 }
 
 int autofill(Board* board, LinkedList *moves){
@@ -263,7 +250,7 @@ int autofill(Board* board, LinkedList *moves){
 int generate_solution(Board* board){
     int size = get_size(board), i, j, v,solved;
     int* solution = calloc(size*size*size, sizeof(int));
-    solved = ILP_solve(board, solution);
+    solved = solve(board, solution, ILP);
     if(solved){
         for(i = 0; i < size; i ++){
             for(j= 0; j < size; j++){
