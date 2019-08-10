@@ -184,7 +184,7 @@ int *get_all_sol_cell(Board *board, int r, int c) {
  * A(i*size^2+j*size+k) == 1 iff k+1 is a possible solution for the empty cell board(i,j)
  * last value in the array hold number of variables to be sent to gurobi
  */
-int generate_variable_array(Board *board, int *super_array, int *dic_array) {
+int generate_variable_array(Board *board, double *super_array, int *dic_array) {
     int dim = get_size(board), i, j, v, var_count = 0;
     int *solution_for_cell = NULL;
     for (i = 0; i < dim; i++) {
@@ -210,7 +210,7 @@ int generate_variable_array(Board *board, int *super_array, int *dic_array) {
 
 
 
-int solve(Board *board, int *super_array, int mode) {
+int solve(Board *board, double *super_array, int gurobi_mode) {
     int size = get_size(board), var_count, autofills;
     int *dictionary_array = calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
@@ -223,7 +223,7 @@ int solve(Board *board, int *super_array, int mode) {
     }
 
     var_count = generate_variable_array(board, super_array, dictionary_array);
-    return gurobi_solve(board, super_array, dictionary_array, var_count, mode);
+    return gurobi_solve(board, super_array, dictionary_array, var_count, gurobi_mode);
 }
 
 int autofill(Board* board, LinkedList *moves){
@@ -249,7 +249,7 @@ int autofill(Board* board, LinkedList *moves){
 
 int generate_solution(Board* board){
     int size = get_size(board), i, j, v,solved;
-    int* solution = calloc(size*size*size, sizeof(int));
+    double* solution = calloc(size*size*size, sizeof(double));
     solved = solve(board, solution, ILP);
     if(solved){
         for(i = 0; i < size; i ++){
@@ -290,4 +290,26 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
         validate_cell(board,curr_changed,r,c,value,1);
         set_value(board,r,c,value);
     }
+}
+
+double *get_probability_array(Board *board, double *solution, int i, int j) {
+    double* out;
+    int v, size = get_size(board),index;
+    out = calloc(size, sizeof(double));
+    if(out == NULL){
+        error("boardModifier", "get_proability_array", 1);
+        exit(0);
+    }
+    if(get(board,i,j) != 0){
+        out[get(board,i,j)-1] = 1.0;
+        return out;
+    }
+    for(v = 0; v < size; v++){
+        index = get_super_index(i,j,v,size);
+        if(solution[index] != -1){
+            out[v] = solution[index];
+        }
+    }
+
+    return out;
 }

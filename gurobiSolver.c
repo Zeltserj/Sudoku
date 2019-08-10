@@ -35,27 +35,27 @@ int get_gurobi_index(int i, int j, int v, int size, int *dic_array) {
 }
 
 
-void filter_variables(int *super_array, double *sol_array, int size);
+void filter_variables(double *super_array, double *sol_array, int size);
 
-int set_cell_constraints(GRBmodel *model, int *super_array, int size, int *dic_array);
+int set_cell_constraints(GRBmodel *model, double *super_array, int size, int *dic_array);
 
-int set_row_constraints(GRBmodel *model, int *super_array, int size, int *dic_array);
+int set_row_constraints(GRBmodel *model, double *super_array, int size, int *dic_array);
 
-int set_col_constraints(GRBmodel *model, int *super_array, int size, int *dic_array);
+int set_col_constraints(GRBmodel *model, double *super_array, int size, int *dic_array);
 
-int set_block_constraints(GRBmodel *model, int *super_array, int size, int *dic_array, int rows, int cols);
+int set_block_constraints(GRBmodel *model, double *super_array, int size, int *dic_array, int rows, int cols);
 
 int generate_block_constraints(GRBmodel *model, int size, int row_start, int col_start, int rows, int cols,
-                               int *super_array,
+                               double *super_array,
                                int *dic_array);
 
-int set_objective(GRBmodel *model, int *super_array, int *dictionary_array, int var_count, int size, int mode);
+int set_objective(GRBmodel *model, double *super_array, int *dictionary_array, int var_count, int size, int mode);
 
-double set_coeff(int *super_array, int i, int j, int size);
+double set_coeff(double *super_array, int i, int j, int size);
 
 int set_range_constraints(GRBmodel *model, int var_count);
 
-int gurobi_solve(Board *board, int *super_array, int *dictionary_array, int var_count, int mode) {
+int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int var_count, int gurobi_mode) {
     GRBenv *env = NULL;
     GRBmodel *model = NULL;
     int optimstatus, _error, size = get_size(board);
@@ -79,13 +79,13 @@ int gurobi_solve(Board *board, int *super_array, int *dictionary_array, int var_
     if (_error) { gurobi_error(_error, env); }
 
 
-    _error = set_objective(model, super_array, dictionary_array, 0, size, mode);
+    _error = set_objective(model, super_array, dictionary_array, 0, size, gurobi_mode);
     if (_error) { gurobi_error(_error, env); }
 
     _error = GRBupdatemodel(model);
     if (_error) { gurobi_error(_error, env); }
 
-    if(mode != ILP){
+    if(gurobi_mode != ILP){
         _error = set_range_constraints(model, var_count);
         if(_error){ gurobi_error(_error, env);}
     }
@@ -158,7 +158,7 @@ int set_range_constraints(GRBmodel *model, int var_count) {
     return 0;
 }
 
-int set_objective(GRBmodel *model, int *super_array, int *dictionary_array, int var_count, int size, int mode) {
+int set_objective(GRBmodel *model, double *super_array, int *dictionary_array, int var_count, int size, int mode) {
     int i, j, v, index, _error;
     double objective[var_count];
     char vtype[var_count];
@@ -183,7 +183,7 @@ int set_objective(GRBmodel *model, int *super_array, int *dictionary_array, int 
     return _error;
 }
 
-double set_coeff(int *super_array, int i, int j, int size) {
+double set_coeff(double *super_array, int i, int j, int size) {
     int offset = rand() %10;
     int v, count = 0;
     double out;
@@ -205,7 +205,7 @@ double set_coeff(int *super_array, int i, int j, int size) {
  * @return 0 if successful and all column constraints were added to the model (single value in each column), or error code of gurobi.
  */
 
-int set_col_constraints(GRBmodel *model, int *super_array, int size, int *dic_array) {
+int set_col_constraints(GRBmodel *model, double *super_array, int size, int *dic_array) {
     int i, j, v, size_count = 0, _error = 0;
     int ind[size];
     double val[size];
@@ -243,7 +243,7 @@ int set_col_constraints(GRBmodel *model, int *super_array, int size, int *dic_ar
  */
 
 
-int set_cell_constraints(GRBmodel *model, int *super_array, int size, int *dic_array) {
+int set_cell_constraints(GRBmodel *model, double *super_array, int size, int *dic_array) {
     int i, j, v, size_count = 0, _error = 0;
     int ind[size];
     double val[size];
@@ -280,7 +280,7 @@ int set_cell_constraints(GRBmodel *model, int *super_array, int size, int *dic_a
  * @return 0 if successful and all row constraints were added to the model (single value in each row), or error code of gurobi.
  */
 
-int set_row_constraints(GRBmodel *model, int *super_array, int size, int *dic_array) {
+int set_row_constraints(GRBmodel *model, double *super_array, int size, int *dic_array) {
     int i, j, v, size_count = 0, _error = 0;
     int ind[size];
     double val[size];
@@ -320,7 +320,7 @@ int set_row_constraints(GRBmodel *model, int *super_array, int size, int *dic_ar
  */
 
 
-int set_block_constraints(GRBmodel *model, int *super_array, int size, int *dic_array, int rows, int cols) {
+int set_block_constraints(GRBmodel *model, double *super_array, int size, int *dic_array, int rows, int cols) {
     int i, j, _error = 0;
     for (i = 0; i < size; i += rows) {
         for (j = 0; j < size; j += cols) {
@@ -348,7 +348,7 @@ int set_block_constraints(GRBmodel *model, int *super_array, int size, int *dic_
  * (each value appears once in the block), or error code of gurobi.
  */
 int generate_block_constraints(GRBmodel *model, int size, int row_start, int col_start, int rows, int cols,
-                               int *super_array,
+                               double *super_array,
                                int *dic_array) {
     int i, j, v, size_count = 0, _error = 0;
     int ind[size];
@@ -385,11 +385,11 @@ int generate_block_constraints(GRBmodel *model, int size, int row_start, int col
  *
  */
 
-void filter_variables(int *super_array, double *sol_array, int size) {
+void filter_variables(double *super_array, double *sol_array, int size) {
     int i, inner = 0;
     for (i = 0; i < size * size * size; i++) {
         if (super_array[i] == 0) {
-            super_array[i] = (int) sol_array[inner];
+            super_array[i] = sol_array[inner];
             inner++;
         }
     }
