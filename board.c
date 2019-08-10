@@ -98,8 +98,9 @@ int is_fixed(Board *board, int r, int c) {
 }
 
 int is_error(Board *board, int r, int c) {
-    if(get_cell_error(board->matrix[r][c])>0)
+    if(get_cell_error(board->matrix[r][c])>0){
         return 1;
+    }
     return 0;
 }
 

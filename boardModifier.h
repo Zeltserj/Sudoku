@@ -3,6 +3,8 @@
 
 #include "board.h"
 #include "linkedList.h"
+#include "stack.h"
+
 /**
 * @param board != NULL
 * @param r in range [0,board.size]
@@ -10,7 +12,7 @@
 * @return pointer to an array size board.size. each cell i is: 1 if i+1 is a legal solution for
 * board[r][c], otherwise cell i is 0.
 */
-int *get_all_sol_cell(Board *board, int r, int c);
+int * get_all_sol_cell(Board *board, int r, int c);
 
 /**
  * @param board != NULL && is_erroneous(board) == 0. THIS FUNCTIONS CHANGES THE BOARD, MUST RECEIVE A COPY OF GAME BOARD
@@ -60,5 +62,7 @@ int autofill(Board* board, LinkedList *moves);
 */
 void change_cells_to(Board *board, LinkedListCells *old_values);
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
+
+int num_solutions_BT(Board* board);
 
 #endif /*SPROJECT_BOARDMODIFIER_H*/

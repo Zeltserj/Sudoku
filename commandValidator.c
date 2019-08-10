@@ -150,7 +150,7 @@ int validate_num_solutions(Command *command, Board *board) {
         out = 0;
     }
     else if(is_erroneous(board)){
-        command_error(26);
+        command_error(27);
         out = 0;
     }
     return out;
