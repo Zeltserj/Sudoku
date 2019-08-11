@@ -160,7 +160,7 @@ int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, in
 }
 
 int *get_all_sol_cell(Board *board, int r, int c) {
-    int *sol = calloc(get_size(board), sizeof(int));
+    int *sol = (int*)calloc(get_size(board), sizeof(int));
     int i, num_sol = 0;
     if (sol == NULL) {
         error("execute", "get_all_sol_cell", 1);
@@ -212,7 +212,7 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
 
 int solve(Board *board, double *super_array, int gurobi_mode) {
     int size = get_size(board), var_count, autofills;
-    int *dictionary_array = calloc(size * size * size, sizeof(int));
+    int *dictionary_array = (int*)calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
         error("solver", "solve", 1);
         exit(0);
@@ -249,7 +249,7 @@ int autofill(Board* board, LinkedList *moves){
 
 int generate_solution(Board* board){
     int size = get_size(board), i, j, v,solved;
-    double* solution = calloc(size*size*size, sizeof(double));
+    double* solution = (double*)calloc(size*size*size, sizeof(double));
     solved = solve(board, solution, ILP);
     if(solved){
         for(i = 0; i < size; i ++){
@@ -295,7 +295,7 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
 double *get_probability_array(Board *board, double *solution, int i, int j) {
     double* out;
     int v, size = get_size(board),index;
-    out = calloc(size, sizeof(double));
+    out = (double*)calloc(size, sizeof(double));
     if(out == NULL){
         error("boardModifier", "get_proability_array", 1);
         exit(0);
