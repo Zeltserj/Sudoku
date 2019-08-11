@@ -56,6 +56,10 @@ Board *load(char *path) {
     Board *b;
     char *c = calloc(3, sizeof(char));
     int row, col, m, n, len_c, value,scf_ret;
+    if(f==NULL){
+        error("fileaux","load",13);
+        return NULL;
+    }
 
     if (fscanf(f, "%d", &m) == 0 || fscanf(f, "%d", &n) == 0) {
         error("fileaux", "load", 15);
