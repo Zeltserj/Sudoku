@@ -23,7 +23,7 @@ void print_int_arr(int* arr, int len) {
 
 int **allocate_int_matrix(int size) {
     int **matrix = (int **) calloc(size, sizeof(int *));
-    int i, j;
+    int i;
     if (matrix == NULL) {
         error("solver", "allocate_int_matrix", 1);
         exit(0);
@@ -300,7 +300,7 @@ int num_solutions_BT(Board *board) {
     StackNode* curr_node;
     Board* brd_cpy = brdcpy(board);
     int *next_cell = (int*)calloc(2, sizeof(int)), *possible_sols_cell;
-    int sol_count = 0, next_r =0,next_c =0, i=0, len = get_size(brd_cpy), exist_next=1;
+    int sol_count = 0, next_r =0,next_c =0, i=0, len = get_size(brd_cpy), exist_next;
     if (next_cell == NULL) {
         error("boardModifier","num_solutions_BT",1);
         exit(0);
@@ -335,7 +335,6 @@ int num_solutions_BT(Board *board) {
                     }
                     else
                         exist_next =0;
-                    i=0;
                 }
             }
         }
@@ -346,6 +345,7 @@ int num_solutions_BT(Board *board) {
         }
         if(get_num_empty(brd_cpy) == 0) {
             sol_count++;
+            print_board(brd_cpy);
         }
     }
     free(next_cell);

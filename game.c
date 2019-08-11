@@ -9,7 +9,7 @@ int mark_errors = 1;
 int mode = 1;
 
 void init_game() {
-    Board* board;
+    Board* board = NULL;
     Command *command;
     LinkedList* moves = alloc_linkedList();
     char *str = calloc(256, sizeof(char));
