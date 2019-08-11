@@ -187,7 +187,7 @@ int * get_all_sol_cell(Board *board, int r, int c) {
  * A(i*size^2+j*size+k) == 1 iff k+1 is a possible solution for the empty cell board(i,j)
  * last value in the array hold number of variables to be sent to gurobi
  */
-int generate_variable_array(Board *board, int *super_array, int *dic_array) {
+int generate_variable_array(Board *board, double *super_array, int *dic_array) {
     int dim = get_size(board), i, j, v, var_count = 0;
     int *solution_for_cell = NULL;
     for (i = 0; i < dim; i++) {
