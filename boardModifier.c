@@ -363,7 +363,7 @@ int get_next_cell(Board *board, int r, int c, int *next_cell) {
         if (r == len) {
             if (get(board, next_r, next_c) != 0) {
                 free(next_cell);
-                return NULL;
+                return 0;
             }
             next_c = 0;
             next_r++;
