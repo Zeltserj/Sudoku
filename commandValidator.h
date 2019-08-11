@@ -10,5 +10,5 @@
  * @param command
  * @return 1 iff command is valid 0 otherwise
  */
-int validate_command(Command *command, Board *board);
+int validate_user_command(Command *command, Board *board);
 #endif

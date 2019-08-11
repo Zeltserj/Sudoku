@@ -85,7 +85,6 @@ void set_value(Board *board, int r, int c, int value) {
     else if (prev_value == 0 && value != 0)
         board->num_empty--;
     set_cell_value(board->matrix[r][c], value);
-
 }
 
 int get(Board *board, int r, int c) {
@@ -209,7 +208,9 @@ Cell ***matrix_copy(Cell ***matrix, int size) {
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
-    cell_copy(board->matrix[r][c],cell);
+    set_cell_fixed(board->matrix[r][c],get_cell_fixed(cell));
+    set_cell_error(board->matrix[r][c],get_cell_error(cell));
+    set_value(board,r,c,get_cell_value(cell));
 }
 
 

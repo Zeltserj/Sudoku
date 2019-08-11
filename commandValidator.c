@@ -35,7 +35,7 @@ int validate_reset(Command *command);
 
 int validate_exit(Command *command);
 
-int validate_command(Command *command, Board *board) {
+int validate_user_command(Command *command, Board *board) {
     int out;
     command_type type = get_type(command);
     switch (type) {

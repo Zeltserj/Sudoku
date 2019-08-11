@@ -19,7 +19,7 @@ void init_game() {
     while(!exit && !won){
         printf("enter input:\n");
         command = parse_input(fgets(str, 256, stdin));
-        if (validate_command(command, board)){
+        if (validate_user_command(command, board)){
             if(get_type(command)== EXIT){
                 print_exit_command();
                 exit = 1;

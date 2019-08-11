@@ -15,32 +15,27 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     LinkedListCells* changed;
     int succeeded = 0;
     if(!is_redo){
-        changed = alloc_linked_list_cells();
         if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
+            changed = alloc_linked_list_cells();
             add_linked_list(moves, command, changed);
             advance_curr(moves);
         }
-        else
-            free(changed);
     }
 
     switch (command->type) {
         case SOLVE:
             board = load(get_filepath(command));
             *game_board = board;
-            if(board!= NULL) {
+            if (board != NULL) {
                 set_mode(1);
                 succeeded = 1;
                 print_board(board);
             }
             break;
         case EDIT:
-            /*free_board(board);
-            free_linked_list(moves);
-            moves = alloc_linked_list_cells();*/
             board = load(get_filepath(command));
             *game_board = board;
-            if(board!= NULL) {
+            if (board != NULL) {
                 set_mode(2);
                 succeeded = 1;
                 print_board(board);
@@ -53,57 +48,62 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             print_board(board);
             break;
         case SET:
-            set_command(board, moves, get_parameters(command)[0], get_parameters(command)[1], get_parameters(command)[2]);
+            set_command(board, moves, get_parameters(command)[0], get_parameters(command)[1],
+                        get_parameters(command)[2]);
             succeeded = 1;
             print_board(board);
             break;
         case VALIDATE:
+            if (validate_command(board)) {
+                succeeded = 1;
+                printf("board is solvable.\n");
+            } else
+                printf("board is not solvable.\n");
             break;
         case GUESS:
             break;
         case GENERATE:
             break;
         case UNDO:
-            if (undo(board, moves)){
+            if (undo(board, moves)) {
                 succeeded = 1;
                 print_board(board);
-            }
-            else
+            } else
                 command_error(8);
             break;
         case REDO:
-            if(!redo(board, moves))
+            if (!redo(board, moves))
                 command_error(9);
             else
                 succeeded = 1;
             break;
         case SAVE:
-            if(save(board, get_filepath(command)))
-                succeeded =1;
+            if (save(board, get_filepath(command)))
+                succeeded = 1;
             else
-                succeeded =0;
+                succeeded = 0;
             break;
         case HINT:
             break;
         case GUESS_HINT:
             break;
         case NUM_SOLUTIONS:
-            printf("There are %d solutions for current board:\n",num_solutions_BT(board));
-            print_board(board);
+            printf("There are %d solutions for current board.\n", num_solutions_BT(board));
+            /*print_board(board);*/
             break;
         case AUTOFILL:
             autofill_command(board, moves);
-            succeeded =1;
+            succeeded = 1;
             print_board(board);
             break;
         case RESET:
             reset_command(board, moves);
-            succeeded =1;
+            succeeded = 1;
             print_board(board);
             break;
         case EXIT:
             exit_command(board, moves);
-            succeeded =1;
+            succeeded = 1;
             break;
     }
     if(command->type != SET && command->type != GENERATE && command->type != GUESS && command->type != AUTOFILL) {

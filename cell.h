@@ -38,6 +38,7 @@ void set_cell_value(Cell *cell, int value);
 void set_cell_fixed(Cell *cell, int fixed);
 void increase_cell_error(Cell *cell);
 void decrease_cell_error(Cell *cell);
+void set_cell_error(Cell *cell, int error_value);
 void set_cell_location(Cell *cell, int r, int c);
 int get_cell_value(Cell *cell);
 int get_cell_fixed(Cell *cell);

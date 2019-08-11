@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "execute.h"
 #include "boardModifier.h"
 #include "linkedList.h"
@@ -207,7 +206,6 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
         }
 
     }
-
     return var_count;
 }
 
@@ -250,23 +248,26 @@ int autofill(Board* board, LinkedList *moves){
     return count;
 }
 
-int generate_solution(Board* board){
-    int size = get_size(board), i, j, v,solved;
-    double* solution = (double*)calloc(size*size*size, sizeof(double));
+int generate_solution(Board *board, int fill_board) {
+    int size = get_size(board), i, j, v, solved;
+    double *solution = (double *) calloc(size * size * size, sizeof(double));
     solved = solve(board, solution, ILP);
-    if(solved){
-        for(i = 0; i < size; i ++){
-            for(j= 0; j < size; j++){
-                if(get(board,i,j) == 0){
-                    for( v = 0; v< size; v++){
-                        if(solution[get_super_index(i,j,v,size)]==1){
-                            set_value(board,i,j,v+1);
+    if (solved) {
+        if(fill_board) {
+            for (i = 0; i < size; i++) {
+                for (j = 0; j < size; j++) {
+                    if (get(board, i, j) == 0) {
+                        for (v = 0; v < size; v++) {
+                            if (solution[get_super_index(i, j, v, size)] == 1) {
+                                set_value(board, i, j, v + 1);
+                            }
                         }
                     }
                 }
             }
         }
-        return 1;}
+        return 1;
+    }
     return 0;
 }
 void change_cells_to(Board *board, LinkedListCells *old_values) {
@@ -329,6 +330,7 @@ int num_solutions_BT(Board *board) {
                     if(i!=len){
                         i++;
                         set_value(brd_cpy,next_r,next_c,i);
+                        print_board(brd_cpy);/*-------------*/
                         push(stack,next_r,next_c,i);
                         curr_node = peek(stack);
                         set_possible_sols(curr_node,possible_sols_cell);
@@ -341,6 +343,7 @@ int num_solutions_BT(Board *board) {
         else {
             curr_node = pop(stack);
             set_value(brd_cpy,get_row_stack_node(curr_node),get_col_stack_node(curr_node),0);
+            print_board(brd_cpy);/*-------------*/
             free_stack_node(curr_node);
         }
         if(get_num_empty(brd_cpy) == 0) {
@@ -355,13 +358,10 @@ int num_solutions_BT(Board *board) {
 
 int get_next_cell(Board *board, int r, int c, int *next_cell) {
     int next_r = r, next_c = c, len=get_size(board);
-
     if (c == len) {
         if (r == len) {
-            if (get(board, next_r, next_c) != 0) {
-                free(next_cell);
+            if (get(board, next_r, next_c) != 0)
                 return 0;
-            }
             next_c = 0;
             next_r++;
         }
@@ -428,6 +428,10 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
             out[v] = solution[index];
         }
     }
-
     return out;
 }
+
+int validate_command(Board *board) {
+    return generate_solution(board,0);
+}
+

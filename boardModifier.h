@@ -29,9 +29,10 @@ int solve(Board *board, double *super_array, int gurobi_mode);
 /**
  *
  * @param board != NULL && is_erroneous(board) == 0.
+ * @param fill_board: 1 for filling input board with its solution. 0 otherwise, so the board remains the same.
  * @return 1 iff the board is solvable, and the input board now holds the solution.
  */
-int generate_solution(Board* board);
+int generate_solution(Board *board, int fill_board);
 
 /**
 * @param board != NULL
@@ -75,4 +76,7 @@ int num_solutions_BT(Board* board);
  * if board(i,j) is filled with value k, the Arr[k] == 1 and for every m != k, Arr[m] == 0
  */
 double *get_probability_array(Board* board, double *solution, int i, int j);
+
+int validate_command(Board* board);
+
 #endif /*SPROJECT_BOARDMODIFIER_H*/

@@ -47,3 +47,5 @@ void cell_copy(Cell *to, Cell *from) {
     to->value = from->value;
 }
 
+void set_cell_error(Cell *cell, int error_value) { cell->error = error_value; }
+
