@@ -191,7 +191,7 @@ int validate_save(Command *command, Board *board) {
     if (mode == 0) {
         command_error(23);
         out = 0;
-    } else if (num_parameters != 0) {
+    } else if (num_parameters != 1) {
         command_error(7);
         out = 0;
     } else if (mode == 2 && is_erroneous(board)) {
