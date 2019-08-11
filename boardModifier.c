@@ -266,8 +266,10 @@ int generate_solution(Board *board, int fill_board) {
                 }
             }
         }
+        free(solution);
         return 1;
     }
+    free(solution);
     return 0;
 }
 void change_cells_to(Board *board, LinkedListCells *old_values) {
@@ -415,7 +417,7 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
     int v, size = get_size(board),index;
     out = (double*)calloc(size, sizeof(double));
     if(out == NULL){
-        error("boardModifier", "get_proability_array", 1);
+        error("boardModifier", "get_probability_array", 1);
         exit(0);
     }
     if(get(board,i,j) != 0){
@@ -433,5 +435,25 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
 
 int validate_command(Board *board) {
     return generate_solution(board,0);
+}
+
+int hint_command(Board *board, int row, int col) {
+    Board* brd_cpy = brdcpy(board);
+    int hint;
+    if(generate_solution(brd_cpy,1)){
+        hint = get(brd_cpy,row,col);
+        free(brd_cpy);
+        return hint;
+    }
+    return 0;
+}
+
+double * guess_hint_command(Board *board, int row, int col) {
+    int solved, size = get_size(board);
+    double *solution = (double *) calloc(size * size * size, sizeof(double));
+    solved = solve(board, solution, ILP);
+    if(solved)
+        return get_probability_array(board,solution,row,col);
+    return NULL;
 }
 

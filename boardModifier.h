@@ -63,7 +63,9 @@ int autofill(Board* board, LinkedList *moves);
 * @param old_values != NULL. a list of NodeCell
 */
 void change_cells_to(Board *board, LinkedListCells *old_values);
+
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
+
 int num_solutions_BT(Board* board);
 
 /**
@@ -77,6 +79,18 @@ int num_solutions_BT(Board* board);
  */
 double *get_probability_array(Board* board, double *solution, int i, int j);
 
+
 int validate_command(Board* board);
+
+/**
+* @param board != NULL, not erroneous
+* @param row in range [0,board.size -1 ]
+* @param col in range [0,board.size -1 ]
+* @return 0 if board is not solvable.
+* otherwise, returns a value that is legal for board[row][col] according to the solutions found.
+*/
+int hint_command(Board* board, int row, int col);
+
+double * guess_hint_command(Board* board, int row, int col);
 
 #endif /*SPROJECT_BOARDMODIFIER_H*/

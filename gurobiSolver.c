@@ -1,7 +1,3 @@
-/**
-
- Created by lenovo on ${DTE}
- **/
 
 #include <stdlib.h>
 #include "gurobiSolver.h"
@@ -134,19 +130,19 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
 }
 
 int set_range_constraints(GRBmodel *model, int var_count) {
-    int i,_error = 0;
+    int i, _error = 0;
     int ind[1];
     double val[1];
-    for(i = 0; i < var_count; i ++){
+    for (i = 0; i < var_count; i++) {
         ind[0] = i;
         val[0] = 1.0;
-        _error = GRBaddconstr(model,1, ind, val,GRB_LESS_EQUAL, 1, NULL);
-        if(_error)
+        _error = GRBaddconstr(model, 1, ind, val, GRB_LESS_EQUAL, 1, NULL);
+        if (_error)
             return _error;
-        _error = GRBaddconstr(model, 1, ind, val, GRB_GREATER_EQUAL, 0,NULL);
-    }   if(_error)
-            return _error;
-
+        _error = GRBaddconstr(model, 1, ind, val, GRB_GREATER_EQUAL, 0, NULL);
+    }
+    if (_error)
+        return _error;
     return 0;
 }
 

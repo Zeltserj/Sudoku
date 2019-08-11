@@ -4,6 +4,8 @@
 #include "boardModifier.h"
 #include "fileaux.h"
 
+void print_probability_array(double* prob, int len);
+
 
 /*TODO: Or: the first node in moves has command==NULL therefore moves is not empty*/
 int execute(Board **game_board, Command *command, LinkedList **game_moves){
@@ -13,7 +15,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     Board* board = *game_board;
     LinkedList* moves= *game_moves;
     LinkedListCells* changed;
-    int succeeded = 0;
+    int succeeded = 0, *parameters = get_parameters(command);
     if(!is_redo){
         if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
             changed = alloc_linked_list_cells();
@@ -42,14 +44,14 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             }
             break;
         case MARK_ERRORS:
-            mark_errors_command(get_parameters(command)[0]);
+            mark_errors_command(parameters[0]);
             break;
         case PRINT_BOARD:
             print_board(board);
             break;
         case SET:
-            set_command(board, moves, get_parameters(command)[0], get_parameters(command)[1],
-                        get_parameters(command)[2]);
+            set_command(board, moves, parameters[0], parameters[1],
+                        parameters[2]);
             succeeded = 1;
             print_board(board);
             break;
@@ -84,8 +86,13 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 succeeded = 0;
             break;
         case HINT:
+            if(hint_command(board,parameters[0],parameters[1]))
+                succeeded = 1;
+            else
+                command_error(33);
             break;
         case GUESS_HINT:
+            print_probability_array(guess_hint_command(board,parameters[0],parameters[1]),get_size(board));
             break;
         case NUM_SOLUTIONS:
             printf("There are %d solutions for current board.\n", num_solutions_BT(board));
@@ -175,7 +182,16 @@ void exit_command(Board *board, LinkedList *moves) {
     free_linked_list(moves);
 }
 
-
+void print_probability_array(double* prob, int len){
+    int i;
+    if(prob!=NULL) {
+        printf("the possible solutions for the cell are:\n");
+        for (i = 0; i < len; i++) {
+            if (prob[i] > 0)
+                printf("%d : %f.2", i + 1, prob[i]);
+        }
+    }
+}
 
 
 

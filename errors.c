@@ -101,6 +101,9 @@ char *errors(int errornum) {
         case 32:
             out = "third parameter has illegal value";
             break;
+        case 33:
+            out = "board is not solvable";
+            break;
         default:
             out = "Unknown error";
     }
