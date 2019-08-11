@@ -1,8 +1,3 @@
-/**
-
- Created by lenovo on ${DTE}
- **/
-
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -2,7 +2,6 @@
 #ifndef SP_COMMANDVALIDATOR_H
 #define SP_COMMANDVALIDATOR_H
 
-#include "errors.h"
 #include "command.h"
 #include "board.h"
 

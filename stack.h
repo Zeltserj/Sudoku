@@ -7,6 +7,7 @@
 
 typedef struct StackNode{
     int row, col, value;
+    int* possible_sols;
     struct StackNode* next;
 }StackNode;
 
@@ -18,7 +19,7 @@ typedef struct Stack{
 Stack * alloc_stack();
 StackNode *alloc_stack_node(int row, int col, int value);
 
-void push(Stack *stack, StackNode *node);
+void push(Stack *stack, int row, int col, int value);
 /**
 * removes the top element of the stack and returns it
 * @param stack != NULL
@@ -47,4 +48,10 @@ int size_stack(Stack* stack);
 void free_stack_node(StackNode *node);
 void free_stack(Stack* stack);
 
+void set_possible_sols(StackNode *node, int *sols_arr);
+void set_value_stack_node(StackNode *node, int value);
+int get_row_stack_node(StackNode *node);
+int get_col_stack_node(StackNode *node);
+int get_value_stack_node(StackNode *node);
+int* get_possible_sols(StackNode* node);
 #endif /*SP_STACK_H*/

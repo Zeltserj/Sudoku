@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include "execute.h"
 #include "boardModifier.h"
-#include "cell.h"
 #include "fileaux.h"
-#include "command.h"
 
 
 /*TODO: Or: the first node in moves has command==NULL therefore moves is not empty*/
@@ -90,6 +88,8 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case GUESS_HINT:
             break;
         case NUM_SOLUTIONS:
+            printf("There are %d solutions for current board:\n",num_solutions_BT(board));
+            print_board(board);
             break;
         case AUTOFILL:
             autofill_command(board, moves);
@@ -129,8 +129,6 @@ int undo(Board *board, LinkedList *moves) {
         temp = curr;
         backward_curr(moves);
         change_cells_to(board, get_changed_cells_list(temp));
-        printf("linked list in undo:\n");
-        print_linked_list(moves);
         return 1;
     }
 }
@@ -152,7 +150,7 @@ void autofill_command(Board *board, LinkedList *moves) {
     autofill(board, moves);
 }
 int get_single_value(Board* board,int r, int c){
-    int* sols = get_all_sol_cell(board,r,c);
+    int* sols = get_all_sol_cell(board, r, c);
     int single_sol=0, i;
 
     for(i=0;i<get_size(board);i++){

@@ -3,7 +3,6 @@
 #include "game.h"
 #include "parser.h"
 #include "commandValidator.h"
-#include "board.h"
 #include "execute.h"
 
 int mark_errors = 1;

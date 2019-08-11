@@ -91,6 +91,7 @@ char *errors(int errornum) {
             break;
         case 29:
             out = "gurobi optimizer error";
+            break;
         case 30:
             out = "first parameter has illegal value";
             break;
