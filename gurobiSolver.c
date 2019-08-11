@@ -184,7 +184,7 @@ double set_coeff(double *super_array, int i, int j, int size) {
             count++;
         }
     }
-    out = (double)(count+offset);
+    out = (double)(10*count+offset);
     return out;
 }
 
