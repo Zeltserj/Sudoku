@@ -79,10 +79,10 @@ void free_row(Cell **cell_row, int size) {
 }
 
 void set_value(Board *board, int r, int c, int value) {
-    int prev_value =get(board,r,c);
-    if(prev_value!=0 && value==0)
+    int prev_value = get(board, r, c);
+    if (prev_value != 0 && value == 0)
         board->num_empty++;
-    else if (prev_value ==0 && value !=0 )
+    else if (prev_value == 0 && value != 0)
         board->num_empty--;
     set_cell_value(board->matrix[r][c], value);
 

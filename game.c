@@ -9,7 +9,7 @@ int mark_errors = 1;
 int mode = 1;
 
 void init_game() {
-    Board* board;
+    Board* board = NULL;
     Command *command;
     LinkedList* moves = alloc_linkedList();
     char *str = calloc(256, sizeof(char));
@@ -26,7 +26,7 @@ void init_game() {
             }
             else{
                 exe_ret = execute(&board,command,&moves);
-                if(get_type(command) == SET && exe_ret && get_num_empty(board) == 0){
+                if(get_type(command) == SET && mode == 1 && exe_ret && get_num_empty(board) == 0){
                     if(!is_erroneous(board)) {
                         announce_winner();
                         won = 1;
