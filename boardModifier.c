@@ -37,9 +37,6 @@ int **allocate_int_matrix(int size) {
     return matrix;
 }
 
-
-/*TODO: Or: moved  get_all_sol_cell to execute, to avoid include*/
-
 /**
 * @param board != NULL
 * @param changed_cells != NULL pointer to the list of the changed cells of the command
@@ -190,15 +187,15 @@ int * get_all_sol_cell(Board *board, int r, int c) {
  * A(i*size^2+j*size+k) == 1 iff k+1 is a possible solution for the empty cell board(i,j)
  * last value in the array hold number of variables to be sent to gurobi
  */
-int generate_variable_array(Board *board, int *super_array, int *dic_array) {
+int generate_variable_array(Board *board, double *super_array, int *dic_array) {
     int dim = get_size(board), i, j, v, var_count = 0;
-    int *solution_for_cell;
+    int *solution_for_cell = NULL;
     for (i = 0; i < dim; i++) {
         for (j = 0; j < dim; j++) {
             /*optimization: get the solution array for empty cells only*/
-            solution_for_cell = get_all_sol_cell(board, i, j); /*TODO: changed the return value of non-sol array*/
+            solution_for_cell = get_all_sol_cell(board, i, j);
             for (v = 0; v < dim; v++) {
-                if (get(board, i, j) == 0 && solution_for_cell != NULL && solution_for_cell[v] == 1) {
+                if (get(board, i, j) == 0 && solution_for_cell[v] == 1) {
                     super_array[get_super_index(i, j, v, dim)] = 0;
                     dic_array[get_super_index(i, j, v, dim)] = var_count;
                     var_count++;}
@@ -218,7 +215,7 @@ int generate_variable_array(Board *board, int *super_array, int *dic_array) {
 
 int solve(Board *board, double *super_array, int gurobi_mode) {
     int size = get_size(board), var_count, autofills;
-    int *dictionary_array = calloc(size * size * size, sizeof(int));
+    int *dictionary_array = (int*)calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
         error("solver", "solve", 1);
         exit(0);
@@ -255,7 +252,7 @@ int autofill(Board* board, LinkedList *moves){
 
 int generate_solution(Board* board){
     int size = get_size(board), i, j, v,solved;
-    double* solution = calloc(size*size*size, sizeof(double));
+    double* solution = (double*)calloc(size*size*size, sizeof(double));
     solved = solve(board, solution, ILP);
     if(solved){
         for(i = 0; i < size; i ++){
@@ -416,7 +413,7 @@ int set_first_cell(Board *brd_cpy, Stack *stack, int *next_cell) {
 double *get_probability_array(Board *board, double *solution, int i, int j) {
     double* out;
     int v, size = get_size(board),index;
-    out = calloc(size, sizeof(double));
+    out = (double*)calloc(size, sizeof(double));
     if(out == NULL){
         error("boardModifier", "get_proability_array", 1);
         exit(0);

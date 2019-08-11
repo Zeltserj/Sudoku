@@ -59,14 +59,10 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     GRBenv *env = NULL;
     GRBmodel *model = NULL;
     int optimstatus, _error, size = get_size(board);
-    char *vtype;
-    double *objective, *var_arr;
-    var_arr = calloc(var_count, sizeof(double));
-    objective = calloc(var_count, sizeof(double));
-    vtype = calloc(var_count, sizeof(char));
+    double  *var_arr = (double*)calloc(var_count, sizeof(double));
 
-
-    if (vtype == NULL || objective == NULL) {
+     if (var_arr == NULL) {
+         error("gurobiSolver","gurobi_solve",1);
         exit(0);
     }
     _error = GRBloadenv(&env, "sudoku.log");
@@ -79,7 +75,7 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     if (_error) { gurobi_error(_error, env); }
 
 
-    _error = set_objective(model, super_array, dictionary_array, 0, size, gurobi_mode);
+    _error = set_objective(model, super_array, dictionary_array, var_count, size, gurobi_mode);
     if (_error) { gurobi_error(_error, env); }
 
     _error = GRBupdatemodel(model);
@@ -115,8 +111,6 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     if (optimstatus != GRB_OPTIMAL) {
         free(var_arr);
         free(dictionary_array);
-        free(vtype);
-        free(objective);
         GRBfreemodel(model);
         GRBfreeenv(env);
         return 0;
@@ -133,8 +127,6 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
 
     free(var_arr);
     free(dictionary_array);
-    free(vtype);
-    free(objective);
     GRBfreemodel(model);
     GRBfreeenv(env);
     return 1;
