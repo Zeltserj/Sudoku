@@ -332,7 +332,6 @@ int num_solutions_BT(Board *board) {
                     if(i!=len){
                         i++;
                         set_value(brd_cpy,next_r,next_c,i);
-                        print_board(brd_cpy);/*-------------*/
                         push(stack,next_r,next_c,i);
                         curr_node = peek(stack);
                         set_possible_sols(curr_node,possible_sols_cell);
@@ -345,12 +344,11 @@ int num_solutions_BT(Board *board) {
         else {
             curr_node = pop(stack);
             set_value(brd_cpy,get_row_stack_node(curr_node),get_col_stack_node(curr_node),0);
-            print_board(brd_cpy);/*-------------*/
             free_stack_node(curr_node);
         }
         if(get_num_empty(brd_cpy) == 0) {
             sol_count++;
-            print_board(brd_cpy);
+            /*print_board(brd_cpy);*/
         }
     }
     free(next_cell);

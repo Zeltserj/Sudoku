@@ -15,7 +15,8 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     Board* board = *game_board;
     LinkedList* moves= *game_moves;
     LinkedListCells* changed;
-    int succeeded = 0, *parameters = get_parameters(command);
+    int succeeded = 0, *parameters = get_parameters(command), hint;
+    double* sol_prob;
     if(!is_redo){
         if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
             changed = alloc_linked_list_cells();
@@ -86,17 +87,25 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 succeeded = 0;
             break;
         case HINT:
-            if(hint_command(board,parameters[0],parameters[1]))
+            hint = hint_command(board,parameters[0],parameters[1]);
+            if(hint){
+                printf("hint: try to set %d in cell (%d,%d).\n",hint,parameters[0]+1,parameters[1]+1);
                 succeeded = 1;
+            }
             else
                 command_error(33);
             break;
         case GUESS_HINT:
-            print_probability_array(guess_hint_command(board,parameters[0],parameters[1]),get_size(board));
+            sol_prob = guess_hint_command(board,parameters[0],parameters[1]);
+            if(sol_prob!= NULL){
+                print_probability_array(sol_prob,get_size(board));
+                succeeded=1;
+            }
+            else
+                command_error(33);
             break;
         case NUM_SOLUTIONS:
             printf("There are %d solutions for current board.\n", num_solutions_BT(board));
-            /*print_board(board);*/
             break;
         case AUTOFILL:
             autofill_command(board, moves);
@@ -182,14 +191,12 @@ void exit_command(Board *board, LinkedList *moves) {
     free_linked_list(moves);
 }
 
-void print_probability_array(double* prob, int len){
+void print_probability_array(double* prob, int len) {
     int i;
-    if(prob!=NULL) {
-        printf("the possible solutions for the cell are:\n");
-        for (i = 0; i < len; i++) {
-            if (prob[i] > 0)
-                printf("%d : %f.2", i + 1, prob[i]);
-        }
+    printf("the possible solutions for the cell are:\n");
+    for (i = 0; i < len; i++) {
+        if (prob[i] > 0)
+            printf("%d : %f\n", i + 1, prob[i]);
     }
 }
 
