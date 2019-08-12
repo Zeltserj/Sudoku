@@ -47,5 +47,5 @@ int get_cell_row(Cell *cell);
 int get_cell_col(Cell *cell);
 
 void cell_copy(Cell *to, Cell *from);
-
+int is_equal_cell(Cell* c1, Cell* c2);
 #endif /*SPROJECT_CELL_H*/

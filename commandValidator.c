@@ -158,12 +158,13 @@ int validate_num_solutions(Command *command, Board *board) {
 
 
 int validate_hint(Command *command, Board *board) {
-    int out = 1, r, c, *parameters = get_parameters(command);
+    int out, r, c, *parameters = get_parameters(command);
     if (mode != 1) {
         command_error(24);
         out = 0;
     } else if (get_num_parameters(command) != 2) {
         command_error(7);
+        out = 0;
     } else {
         out = validate_range(parameters, get_size(board), get_num_parameters(command));
         parameters[0]--;

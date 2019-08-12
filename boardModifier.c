@@ -9,6 +9,12 @@
 
 int get_next_cell(Board *board, int r, int c, int *next_cell);
 int set_first_cell(Board *brd_cpy, Stack *stack, int *next_cell);
+int generate_board(Board* board, int x, int y);
+int fill_x_cells(Board* board, int x);
+int set_random_value(Board* board, int row, int col);
+int clear_cells(Board* board, int num_keep);
+void copy_to_board(Board *to, LinkedList *moves, Board *from);
+
 void print_int_arr(int* arr, int len) {
     int i;
     for (i = 0; i < len; i++)
@@ -426,6 +432,7 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
         index = get_super_index(i,j,v,size);
         if(solution[index] != -1){
             out[v] = solution[index];
+            printf("get_probability_array: out[%d] = %f\n",v,solution[index]);
         }
     }
     return out;
@@ -453,9 +460,135 @@ double * guess_hint_command(Board *board, int row, int col) {
     Board* brd_cpy = brdcpy(board);
     int solved, size = get_size(brd_cpy);
     double *solution = (double *) calloc(size * size * size, sizeof(double));
-    solved = solve(brd_cpy, solution, ILP);
-    if(solved)
+    solved = solve(brd_cpy, solution, LP);
+    if(solved){
+        free(solution);
         return get_probability_array(brd_cpy,solution,row,col);
+    }
+    free(solution);
     return NULL;
 }
 
+int generate_command(Board *board, LinkedList *moves, int x, int y) {
+    Board *brd_cpy;
+    int i=0;
+
+    /*TODO: make sure X <= board.num_empty*/
+    while (i<1000){
+        brd_cpy = brdcpy(board);
+        if(generate_board(brd_cpy,x,y) == 1){
+            copy_to_board(board, moves, brd_cpy);
+            free(brd_cpy);
+            return 1;
+        }
+        i++;
+        free(brd_cpy);
+    }
+    return 0;
+}
+
+/**
+* @param board != NULL. THE METHOD CHANGES THE BOARD - MAKE SURE TO INPUT COPY OF THE ORIGINAL!
+* @param x in range [0,get_num_empty(board)]
+* @param y in range [0,(get_size(board))^2]
+* @return 1 if succeeded to generate a solvable board. otherwise 0.
+*/
+int generate_board(Board* board, int x, int y) {
+    if(fill_x_cells(board,x) == 0)
+        return 0;
+    if(generate_solution(board,1))
+        return 0;
+    clear_cells(board, y);
+    return 1;
+}
+
+/**
+* @param board != NULL. THE METHOD CHANGES THE BOARD - MAKE SURE TO INPUT COPY OF THE ORIGINAL!
+* @param x in range [0,get_num_empty(board)]
+* @return 1 if succeeded.
+* 0 otherwise - if got to a state such that a randomly chosen cell has no legal value to input.
+*/
+int fill_x_cells(Board* board, int x){
+    int size = get_size(board);
+    int r,c, empty=0;
+
+    while(x>0){
+        r = rand() % size;
+        c = rand() % size;
+        do {
+            if (get(board, r, c) != 0) {
+                r = rand() % size;
+                if (get(board, r, c) != 0)
+                    c = rand() % size;
+                else
+                    empty = 1;
+            } else
+                empty = 1;
+        } while (!empty);
+        if(set_random_value(board,r,c))
+            x--;
+        else
+            return 0;
+
+    }
+    return 1;
+}
+
+/**
+* sets random legal value in board(row,col). if there isn't one - returns 0.
+* @param board != NULL. THE METHOD CHANGES THE BOARD - MAKE SURE TO INPUT COPY OF THE ORIGINAL!
+* @param row in range [0,get_size(board)]
+* @param col in range [0,get_size(board)]
+* @return 1 if succeeded. 0 if there is no legal value for that cell in input board.
+*/
+int set_random_value(Board* board, int row, int col) {
+    int *sol_arr = get_all_sol_cell(board, row, col);
+    int num_sol = 0, i, sol_place;
+    for (i = 0; i < get_size(board); i++) {
+        if (sol_arr[i])
+            num_sol++;
+    }
+    if (num_sol == 0)
+        return 0;
+
+    sol_place = rand() % num_sol;
+    i = -1;
+    while (sol_place > 0) {
+        i++;
+        if (sol_arr[i] == 1)
+            sol_place--;
+    }
+    set_value(board, row, col, i);
+    return 1;
+}
+
+int clear_cells(Board* board, int num_keep){
+
+}
+
+/**
+* copies cells from second board to the first one. For every cell that has been changed, the previous
+* values will be saved into the changed list of current move.
+* @param to != NULL
+* @param moves != NULL. the head of the list is the current move.
+* @param from != NULL
+*/
+void copy_to_board(Board *to, LinkedList *moves, Board *from) {
+    int i, j, size = get_size(to);
+    Cell *cell_cpy_to, *cell_cpy_from;
+    LinkedListCells *changed;
+
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            cell_cpy_from = get_cell_cpy(from, i, j);
+            cell_cpy_to = get_cell_cpy(to, i, j);
+            if (!is_equal_cell(cell_cpy_from, cell_cpy_to)) {
+                changed = get_changed_cells_list(get_curr(moves));
+                add_cell_after_curr(changed, cell_cpy_to);
+                set_cell(to, cell_cpy_from);
+            } else
+                free(cell_cpy_to);
+            free(cell_cpy_from);
+        }
+    }
+}

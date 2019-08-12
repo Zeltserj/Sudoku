@@ -136,17 +136,6 @@ void fix_cell(Board *board, int r, int c) {
 void unfix_cell(Board *board, int r, int c) {
     set_cell_fixed(board->matrix[r][c], 0);
 }
-/*
-
-void set_erroneous(Board *board, int r, int c) {
-    increase_cell_error(board->matrix[r][c]);
-
-}
-
-void set_legal(Board *board, int r, int c) {
-    increase_cell_error(board->matrix[r][c]);
-}
-*/
 
 void print_board(Board *board) {
     int row_length = (board->size * 4) + board->rows_block + 1;
@@ -260,6 +249,7 @@ Cell *get_cell_cpy(Board *board, int r, int c) {
 
 int get_block_rows(Board *board) { return board->rows_block; }
 int get_block_cols(Board *board) { return board->cols_block; }
+
 
 
 

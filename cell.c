@@ -49,3 +49,10 @@ void cell_copy(Cell *to, Cell *from) {
 
 void set_cell_error(Cell *cell, int error_value) { cell->error = error_value; }
 
+int is_equal_cell(Cell *c1, Cell *c2) {
+    if (c1->value != c2->value || c1->error != c2->error || c1->fixed == c2->fixed || c1->col != c2->col ||
+        c1->row != c2->row)
+        return 0;
+    return 1;
+}
+

@@ -99,5 +99,6 @@ int hint_command(Board* board, int row, int col);
 */
 double * guess_hint_command(Board* board, int row, int col);
 
+int generate_command(Board *board, LinkedList *moves, int x, int y);
 
 #endif /*SPROJECT_BOARDMODIFIER_H*/

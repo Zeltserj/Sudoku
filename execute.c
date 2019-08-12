@@ -36,6 +36,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             }
             break;
         case EDIT:
+            /*TODO: Or: need to add no-path function*/
             board = load(get_filepath(command));
             *game_board = board;
             if (board != NULL) {
@@ -51,6 +52,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             print_board(board);
             break;
         case SET:
+            /*TODO: Or: only in solve mode fixed cells cannot be updated*/
             set_command(board, moves, parameters[0], parameters[1],
                         parameters[2]);
             succeeded = 1;
@@ -66,6 +68,12 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case GUESS:
             break;
         case GENERATE:
+            if(generate_command(board, NULL, parameters[0], parameters[1]) {
+                succeeded =1;
+                print_board(board);
+            }
+            else
+                printf("error in the puzzle generator.\n");
             break;
         case UNDO:
             if (undo(board, moves)) {
@@ -103,6 +111,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             }
             else
                 command_error(33);
+            free(sol_prob);
             break;
         case NUM_SOLUTIONS:
             printf("There are %d solutions for current board.\n", num_solutions_BT(board));
