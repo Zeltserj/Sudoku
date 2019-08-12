@@ -91,6 +91,13 @@ int validate_command(Board* board);
 */
 int hint_command(Board* board, int row, int col);
 
+/**
+* @param board != NULL, not erroneous
+* @param row in range [0,board.size -1 ]
+* @param col in range [0,board.size -1 ]
+* @return an array such that index i holds the probability of value i+1 to be in cell board(row,col)
+*/
 double * guess_hint_command(Board* board, int row, int col);
+
 
 #endif /*SPROJECT_BOARDMODIFIER_H*/

@@ -165,11 +165,11 @@ int validate_hint(Command *command, Board *board) {
     } else if (get_num_parameters(command) != 2) {
         command_error(7);
     } else {
+        out = validate_range(parameters, get_size(board), get_num_parameters(command));
         parameters[0]--;
         parameters[1]--;
         r = parameters[0];
         c = parameters[1];
-        out = validate_range(parameters, get_size(board), get_num_parameters(command));
         if (out == 1) {
             if (is_erroneous(board)) {
                 command_error(27);

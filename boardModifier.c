@@ -432,7 +432,10 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
 }
 
 int validate_command(Board *board) {
-    return generate_solution(board,0);
+    Board* brd_cpy = brdcpy(board);
+    int solvable =generate_solution(brd_cpy, 0);
+    free_board(brd_cpy);
+    return solvable;
 }
 
 int hint_command(Board *board, int row, int col) {
@@ -447,11 +450,12 @@ int hint_command(Board *board, int row, int col) {
 }
 
 double * guess_hint_command(Board *board, int row, int col) {
-    int solved, size = get_size(board);
+    Board* brd_cpy = brdcpy(board);
+    int solved, size = get_size(brd_cpy);
     double *solution = (double *) calloc(size * size * size, sizeof(double));
-    solved = solve(board, solution, ILP);
+    solved = solve(brd_cpy, solution, ILP);
     if(solved)
-        return get_probability_array(board,solution,row,col);
+        return get_probability_array(brd_cpy,solution,row,col);
     return NULL;
 }
 
