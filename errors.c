@@ -51,7 +51,7 @@ char *errors(int errornum) {
             out = "unsuccessful file reading";
             break;
         case 16:
-            out = "file does not have enough numbers to fill a board";
+            out = "file does not have enough data to fill a board";
             break;
         case 17:
             out = "file error: not all cell values are in range";

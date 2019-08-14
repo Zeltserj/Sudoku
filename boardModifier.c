@@ -15,10 +15,10 @@ int set_random_value(Board* board, int row, int col);
 int clear_cells(Board* board, int num_keep);
 void copy_to_board(Board *to, LinkedList *moves, Board *from);
 
-void print_int_arr(int* arr, int len) {
+void print_double_arr(double * arr, int len) {
     int i;
     for (i = 0; i < len; i++)
-        printf("arr[%d] = %d\n", i, (arr[i]));
+        printf("arr[%d] = %f\n", i, (arr[i]));
 }
 /**
  *
@@ -432,7 +432,6 @@ double *get_probability_array(Board *board, double *solution, int i, int j) {
         index = get_super_index(i,j,v,size);
         if(solution[index] != -1){
             out[v] = solution[index];
-            printf("get_probability_array: out[%d] = %f\n",v,solution[index]);
         }
     }
     return out;
@@ -459,11 +458,12 @@ int hint_command(Board *board, int row, int col) {
 double * guess_hint_command(Board *board, int row, int col) {
     Board* brd_cpy = brdcpy(board);
     int solved, size = get_size(brd_cpy);
-    double *solution = (double *) calloc(size * size * size, sizeof(double));
+    double *solution = (double *) calloc(size * size * size, sizeof(double)), *sols;
     solved = solve(brd_cpy, solution, LP);
     if(solved){
+        sols = get_probability_array(brd_cpy,solution,row,col);
         free(solution);
-        return get_probability_array(brd_cpy,solution,row,col);
+        return sols;
     }
     free(solution);
     return NULL;
@@ -473,7 +473,6 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
     Board *brd_cpy;
     int i=0;
 
-    /*TODO: make sure X <= board.num_empty*/
     while (i<1000){
         brd_cpy = brdcpy(board);
         if(generate_board(brd_cpy,x,y) == 1){

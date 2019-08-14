@@ -182,10 +182,10 @@ void print_dashes(int length) {
 Cell ***matrix_copy(Cell ***matrix, int size) {
     int i, j;
     Cell ***out = alloc_matrix(size);
-    if (out == NULL) {
+    /*if (out == NULL) {
         error(NULL, NULL, 10501);
         return NULL;
-    }
+    }*/
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             cell_copy(out[i][j], matrix[i][j]);

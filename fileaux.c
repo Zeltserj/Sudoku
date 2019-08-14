@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "fileaux.h"
 
+int input_char(FILE* f,char** ch);
+int input_int(FILE *f, int *num);
+
 int save(Board *board, char *path) {
     FILE* f = fopen(path,"w");
     int temp;
@@ -51,7 +54,7 @@ int save(Board *board, char *path) {
     return 1;
 }
 
-Board *load(char *path) {
+Board *load(char *path, int edit_or_solve) {
     FILE *f = fopen(path, "r");
     Board *b;
     char *c = calloc(3, sizeof(char));
@@ -60,29 +63,23 @@ Board *load(char *path) {
         error("fileaux","load",13);
         return NULL;
     }
-
-    if (fscanf(f, "%d", &m) == 0 || fscanf(f, "%d", &n) == 0) {
-        error("fileaux", "load", 15);
-        free_load(f, NULL, c);
+    if (input_int(f,&m) == 0 || input_int(f,&n) == 0) {
+        free_load(f,NULL,c);
         return NULL;
     }
+
     b = alloc_board(m, n);
     for (row = 0; row < b->size; row++) {
         for (col = 0; col < b->size; col++) {
-            scf_ret = fscanf(f,"%s",c);
+            scf_ret = input_char(f,&c);
             if (scf_ret == 0) {
-                error("fileaux", "load", 15);
-                free_load(f, b, c);
-                return NULL;
-            }
-            if (scf_ret == EOF) {
-                input_error(16);
-                free_load(f, b, c);
+                free_load(f,b,c);
                 return NULL;
             }
             len_c = strlen(c);
 
-            if (c[len_c - 1] == '.') {
+            /*if loading to solve mode*/
+            if (c[len_c - 1] == '.' && edit_or_solve == 1) {
                 fix_cell(b, row, col);
                 c[len_c - 1] = '\0';
             }
@@ -109,12 +106,38 @@ Board *load(char *path) {
     free_load(f, NULL, c);
     return b;
 }
-
+int input_char(FILE* f,char** ch){
+    char* c = *ch;
+    int scf_ret;
+    scf_ret = fscanf(f,"%s",c);
+    if (scf_ret == 0) {
+        error("fileaux", "load", 15);
+        return 0;
+    }
+    if (scf_ret == EOF) {
+        input_error(16);
+        return 0;
+    }
+    return 1;
+}
+int input_int(FILE* f, int* num) {
+    int scf_ret = fscanf(f, "%d", num);
+    if (scf_ret == 0) {
+        error("fileaux", "load", 15);
+        return 0;
+    }
+    if (scf_ret == EOF) {
+        input_error(16);
+        return 0;
+    }
+    return 1;
+}
 void free_load(FILE *f, Board *b, char *c) {
     free(c);
     fclose(f);
-    if(b!=NULL)
+    if(b!=NULL) {
         free_board(b);
+    }
 }
 int is_zero(char* c){
     int i=0;

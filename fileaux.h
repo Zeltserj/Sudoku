@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "board.h"
 
-Board* load(char* path);
+Board *load(char *path, int edit_or_solve);
 int is_zero(char* c);
 void free_load(FILE *f, Board *b, char *c);
 /**

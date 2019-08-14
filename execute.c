@@ -27,7 +27,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
 
     switch (command->type) {
         case SOLVE:
-            board = load(get_filepath(command));
+            board = load(get_filepath(command), 1);
             *game_board = board;
             if (board != NULL) {
                 set_mode(1);
@@ -37,7 +37,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             break;
         case EDIT:
             /*TODO: Or: need to add no-path function*/
-            board = load(get_filepath(command));
+            board = load(get_filepath(command), 0);
             *game_board = board;
             if (board != NULL) {
                 set_mode(2);
@@ -68,7 +68,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case GUESS:
             break;
         case GENERATE:
-            if(generate_command(board, NULL, parameters[0], parameters[1]) {
+            if(generate_command(board, NULL, parameters[0], parameters[1])) {
                 succeeded =1;
                 print_board(board);
             }
