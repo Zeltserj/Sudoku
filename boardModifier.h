@@ -29,10 +29,10 @@ int solve(Board *board, double *super_array, int gurobi_mode);
 /**
  *
  * @param board != NULL && is_erroneous(board) == 0.
- * @param fill_board: 1 for filling input board with its solution. 0 otherwise, so the board remains the same.
+ * @param set_solution: 1 for filling input board with its solution. 0 otherwise, so the board remains the same.
  * @return 1 iff the board is solvable, and the input board now holds the solution.
  */
-int generate_solution(Board *board, int fill_board);
+int generate_solution(Board *board, int set_solution);
 
 /**
 * @param board != NULL
@@ -56,7 +56,14 @@ int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, in
  * otherwise it sets the value in the board
  */
 int autofill(Board* board, LinkedList *moves);
-
+/**
+* goes over all the possible solutions for the cell board[r][c].
+* @param board != NULL
+* @param r in range [0,board.size]
+* @param c in range [0,board.size]
+* @return the single solution for the cell, otherwisr 0 - if there isn't a single solution
+*/
+int get_single_value(Board* board,int r, int c);
 
 /** update board cells to the values of the cells in old_values (error/value/fixed)
 * @param board != NULL
@@ -64,6 +71,7 @@ int autofill(Board* board, LinkedList *moves);
 */
 void change_cells_to(Board *board, LinkedListCells *old_values);
 
+/*return 1 if caused error*/
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
 
 int num_solutions_BT(Board* board);
@@ -100,5 +108,7 @@ int hint_command(Board* board, int row, int col);
 double * guess_hint_command(Board* board, int row, int col);
 
 int generate_command(Board *board, LinkedList *moves, int x, int y);
+
+void clear_cells(Board* board, int num_keep); /*TODO: delete declaration later*/
 
 #endif /*SPROJECT_BOARDMODIFIER_H*/

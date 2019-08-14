@@ -174,22 +174,7 @@ int redo(Board *board, LinkedList *moves) {
 void autofill_command(Board *board, LinkedList *moves) {
     autofill(board, moves);
 }
-int get_single_value(Board* board,int r, int c){
-    int* sols = get_all_sol_cell(board, r, c);
-    int single_sol=0, i;
 
-    for(i=0;i<get_size(board);i++){
-        if(sols[i]==1){
-            if(single_sol != 0){
-                free(sols);
-                return 0;
-            }
-            single_sol = i+1;
-        }
-    }
-    free(sols);
-    return single_sol;
-}
 
 void reset_command(Board *board, LinkedList *moves) {
     while (undo(board,moves)){}

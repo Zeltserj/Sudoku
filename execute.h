@@ -34,14 +34,7 @@ void mark_errors_command(int mark);
 * @param board != NULL
 */
 void autofill_command(Board *board, LinkedList *moves);
-/**
-* goes over all the possible solutions for the cell board[r][c].
-* @param board != NULL
-* @param r in range [0,board.size]
-* @param c in range [0,board.size]
-* @return the single solution for the cell, otherwisr 0 - if there isn't a single solution
-*/
-int get_single_value(Board* board,int r, int c);
+
 
 
 

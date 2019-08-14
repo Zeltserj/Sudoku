@@ -12,13 +12,16 @@ int set_first_cell(Board *brd_cpy, Stack *stack, int *next_cell);
 int generate_board(Board* board, int x, int y);
 int fill_x_cells(Board* board, int x);
 int set_random_value(Board* board, int row, int col);
-int clear_cells(Board* board, int num_keep);
+void clear_cells(Board* board, int num_keep);
 void copy_to_board(Board *to, LinkedList *moves, Board *from);
+void fix_y_cells(Board *board, int num_fix);
+void unfix_all(Board *board);
+int count_sols(int* sol_arr,int len);
 
-void print_double_arr(double * arr, int len) {
+void print_int_arr(int * arr, int len) {
     int i;
     for (i = 0; i < len; i++)
-        printf("arr[%d] = %f\n", i, (arr[i]));
+        printf("arr[%d] = %d\n", i, (arr[i]));
 }
 /**
  *
@@ -188,7 +191,8 @@ int * get_all_sol_cell(Board *board, int r, int c) {
 /**
  *
  * @param board is valid (is_erroneous(board) == 0)
- * @return number of variables to be sent to gurobi also sets the super array: an array A of size size^3 + 1, where A(i*size^2+j*size+k) == 0 if board(i,j) is filled or k+1 is not a legal value for board(i,j)
+ * @return -1 if there is a cell without a possible solution (therefore board is not solveable).
+ * otherwise: number of variables to be sent to gurobi also sets the super array: an array A of size size^3 + 1, where A(i*size^2+j*size+k) == 0 if board(i,j) is filled or k+1 is not a legal value for board(i,j)
  * A(i*size^2+j*size+k) == 1 iff k+1 is a possible solution for the empty cell board(i,j)
  * last value in the array hold number of variables to be sent to gurobi
  */
@@ -199,6 +203,10 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
         for (j = 0; j < dim; j++) {
             /*optimization: get the solution array for empty cells only*/
             solution_for_cell = get_all_sol_cell(board, i, j);
+            if(count_sols(solution_for_cell,dim)==0){
+                free(solution_for_cell);
+                return -1;
+            }
             for (v = 0; v < dim; v++) {
                 if (get(board, i, j) == 0 && solution_for_cell[v] == 1) {
                     super_array[get_super_index(i, j, v, dim)] = 0;
@@ -212,9 +220,17 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
         }
 
     }
+    free(solution_for_cell);
     return var_count;
 }
-
+int count_sols(int* sol_arr,int len) {
+    int i, count = 0;
+    for (i = 0; i < len; i++) {
+        if (sol_arr[i] == 1)
+            count++;
+    }
+    return count;
+}
 
 
 int solve(Board *board, double *super_array, int gurobi_mode) {
@@ -230,22 +246,28 @@ int solve(Board *board, double *super_array, int gurobi_mode) {
     }
 
     var_count = generate_variable_array(board, super_array, dictionary_array);
+    if(var_count == -1)
+        return 0;
     return gurobi_solve(board, super_array, dictionary_array, var_count, gurobi_mode);
 }
 
-int autofill(Board* board, LinkedList *moves){
-    Board* b_cpy = brdcpy(board);
-    int i,j,v, count = 0;
-    for(i=0; i<get_size(board);i++){
-        for(j=0;j<get_size(board);j++){
-            if(get(b_cpy,i,j) == 0) {
-                v = get_single_value(b_cpy, i, j);
+int autofill(Board* board, LinkedList *moves) {
+    Board *b_cpy = brdcpy(board);
+    int i, j, v, count = 0;
+    for (i = 0; i < get_size(board); i++) {
+        for (j = 0; j < get_size(board); j++) {
+            if (get(b_cpy, i, j) == 0) {
+                if (moves != NULL)
+                    v = get_single_value(b_cpy, i, j);
+                else
+                    v = get_single_value(board, i, j);
+
                 if (v != 0) {
-                    if(moves != NULL)
+                    if (moves != NULL)
                         set_command(board, moves, i, j, v);
                     else
-                        set_value(board,i,j,v);
-                count++;
+                        set_value(board, i, j, v);
+                    count++;
                 }
             }
         }
@@ -253,11 +275,27 @@ int autofill(Board* board, LinkedList *moves){
     free_board(b_cpy);
     return count;
 }
+int get_single_value(Board* board,int r, int c){
+    int* sols = get_all_sol_cell(board, r, c);
+    int single_sol=0, i;
+
+    for(i=0;i<get_size(board);i++){
+        if(sols[i]==1){
+            if(single_sol != 0){
+                free(sols);
+                return 0;
+            }
+            single_sol = i+1;
+        }
+    }
+    free(sols);
+    return single_sol;
+}
 
 int generate_solution(Board *board, int fill_board) {
     int size = get_size(board), i, j, v, solved;
     double *solution = (double *) calloc(size * size * size, sizeof(double));
-    solved = solve(board, solution, ILP);
+    solved = solve(board, solution, ILP);    
     if (solved) {
         if(fill_board) {
             for (i = 0; i < size; i++) {
@@ -266,12 +304,17 @@ int generate_solution(Board *board, int fill_board) {
                         for (v = 0; v < size; v++) {
                             if (solution[get_super_index(i, j, v, size)] == 1) {
                                 set_value(board, i, j, v + 1);
+                                /*printf("generate_solution: [%d][%d] = %d\n",i,j,v+1);*/
                             }
+                            /*if(solution[get_super_index(i, j, v, size)] >= 0)
+                              printf("generate_solution: [%d][%d] = %d\n",i,j,v+1);*/
                         }
                     }
                 }
             }
         }
+        /*printf("generate_solution - print board after solved:\n");
+        print_board(board);*/
         free(solution);
         return 1;
     }
@@ -290,6 +333,23 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
     move_curr_to_head(old_values);
 }
 
+/*int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
+    Node* curr = get_curr(moves);
+    LinkedListCells* curr_changed = get_changed_cells_list(curr);
+    int prev_value=get(board,r,c), caused_error=0;
+    if(value!= prev_value)
+    {
+        if(moves!=NULL)
+            add_cell_after_curr(curr_changed,get_cell_cpy(board,r,c));
+        if(is_error(board,r,c))
+            validate_cell(board, curr_changed, r, c, prev_value,-1);
+        caused_error += validate_cell(board,curr_changed,r,c,value,1);
+        set_value(board,r,c,value);
+    }
+    if (caused_error>0)
+        return 1;
+
+}*/
 void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     Node* curr = get_curr(moves);
     LinkedListCells* curr_changed = get_changed_cells_list(curr);
@@ -303,7 +363,6 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
         set_value(board,r,c,value);
     }
 }
-
 int num_solutions_BT(Board *board) {
     Stack *stack = alloc_stack();
     StackNode* curr_node;
@@ -354,7 +413,8 @@ int num_solutions_BT(Board *board) {
         }
         if(get_num_empty(brd_cpy) == 0) {
             sol_count++;
-            /*print_board(brd_cpy);*/
+            /*printf("num_solutions: print board sol %d\n",sol_count);
+            print_board(brd_cpy);*/
         }
     }
     free(next_cell);
@@ -477,11 +537,12 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
         brd_cpy = brdcpy(board);
         if(generate_board(brd_cpy,x,y) == 1){
             copy_to_board(board, moves, brd_cpy);
-            free(brd_cpy);
+            free_board(brd_cpy);
             return 1;
         }
-        i++;
-        free(brd_cpy);
+        else
+          free_board(brd_cpy);  
+        i++;        
     }
     return 0;
 }
@@ -493,11 +554,21 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
 * @return 1 if succeeded to generate a solvable board. otherwise 0.
 */
 int generate_board(Board* board, int x, int y) {
+    int gen_sol_ret;
+    /*print_board(board);*/
     if(fill_x_cells(board,x) == 0)
         return 0;
-    if(generate_solution(board,1))
+    printf("generate_board: after fill_x\n");
+    /*printf("validate = %d\n",validate_command(board));*/
+    print_board(board);
+    gen_sol_ret =generate_solution(board,1); 
+    if(gen_sol_ret == 0)
         return 0;
+    printf("generate_board: after generate_solution - returned %d\n",gen_sol_ret);
+    print_board(board);
     clear_cells(board, y);
+    printf("generate_board: after clear_cells\n");
+    print_board(board);
     return 1;
 }
 
@@ -524,11 +595,11 @@ int fill_x_cells(Board* board, int x){
             } else
                 empty = 1;
         } while (!empty);
-        if(set_random_value(board,r,c))
+        if(set_random_value(board,r,c)){        
             x--;
+        }
         else
             return 0;
-
     }
     return 1;
 }
@@ -543,26 +614,65 @@ int fill_x_cells(Board* board, int x){
 int set_random_value(Board* board, int row, int col) {
     int *sol_arr = get_all_sol_cell(board, row, col);
     int num_sol = 0, i, sol_place;
+    
     for (i = 0; i < get_size(board); i++) {
-        if (sol_arr[i])
+        if (sol_arr[i]==1)
             num_sol++;
     }
     if (num_sol == 0)
         return 0;
 
     sol_place = rand() % num_sol;
-    i = -1;
-    while (sol_place > 0) {
-        i++;
-        if (sol_arr[i] == 1)
+    i=0;
+    while(sol_place>=0){
+        if(sol_arr[i]==1)
             sol_place--;
+        i++;
     }
     set_value(board, row, col, i);
+    
     return 1;
 }
 
-int clear_cells(Board* board, int num_keep){
+void clear_cells(Board* board, int num_keep){
+    int i,j , size = get_size(board);
+    fix_y_cells(board,num_keep);
+    for(i=0;i<size;i++)
+        for(j=0;j<size;j++)
+            if(!is_fixed(board,i,j)){
+                set_value(board,i,j,0);
+                /*printf("clear_cells: [%d][%d] cleared. num empty = %d\n",i,j,get_num_empty(board));*/
+            }
+    unfix_all(board);
 
+}
+void fix_y_cells(Board *board, int num_fix){
+    int size = get_size(board);
+    int r,c, fixed=1;
+
+    while(num_fix>0) {
+        r = rand() % size;
+        c = rand() % size;
+        while (fixed) {
+            if (is_fixed(board, r, c)){
+                r = rand() % size;
+                if (is_fixed(board, r, c))
+                    c = rand() % size;
+                else
+                    fixed = 0;
+            } else
+                fixed = 0;
+        }
+        fix_cell(board, r, c);
+        num_fix--;
+        fixed = 1;
+    }
+}
+void unfix_all(Board *board){
+    int i,j, size = get_size(board);
+    for(i=0; i<size;i++)
+        for(j=0;j<size;j++)
+            unfix_cell(board,i,j);
 }
 
 /**
