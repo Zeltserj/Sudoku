@@ -68,7 +68,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case GUESS:
             break;
         case GENERATE:
-            if(generate_command(board, NULL, parameters[0], parameters[1])) {
+            if(generate_command(board, moves, parameters[0], parameters[1])) {
                 succeeded =1;
                 print_board(board);
             }

@@ -303,18 +303,13 @@ int generate_solution(Board *board, int fill_board) {
                     if (get(board, i, j) == 0) {
                         for (v = 0; v < size; v++) {
                             if (solution[get_super_index(i, j, v, size)] == 1) {
-                                set_value(board, i, j, v + 1);
-                                /*printf("generate_solution: [%d][%d] = %d\n",i,j,v+1);*/
+                                set_value(board, i, j, v + 1);                                
                             }
-                            /*if(solution[get_super_index(i, j, v, size)] >= 0)
-                              printf("generate_solution: [%d][%d] = %d\n",i,j,v+1);*/
                         }
                     }
                 }
             }
         }
-        /*printf("generate_solution - print board after solved:\n");
-        print_board(board);*/
         free(solution);
         return 1;
     }
@@ -333,23 +328,7 @@ void change_cells_to(Board *board, LinkedListCells *old_values) {
     move_curr_to_head(old_values);
 }
 
-/*int set_command(Board *board, LinkedList *moves, int r, int c, int value) {
-    Node* curr = get_curr(moves);
-    LinkedListCells* curr_changed = get_changed_cells_list(curr);
-    int prev_value=get(board,r,c), caused_error=0;
-    if(value!= prev_value)
-    {
-        if(moves!=NULL)
-            add_cell_after_curr(curr_changed,get_cell_cpy(board,r,c));
-        if(is_error(board,r,c))
-            validate_cell(board, curr_changed, r, c, prev_value,-1);
-        caused_error += validate_cell(board,curr_changed,r,c,value,1);
-        set_value(board,r,c,value);
-    }
-    if (caused_error>0)
-        return 1;
 
-}*/
 void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     Node* curr = get_curr(moves);
     LinkedListCells* curr_changed = get_changed_cells_list(curr);
@@ -411,11 +390,9 @@ int num_solutions_BT(Board *board) {
             set_value(brd_cpy,get_row_stack_node(curr_node),get_col_stack_node(curr_node),0);
             free_stack_node(curr_node);
         }
-        if(get_num_empty(brd_cpy) == 0) {
+        if(get_num_empty(brd_cpy) == 0)
             sol_count++;
-            /*printf("num_solutions: print board sol %d\n",sol_count);
-            print_board(brd_cpy);*/
-        }
+        
     }
     free(next_cell);
     free_board(brd_cpy);
@@ -554,21 +531,11 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
 * @return 1 if succeeded to generate a solvable board. otherwise 0.
 */
 int generate_board(Board* board, int x, int y) {
-    int gen_sol_ret;
-    /*print_board(board);*/
     if(fill_x_cells(board,x) == 0)
         return 0;
-    printf("generate_board: after fill_x\n");
-    /*printf("validate = %d\n",validate_command(board));*/
-    print_board(board);
-    gen_sol_ret =generate_solution(board,1); 
-    if(gen_sol_ret == 0)
+    if(!generate_solution(board,1))
         return 0;
-    printf("generate_board: after generate_solution - returned %d\n",gen_sol_ret);
-    print_board(board);
     clear_cells(board, y);
-    printf("generate_board: after clear_cells\n");
-    print_board(board);
     return 1;
 }
 
@@ -641,7 +608,6 @@ void clear_cells(Board* board, int num_keep){
         for(j=0;j<size;j++)
             if(!is_fixed(board,i,j)){
                 set_value(board,i,j,0);
-                /*printf("clear_cells: [%d][%d] cleared. num empty = %d\n",i,j,get_num_empty(board));*/
             }
     unfix_all(board);
 
@@ -685,14 +651,14 @@ void unfix_all(Board *board){
 void copy_to_board(Board *to, LinkedList *moves, Board *from) {
     int i, j, size = get_size(to);
     Cell *cell_cpy_to, *cell_cpy_from;
-    LinkedListCells *changed;
-
+    Node *curr = get_curr(moves);
+    LinkedListCells *changed = get_changed_cells_list(curr);
+    
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             cell_cpy_from = get_cell_cpy(from, i, j);
             cell_cpy_to = get_cell_cpy(to, i, j);
             if (!is_equal_cell(cell_cpy_from, cell_cpy_to)) {
-                changed = get_changed_cells_list(get_curr(moves));
                 add_cell_after_curr(changed, cell_cpy_to);
                 set_cell(to, cell_cpy_from);
             } else
