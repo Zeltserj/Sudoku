@@ -101,4 +101,6 @@ double * guess_hint_command(Board* board, int row, int col);
 
 int generate_command(Board *board, LinkedList *moves, int x, int y);
 
+int guess_command(Board *board, LinkedList *moves, double threshold);
+
 #endif /*SPROJECT_BOARDMODIFIER_H*/

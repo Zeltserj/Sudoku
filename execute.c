@@ -24,7 +24,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             advance_curr(moves);
         }
     }
-
+    /*TODO: clear moves in load*/
     switch (command->type) {
         case SOLVE:
             board = load(get_filepath(command), 1);
@@ -66,6 +66,9 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 printf("board is not solvable.\n");
             break;
         case GUESS:
+            succeeded = guess_command(board,moves,get_threshold(command));
+            if(succeeded)
+                print_board(board);
             break;
         case GENERATE:
             if(generate_command(board, moves, parameters[0], parameters[1])) {
@@ -89,10 +92,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 succeeded = 1;
             break;
         case SAVE:
-            if (save(board, get_filepath(command)))
-                succeeded = 1;
-            else
-                succeeded = 0;
+            succeeded = save(board, get_filepath(command));
             break;
         case HINT:
             hint = hint_command(board,parameters[0],parameters[1]);

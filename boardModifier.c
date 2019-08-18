@@ -17,11 +17,18 @@ void copy_to_board(Board *to, LinkedList *moves, Board *from);
 void fix_y_cells(Board *board, int num_fix);
 void unfix_all(Board *board);
 int count_sols(int* sol_arr,int len);
+int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold);
+void fix_prob_arr(double *arr, int *sol_arr, int size);
 
 void print_int_arr(int * arr, int len) {
     int i;
     for (i = 0; i < len; i++)
         printf("arr[%d] = %d\n", i, (arr[i]));
+}
+void print_double_arr(double * arr, int len) {
+    int i;
+    for (i = 0; i < len; i++)
+        printf("arr[%d] = %f\n", i, (arr[i]));
 }
 /**
  *
@@ -665,5 +672,89 @@ void copy_to_board(Board *to, LinkedList *moves, Board *from) {
                 free(cell_cpy_to);
             free(cell_cpy_from);
         }
+    }
+}
+
+int guess_command(Board *board, LinkedList *moves, double threshold) {
+    Board *brd_cpy = brdcpy(board);
+    int solved, size = get_size(brd_cpy), i, j, rand_sol, last, len_prob_arr = 100;
+    double *solution = (double *) calloc(size * size * size, sizeof(double)), *sols;
+    int *prob_sols, *all_sols;
+    Node *curr = get_curr(moves);
+    LinkedListCells *curr_changed = get_changed_cells_list(curr);
+    if(solution == NULL){
+        error("boardModifier","guess_command",1);
+        exit(0);
+    }
+    solved = solve(brd_cpy, solution, LP);
+
+    if (solved) {
+        for (i = 0; i < size; i++) {
+            for (j = 0; j < size; j++) {
+                if(get(board,i,j) == 0){
+                    prob_sols = (int *) calloc(len_prob_arr, sizeof(int));
+                    if(prob_sols == NULL){
+                        error("boardModifier","guess_command",1);
+                        exit(0);
+                    }
+                    sols = get_probability_array(board, solution, i, j);
+                    all_sols = get_all_sol_cell(board, i, j);
+                    printf("guess_command: cell [%d][%d]\n",i,j);
+                    printf("guess_command: all_sols:\n");
+                    print_int_arr(all_sols, size);
+                    printf("guess_command: prob_array:\n");
+                    print_double_arr(sols, size);
+                    if(count_sols(all_sols,size) > 0){
+                        fix_prob_arr(sols, all_sols, size);
+                        last = fill_score_arr(prob_sols, len_prob_arr, sols, size, threshold);
+                        printf("guess_command: last = %d\n",last);
+                        if(last > 0){
+                            rand_sol = rand() % last;
+                            printf("guess_command: prob_sols[%d] = %d\n",rand_sol,prob_sols[rand_sol]);
+                            set_value(board, i, j, prob_sols[rand_sol]);
+                            printf("guess_command: set [%d][%d] = %d\n",i,j,prob_sols[rand_sol]);
+                            add_cell_after_curr(curr_changed, get_cell_cpy(board, i, j));                            
+                        }
+                    }
+                    free(prob_sols);
+                    free(all_sols);
+                }
+            }
+        }
+    } else{
+        free(solution);
+        return 0;
+    }
+    free(solution);
+    return 1;
+}
+
+int add_to_score_arr(int* arr, int len, int last, int value, double score) {
+    int i;
+    int normal_score = ((int)(score + 0.5))*len;
+    printf("add_to_score_arr: normal_score = %d\n", normal_score);
+    for (i = last; i < last + normal_score; i++) {
+        /*printf("added to score array: arr[%d] = %d\n",i,value);*/
+        arr[i] = value;
+    }
+    return i;
+}
+
+int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold) {
+    int i, last = 0;
+    printf("fill_score_arr: threshold = %f\n", threshold);
+    for (i = 0; i < len_score; i++) {
+        printf("score[%d] = %f\n",i,score[i]);
+        if(score[i]>=threshold)
+            last = add_to_score_arr(arr, len_arr, last, i + 1, score[i]);
+    }
+    return last;
+}
+
+void fix_prob_arr(double *arr, int *sol_arr, int size) {
+    int i;
+    for (i = 0; i < size; i++) {
+        if (sol_arr[i] == 0)
+            arr[i] = 0;
     }
 }
