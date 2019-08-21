@@ -5,7 +5,7 @@
 #include "fileaux.h"
 
 void print_probability_array(double* prob, int len);
-
+int load_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
 
 /*the first node in moves has command==NULL therefore moves is not empty*/
 /*int execute(Board **game_board, Command *command, LinkedList **game_moves){
@@ -25,26 +25,13 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             advance_curr(moves);
         }
     /*}*/
-    /*TODO: clear moves in load*/
     switch (command->type) {
         case SOLVE:
-            board = load(get_filepath(command), 1);
-            *game_board = board;
-            if (board != NULL) {
-                set_mode(1);
-                succeeded = 1;
-                print_board(board);
-            }
+            succeeded = load_command(game_board, moves, command, 1);
             break;
         case EDIT:
             /*TODO: Or: need to add no-path function*/
-            board = load(get_filepath(command), 0);
-            *game_board = board;
-            if (board != NULL) {
-                set_mode(2);
-                succeeded = 1;
-                print_board(board);
-            }
+            succeeded = load_command(game_board, moves, command, 0);
             break;
         case MARK_ERRORS:
             mark_errors_command(parameters[0]);
@@ -54,8 +41,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             break;
         case SET:
             /*TODO: Or: only in solve mode fixed cells cannot be updated*/
-            set_command(board, moves, parameters[0], parameters[1],
-                        parameters[2]);
+            set_command(board, moves, parameters[0], parameters[1],parameters[2]);
             succeeded = 1;
             print_board(board);
             break;
@@ -194,6 +180,21 @@ void print_probability_array(double* prob, int len) {
         if (prob[i] > 0)
             printf("%d : %f\n", i + 1, prob[i]);
     }
+}
+
+int load_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
+    Board* board = load(get_filepath(command), edit_or_solve);
+    *game_board = board;
+    if (board != NULL) {
+        if(edit_or_solve)
+            set_mode(1);
+        else
+            set_mode(2);
+        clear_linked_list(moves);
+        print_board(board);
+        return 1;
+    }
+    return 0;
 }
 
 

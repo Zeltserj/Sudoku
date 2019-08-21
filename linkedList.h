@@ -117,4 +117,6 @@ void free_node(Node *node);
 void free_linked_list(LinkedList* list);
 
 void print_linked_list(LinkedList* list);
+
+void clear_linked_list(LinkedList* list);
 #endif

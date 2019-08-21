@@ -177,4 +177,10 @@ LinkedListCells * get_new_values_cells_list(Node *node) { return node->new_value
 
 int get_len_linked_list(LinkedList *list) { return list->len; }
 
+void clear_linked_list(LinkedList *list) {
+    while (get_curr(list) != get_head(list))
+        backward_curr(list);
+    remove_all_after_curr(list);
+}
+
 
