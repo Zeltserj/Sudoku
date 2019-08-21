@@ -7,7 +7,7 @@
 void print_probability_array(double* prob, int len);
 
 
-/*TODO: Or: the first node in moves has command==NULL therefore moves is not empty*/
+/*the first node in moves has command==NULL therefore moves is not empty*/
 int execute(Board **game_board, Command *command, LinkedList **game_moves){
     return execute_command(game_board,command,game_moves,0);
 }
