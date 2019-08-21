@@ -6,25 +6,22 @@
 
 void print_probability_array(double* prob, int len);
 int load_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
+int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo);
 
 /*the first node in moves has command==NULL therefore moves is not empty*/
-/*int execute(Board **game_board, Command *command, LinkedList **game_moves){
-    return execute_command(game_board, command, game_moves);
-}*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves) {
-    Board* board = *game_board;
-    LinkedList* moves= *game_moves;
+    Board *board = *game_board;
+    LinkedList *moves = *game_moves;
     LinkedListCells *old_values, *new_values;
     int succeeded = 0, *parameters = get_parameters(command), hint;
-    double* sol_prob;
-    /*if(!is_redo){*/
-        if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
-            old_values = alloc_linked_list_cells();
-            new_values = alloc_linked_list_cells();
-            add_linked_list(moves, command, old_values, new_values);
-            advance_curr(moves);
-        }
-    /*}*/
+    double *sol_prob;
+
+    if (command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
+        old_values = alloc_linked_list_cells();
+        new_values = alloc_linked_list_cells();
+        add_linked_list(moves, command, old_values, new_values);
+        advance_curr(moves);
+    }
     switch (command->type) {
         case SOLVE:
             succeeded = load_command(game_board, moves, command, 1);
@@ -40,8 +37,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             print_board(board);
             break;
         case SET:
-            /*TODO: Or: only in solve mode fixed cells cannot be updated*/
-            set_command(board, moves, parameters[0], parameters[1],parameters[2]);
+            set_command(board, moves, parameters[0], parameters[1], parameters[2]);
             succeeded = 1;
             print_board(board);
             break;
@@ -53,52 +49,39 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 printf("board is not solvable.\n");
             break;
         case GUESS:
-            succeeded = guess_command(board,moves,get_threshold(command));
-            if(succeeded)
+            succeeded = guess_command(board, moves, get_threshold(command));
+            if (succeeded)
                 print_board(board);
             break;
         case GENERATE:
-            if(generate_command(board, moves, parameters[0], parameters[1])) {
-                succeeded =1;
-                print_board(board);
-            }
-            else
-                printf("error in the puzzle generator.\n");
-            break;
-        case UNDO:
-            if (undo(board, moves)) {
+            if (generate_command(board, moves, parameters[0], parameters[1])) {
                 succeeded = 1;
                 print_board(board);
             } else
-                command_error(8);
+                printf("error in the puzzle generator.\n");
+            break;
+        case UNDO:
+            succeeded = undo_redo_command(board,moves,0);
             break;
         case REDO:
-            if (!redo(board, moves))
-                command_error(9);
-            else{
-                succeeded = 1;
-                print_board(board);
-            }
+            succeeded = undo_redo_command(board,moves,1);
             break;
         case SAVE:
             succeeded = save(board, get_filepath(command));
             break;
         case HINT:
-            hint = hint_command(board,parameters[0],parameters[1]);
-            if(hint){
-                printf("hint: try to set %d in cell (%d,%d).\n",hint,parameters[0]+1,parameters[1]+1);
-                succeeded = 1;
-            }
+            succeeded = hint_command(board, parameters[0], parameters[1]);
+            if (succeeded)
+                printf("hint: try to set %d in cell (%d,%d).\n", hint, parameters[0] + 1, parameters[1] + 1);
             else
                 command_error(33);
             break;
         case GUESS_HINT:
-            sol_prob = guess_hint_command(board,parameters[0],parameters[1]);
-            if(sol_prob!= NULL){
-                print_probability_array(sol_prob,get_size(board));
-                succeeded=1;
-            }
-            else
+            sol_prob = guess_hint_command(board, parameters[0], parameters[1]);
+            if (sol_prob != NULL) {
+                print_probability_array(sol_prob, get_size(board));
+                succeeded = 1;
+            } else
                 command_error(33);
             free(sol_prob);
             break;
@@ -120,9 +103,8 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             succeeded = 1;
             break;
     }
-    if(command->type != SET && command->type != GENERATE && command->type != GUESS && command->type != AUTOFILL) {
+    if (command->type != SET && command->type != GENERATE && command->type != GUESS && command->type != AUTOFILL)
         free(command);
-    }
     return succeeded;
 }
 
@@ -197,5 +179,19 @@ int load_command(Board **game_board, LinkedList *moves, Command *command, int ed
     return 0;
 }
 
+int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo) {
+    int succeeded, error_num = 8;
+    if (undo_or_redo)
+        succeeded = redo(board, moves);
+    else
+        succeeded = undo(board, moves);
 
+    if (succeeded) {
+        print_board(board);
+        return 1;
+    }
 
+    error_num += undo_or_redo;
+    command_error(error_num);
+    return 0;
+}
