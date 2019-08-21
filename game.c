@@ -15,7 +15,7 @@ void init_game() {
     char *str = calloc(256, sizeof(char));
     int exit=0, won=0, exe_ret;
     mode = 0;
-    add_linked_list(moves, NULL, NULL);
+    add_linked_list(moves, NULL, NULL, NULL);
     while(!exit && !won){
         printf("enter input:\n");
         command = parse_input(fgets(str, 256, stdin));
@@ -25,7 +25,7 @@ void init_game() {
                 exit = 1;
             }
             else{
-                exe_ret = execute(&board,command,&moves);
+                exe_ret = execute_command(&board,command,&moves);
                 if(get_type(command) == SET && mode == 1 && exe_ret && get_num_empty(board) == 0){
                     if(!is_erroneous(board)) {
                         announce_winner();

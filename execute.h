@@ -6,7 +6,7 @@
 #include "board.h"
 
 int execute(Board **game_board, Command *command, LinkedList **game_moves);
-int execute_command(Board **game_board, Command *command, LinkedList **game_moves, int is_redo);
+int execute_command(Board **game_board, Command *command, LinkedList **game_moves);
 void set_mode(int new_mode);
 
 /**

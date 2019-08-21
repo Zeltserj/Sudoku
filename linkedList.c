@@ -69,8 +69,8 @@ void remove_all_after_curr(LinkedList *list) {
 }
 
 
-void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed) {
-    Node* newNode = alloc_node(c, changed);
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *old_values, LinkedListCells *new_values) {
+    Node* newNode = alloc_node(c, old_values, new_values);
     if(list->current != NULL) {
         remove_all_after_curr(list);
         list->current->next = newNode;
@@ -82,14 +82,15 @@ void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed) {
     }
     list->len++;
 }
-Node *alloc_node(Command *c, LinkedListCells *changed) {
+Node *alloc_node(Command *c, LinkedListCells *old_values, LinkedListCells *new_values) {
     Node* newNode = (Node*) calloc(1, sizeof(Node));
     if(newNode==NULL){
         error("linkedList","alloc_node",1);
         exit(0);
     }
     newNode->c = c;
-    newNode->changed=changed;
+    newNode->old_values=old_values;
+    newNode->new_values=new_values;
     return newNode;
 }
 LinkedList *alloc_linkedList() {
@@ -126,7 +127,8 @@ void backward_curr(LinkedList *list) {
 
 void free_node(Node *node) {
     if(node!= NULL) {
-        free_linked_list_cells(node->changed);
+        free_linked_list_cells(node->old_values);
+        free_linked_list_cells(node->new_values);
         free_command(node->c);
         free(node);
     }
@@ -170,7 +172,8 @@ int is_curr_last(LinkedList *list) {
     return 0;
 }
 
-LinkedListCells * get_changed_cells_list(Node *node) { return node->changed; }
+LinkedListCells * get_old_values_cells_list(Node *node) { return node->old_values; }
+LinkedListCells * get_new_values_cells_list(Node *node) { return node->new_values; }
 
 int get_len_linked_list(LinkedList *list) { return list->len; }
 

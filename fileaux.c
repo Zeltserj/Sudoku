@@ -79,8 +79,9 @@ Board *load(char *path, int edit_or_solve) {
             len_c = strlen(c);
 
             /*if loading to solve mode*/
-            if (c[len_c - 1] == '.' && edit_or_solve == 1) {
-                fix_cell(b, row, col);
+            if (c[len_c - 1] == '.') {
+                if(edit_or_solve == 1)
+                    fix_cell(b, row, col);
                 c[len_c - 1] = '\0';
             }
             value = atoi(c);

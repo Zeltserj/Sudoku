@@ -8,7 +8,8 @@
 
 typedef struct NodeLinkedList{
     Command* c;
-    LinkedListCells* changed;
+    LinkedListCells* old_values;
+    LinkedListCells* new_values;
     struct NodeLinkedList* next;
     struct NodeLinkedList* prev;
 }Node;
@@ -34,9 +35,14 @@ Node* get_curr(LinkedList *list);
 
 /**
 * @param node != NULL
-* @return the linked list of cells of input node
+* @return the linked list of cells old values of input node
 */
-LinkedListCells * get_changed_cells_list(Node *node);
+LinkedListCells * get_old_values_cells_list(Node *node);
+/**
+* @param node != NULL
+* @return the linked list of cells new values of input node
+*/
+LinkedListCells * get_new_values_cells_list(Node *node);
 
 int is_curr_last(LinkedList* list);
 Command* get_command(Node* node);
@@ -46,16 +52,16 @@ Command* get_command(Node* node);
 * if current == NULL (the list is empty) than node will become current and head.
 * @param list of nodes from Node type
 * @param c - the executed command
-* @param changed - a linked list of the cells which had been changed due to the command execution
+* @param old_values - a linked list of the cells which had been changed due to the command execution
 */
-void add_linked_list(LinkedList *list, Command *c, LinkedListCells *changed);
+void add_linked_list(LinkedList *list, Command *c, LinkedListCells *old_values, LinkedListCells *new_values);
 
 /**
 * @param c - the executed command
-* @param changed - a linked list of the cells which had been changed due to the command execution
+* @param old_values - a linked list of the cells which had been changed due to the command execution
 * @return pointer to a new node with input arguments as properties. next and prev are both NULL at that point
 */
-Node *alloc_node(Command *c, LinkedListCells *changed);
+Node *alloc_node(Command *c, LinkedListCells *old_values, LinkedListCells *new_values);
 /**
 * allocates memory for linked list type.
 * @return a pointer to the empty linked list created

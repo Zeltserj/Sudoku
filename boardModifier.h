@@ -60,9 +60,9 @@ int autofill(Board* board, LinkedList *moves);
 
 /** update board cells to the values of the cells in old_values (error/value/fixed)
 * @param board != NULL
-* @param old_values != NULL. a list of NodeCell
+* @param values_list != NULL. a list of NodeCell
 */
-void change_cells_to(Board *board, LinkedListCells *old_values);
+void change_cells_to(Board *board, LinkedListCells *values_list);
 
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
 

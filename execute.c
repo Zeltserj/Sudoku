@@ -8,22 +8,23 @@ void print_probability_array(double* prob, int len);
 
 
 /*the first node in moves has command==NULL therefore moves is not empty*/
-int execute(Board **game_board, Command *command, LinkedList **game_moves){
-    return execute_command(game_board,command,game_moves,0);
-}
-int execute_command(Board **game_board, Command *command, LinkedList **game_moves, int is_redo) {
+/*int execute(Board **game_board, Command *command, LinkedList **game_moves){
+    return execute_command(game_board, command, game_moves);
+}*/
+int execute_command(Board **game_board, Command *command, LinkedList **game_moves) {
     Board* board = *game_board;
     LinkedList* moves= *game_moves;
-    LinkedListCells* changed;
+    LinkedListCells *old_values, *new_values;
     int succeeded = 0, *parameters = get_parameters(command), hint;
     double* sol_prob;
-    if(!is_redo){
+    /*if(!is_redo){*/
         if(command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
-            changed = alloc_linked_list_cells();
-            add_linked_list(moves, command, changed);
+            old_values = alloc_linked_list_cells();
+            new_values = alloc_linked_list_cells();
+            add_linked_list(moves, command, old_values, new_values);
             advance_curr(moves);
         }
-    }
+    /*}*/
     /*TODO: clear moves in load*/
     switch (command->type) {
         case SOLVE:
@@ -88,8 +89,10 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case REDO:
             if (!redo(board, moves))
                 command_error(9);
-            else
+            else{
                 succeeded = 1;
+                print_board(board);
+            }
             break;
         case SAVE:
             succeeded = save(board, get_filepath(command));
@@ -147,28 +150,27 @@ void mark_errors_command(int mark) {
 
 int undo(Board *board, LinkedList *moves) {
     Node *temp;
-    Node* curr = get_curr(moves);
+    Node *curr = get_curr(moves);
     if (get_command(curr) == NULL) {
         return 0;
-    } else {
-        temp = curr;
-        backward_curr(moves);
-        change_cells_to(board, get_changed_cells_list(temp));
-        return 1;
     }
+    temp = curr;
+    backward_curr(moves);
+    change_cells_to(board, get_old_values_cells_list(temp));
+    return 1;
 }
 
 
 int redo(Board *board, LinkedList *moves) {
-    Command *c;
+    Node *curr;
     if (is_curr_last(moves)) {
         return 0;
     }
     advance_curr(moves);
-    c = get_command(get_curr(moves));
-    /*c is one of: set/autofill/generate/guess */
-    execute_command(&board,c,&moves,1);
+    curr = get_curr(moves);
+    change_cells_to(board, get_new_values_cells_list(curr));
     return 1;
+
 }
 
 void autofill_command(Board *board, LinkedList *moves) {

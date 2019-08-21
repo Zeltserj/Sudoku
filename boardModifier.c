@@ -323,30 +323,32 @@ int generate_solution(Board *board, int fill_board) {
     free(solution);
     return 0;
 }
-void change_cells_to(Board *board, LinkedListCells *old_values) {
-    int i, len = get_len_linked_list_cells(old_values);
+void change_cells_to(Board *board, LinkedListCells *values_list) {
+    int i, len = get_len_linked_list_cells(values_list);
     Cell* curr;
-    move_curr_to_head(old_values);
+    move_curr_to_head(values_list);
     for(i=0; i < len; i++){
-        curr=get_curr_cell(old_values);
+        curr=get_curr_cell(values_list);
         set_cell(board,curr);
-        advance_curr_cell(old_values);
+        advance_curr_cell(values_list);
     }
-    move_curr_to_head(old_values);
+    move_curr_to_head(values_list);
 }
 
 
 void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     Node* curr = get_curr(moves);
-    LinkedListCells* curr_changed = get_changed_cells_list(curr);
+    LinkedListCells* curr_old_values = get_old_values_cells_list(curr);
+    LinkedListCells* curr_new_values = get_new_values_cells_list(curr);
     int prev_value=get(board,r,c);
     if(value!= prev_value)
     {
-        add_cell_after_curr(curr_changed,get_cell_cpy(board,r,c));
+        add_cell_after_curr(curr_old_values, get_cell_cpy(board, r, c));
         if(is_error(board,r,c))
-            validate_cell(board, curr_changed, r, c, prev_value,-1);
-        validate_cell(board,curr_changed,r,c,value,1);
+            validate_cell(board, curr_old_values, r, c, prev_value, -1);
+        validate_cell(board, curr_old_values, r, c, value, 1);
         set_value(board,r,c,value);
+        add_cell_after_curr(curr_new_values, get_cell_cpy(board, r, c));
     }
 }
 int num_solutions_BT(Board *board) {
@@ -659,18 +661,20 @@ void copy_to_board(Board *to, LinkedList *moves, Board *from) {
     int i, j, size = get_size(to);
     Cell *cell_cpy_to, *cell_cpy_from;
     Node *curr = get_curr(moves);
-    LinkedListCells *changed = get_changed_cells_list(curr);
-    
+    LinkedListCells *old_values = get_old_values_cells_list(curr);
+    LinkedListCells *new_values = get_new_values_cells_list(curr);
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
             cell_cpy_from = get_cell_cpy(from, i, j);
             cell_cpy_to = get_cell_cpy(to, i, j);
             if (!is_equal_cell(cell_cpy_from, cell_cpy_to)) {
-                add_cell_after_curr(changed, cell_cpy_to);
+                add_cell_after_curr(old_values, cell_cpy_to);
+                add_cell_after_curr(new_values, cell_cpy_from);
                 set_cell(to, cell_cpy_from);
-            } else
+            } else{
                 free(cell_cpy_to);
-            free(cell_cpy_from);
+                free(cell_cpy_from);
+            }
         }
     }
 }
