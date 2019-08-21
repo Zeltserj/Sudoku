@@ -56,7 +56,7 @@ Command *parse_input(char *input) {
     int *parameters = calloc(256, sizeof(int));
     int i, len = (int)strlen(input), offset, num_parameters;
     command_type type;
-    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp;
+    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL;
     float threshold;
     if(out == NULL ||input_copy == NULL || parameters == NULL){
         error("parser", "parser_input", 1);
@@ -83,7 +83,8 @@ Command *parse_input(char *input) {
     type = (int)get_type(out);
     if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
-        temp = cpy_input(ptr,0,strlen(ptr));
+        if(ptr != NULL)
+            temp = cpy_input(ptr,0,strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
         if(ptr == NULL || ptr[0] == '\n'){

@@ -548,6 +548,7 @@ int generate_board(Board* board, int x, int y) {
     return 1;
 }
 
+
 /**
 * @param board != NULL. THE METHOD CHANGES THE BOARD - MAKE SURE TO INPUT COPY OF THE ORIGINAL!
 * @param x in range [0,get_num_empty(board)]
@@ -571,7 +572,7 @@ int fill_x_cells(Board* board, int x){
             } else
                 empty = 1;
         } while (!empty);
-        if(set_random_value(board,r,c)){        
+        if(set_random_value(board,r,c)){
             x--;
         }
         else
@@ -590,7 +591,7 @@ int fill_x_cells(Board* board, int x){
 int set_random_value(Board* board, int row, int col) {
     int *sol_arr = get_all_sol_cell(board, row, col);
     int num_sol = 0, i, sol_place;
-    
+
     for (i = 0; i < get_size(board); i++) {
         if (sol_arr[i]==1)
             num_sol++;
@@ -606,7 +607,7 @@ int set_random_value(Board* board, int row, int col) {
         i++;
     }
     set_value(board, row, col, i);
-    
+
     return 1;
 }
 
@@ -749,4 +750,13 @@ void fix_prob_arr(double *arr, int *sol_arr, int size) {
         if (sol_arr[i] == 0)
             arr[i] = 0;
     }
+}
+
+Board *generate_basic_board() {
+    Board* board = alloc_board(3,3);
+    if(board==NULL){
+        error("boardModifier","generate_basic_board",1);
+        exit(0);
+    }
+    return board;
 }

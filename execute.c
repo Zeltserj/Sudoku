@@ -5,7 +5,7 @@
 #include "fileaux.h"
 
 void print_probability_array(double* prob, int len);
-int load_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
+int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
 int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo);
 
 /*the first node in moves has command==NULL therefore moves is not empty*/
@@ -15,7 +15,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     LinkedListCells *old_values, *new_values;
     int succeeded = 0, *parameters = get_parameters(command), hint;
     double *sol_prob;
-
+    
     if (command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
         old_values = alloc_linked_list_cells();
         new_values = alloc_linked_list_cells();
@@ -24,11 +24,10 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     }
     switch (command->type) {
         case SOLVE:
-            succeeded = load_command(game_board, moves, command, 1);
+            succeeded = edit_solve_command(game_board, moves, command, 1);
             break;
         case EDIT:
-            /*TODO: Or: need to add no-path function*/
-            succeeded = load_command(game_board, moves, command, 0);
+            succeeded = edit_solve_command(game_board, moves, command, 0);
             break;
         case MARK_ERRORS:
             mark_errors_command(parameters[0]);
@@ -70,9 +69,11 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             succeeded = save(board, get_filepath(command));
             break;
         case HINT:
-            succeeded = hint_command(board, parameters[0], parameters[1]);
-            if (succeeded)
+            hint = hint_command(board, parameters[0], parameters[1]);
+            if (hint>0) {
+                succeeded = 1;
                 printf("hint: try to set %d in cell (%d,%d).\n", hint, parameters[0] + 1, parameters[1] + 1);
+            }
             else
                 command_error(33);
             break;
@@ -164,8 +165,14 @@ void print_probability_array(double* prob, int len) {
     }
 }
 
-int load_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
-    Board* board = load(get_filepath(command), edit_or_solve);
+int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
+    Board* board;
+    char* file_path = get_filepath(command);
+    if(get_num_parameters(command) == 0)
+        board = generate_basic_board();
+    else
+        board = load(file_path, edit_or_solve);
+
     *game_board = board;
     if (board != NULL) {
         if(edit_or_solve)
