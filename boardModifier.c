@@ -19,6 +19,7 @@ void unfix_all(Board *board);
 int count_sols(int* sol_arr,int len);
 int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold);
 void fix_prob_arr(double *arr, int *sol_arr, int size);
+int get_single_value(Board* board,int r, int c);
 
 void print_int_arr(int * arr, int len) {
     int i;
