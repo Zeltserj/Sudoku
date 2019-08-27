@@ -8,6 +8,8 @@
 int mark_errors = 1;
 int mode = _INIT;
 /*TODO: fix gurobi in generate_solution*/
+/*TODO: make sure program exits in EOF */
+
 void init_game() {
     Board* board = NULL;
     Command *command;
