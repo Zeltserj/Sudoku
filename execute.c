@@ -8,7 +8,7 @@ void print_probability_array(double* prob, int len);
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
 int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo);
 
-/*the first node in moves has command==NULL therefore moves is not empty*/
+/*the first node in moves has command==NULL as the basic list. Therefore moves is not empty*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves) {
     Board *board = *game_board;
     LinkedList *moves = *game_moves;
@@ -173,7 +173,15 @@ void print_probability_array(double* prob, int len) {
     }
 }
 
-/*TODO: document*/
+/**
+* load the board in file get_filepath(command) to &game_board. for edit without path, sets empty 9X9 board.
+* if succeeded, sets the correct mode, empty list of moves and prints the board loaded.
+* @param game_board != NULL.
+* @param moves != NULL. should be allocated already
+* @param command != NULL. type_command(command) is EDIT or SOLVE
+* @param edit_or_solve. 0 for edit, 1 for solve.
+* @return 1 if succeeded, 0 otherwise.
+*/
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
     Board* board;
     char* file_path = get_filepath(command);
@@ -185,9 +193,9 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
     *game_board = board;
     if (board != NULL) {
         if(edit_or_solve)
-            set_mode(1);
+            set_mode(1); /*EDIT*/
         else
-            set_mode(2);
+            set_mode(2); /*SOLVE*/
         clear_linked_list(moves);
         print_board(board);
         return 1;
@@ -195,7 +203,14 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
     return 0;
 }
 
-/*TODO: document*/
+/**
+* undo the current move of moves / redo the next move of moves (as required by undo_or_redo).
+* if succeeded, prints board. otherwise, prints appropriate error.
+* @param board != NULL
+* @param moves != NULL. the current of moves is the last move done.
+* @param undo_or_redo - 1 for undo, 0 for redo
+* @return 1 if succeeded, otherwise 0
+*/
 int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo) {
     int succeeded, error_num = 8;
     if (undo_or_redo)

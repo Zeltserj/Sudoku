@@ -6,7 +6,15 @@
 #include "board.h"
 
 
-/*TODO: document*/
+/**
+* executes the input command. For commands that change the board, updates game_moves so the current
+* node contains the command and two lists of cell values that has been changed:
+* one of the cell values before the command, and one for the values after the command.
+* @param game_board != NULL. pointer to the address of the game board
+* @param command != NULL. a legal command.
+* @param game_moves != NULL. pointer to the address of the game board
+* @return
+*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves);
 
 /**

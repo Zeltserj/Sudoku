@@ -733,8 +733,15 @@ int guess_command(Board *board, LinkedList *moves, float threshold) {
     return 1;
 }
 
-/* TODO: document this function*/
-
+/**
+* sets value in len*score (floored) cells of arr, start at last.
+* @param arr != NULL
+* @param len = length of arr
+* @param last = the last filled cell in arr
+* @param value
+* @param score
+* @return numbers of non-empty cells in arr.
+*/
 int add_to_score_arr(int* arr, int len, int last, int value, double score) {
     int i;
     int normal_score = ((int)(len*score + 0.5));
@@ -744,9 +751,9 @@ int add_to_score_arr(int* arr, int len, int last, int value, double score) {
     return i;
 }
 
-/* TODO: document this function*/
 /**
-* for each i iff arr[i]>= threshold fills arr[i] value in 10*arr[i] cells in score array
+* input array arr filled with solution values a cells in range [0,return value) such that
+* the number of cells contain each solution are at the same proportion as their scores at input score array.
 * @param arr != NULL. contains the probabilities of solution values for a cell
 * @param len_arr length arr
 * @param score != NULL.
