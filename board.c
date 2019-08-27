@@ -11,9 +11,6 @@ Cell ***matrix_copy(Cell ***matrix, int size);
 
 void print_dashes(int length);
 
-
-
-
 Cell ***alloc_matrix(int size) {
     int i, j;
     Cell ***matrix = (Cell ***) calloc(size, sizeof(Cell **));

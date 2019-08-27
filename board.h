@@ -29,7 +29,19 @@ typedef struct GameBoard{
 */
 void set_cell(Board *board, Cell *cell);
 
+/**
+ *
+ * @param size != 0
+ * @return a size*size matrix of the cell structure allocated on the heap. exits on memory failure
+ */
 Cell *** alloc_matrix(int size);
+
+/**
+ *
+ * @param r
+ * @param c
+ * @return  a board structure with size == r*c and a size*size cell matrix allocated on the heap, exits on failure
+ */
 Board *alloc_board(int r, int c);
 
 /**
@@ -41,7 +53,7 @@ Board *alloc_board(int r, int c);
  *
  * sets cell at (r, c) to value
  */
-void set_value(Board *board, int r, int c, int value); /*TODO: check whether r and c are in range*/
+void set_value(Board *board, int r, int c, int value);
 /**
  *
  * @param board != null
@@ -54,15 +66,37 @@ int get(Board* board, int r, int c);
 /**
  *
  * @param board != NULL
- * @return number of empty cells in the board, by attribute
+ * @return number of empty cells in the board
  */
 int get_num_empty(Board* board);
-
+/**
+ *
+ * @param board != NULL
+ * @return size of board (rows_block*cols_block)
+ */
 int get_size(Board* board);
+
+/**
+ *
+ * @param board != NULL
+ * @return  number of rows in a block
+ */
 int get_block_rows(Board* board);
+
+/**
+ *
+ * @param board != NULL
+ * @return  number of cols in a block
+ */
 int get_block_cols(Board* board);
 
-
+/**
+ *
+ * @param board != NULL
+ * @param r in range[0,size)
+ * @param c in range[0,size)
+ * @return a cell structure with exactly same attributes as board->matrix[r][c]
+ */
 Cell* get_cell_cpy(Board* board, int r, int c);
 
 /**
@@ -88,10 +122,16 @@ int is_error(Board* board, int r, int c);
 int is_erroneous(Board* board);
 
 /**
+ *
+ * @param matrix
+ * @param size number of rows and cols in matrix
+ * frees matrix from heap
+ */
+void free_matrix(Cell*** matrix, int size);
+/**
  * @param board
  * @return frees board struct from heap
  */
-void free_matrix(Cell*** matrix, int size);
 void free_board(Board* board);
 
 /**
@@ -109,10 +149,32 @@ Board * brdcpy(Board* board);
  * sets fixed/erroneous cells in the board
  */
 void fix_cell(Board* board, int r, int c);
+/**
+ *
+ * @param board
+ * @param r < board.size
+ * @param c < board.size
+ * sets fixed/erroneous cells in the board
+ */
 void unfix_cell(Board* board, int r, int c);
-/*void set_erroneous(Board* board, int r, int c);
-* void set_legal(Board* board, int r, int c);*/
+
+/**
+ *
+ * @param board
+ * @param r in range [0 board.size)
+ * @param c in range [0 board.size)
+ * increments number of cells whose value collides with board[r][c] by 1
+ */
 int increase_error(Board* board, int r, int c);
+
+/**
+ *
+ * @param board
+  * @param r in range [0 board.size)
+ * @param c in range [0 board.size)
+ * decrements number of cells whose value collides with board[r][c] by 1
+ */
+
 int decrease_error(Board* board, int r, int c);
 
 

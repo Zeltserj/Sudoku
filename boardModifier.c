@@ -21,6 +21,7 @@ int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double t
 void fix_prob_arr(double *arr, int *sol_arr, int size);
 int get_single_value(Board* board,int r, int c);
 
+/*TODO: delete this f*cking debug functions*/
 void print_int_arr(int * arr, int len) {
     int i;
     for (i = 0; i < len; i++)
@@ -727,6 +728,8 @@ int guess_command(Board *board, LinkedList *moves, double threshold) {
     return 1;
 }
 
+/* TODO: document this function*/
+
 int add_to_score_arr(int* arr, int len, int last, int value, double score) {
     int i;
     int normal_score = ((int)(len*score + 0.5));
@@ -735,6 +738,8 @@ int add_to_score_arr(int* arr, int len, int last, int value, double score) {
     }
     return i;
 }
+
+/* TODO: document this function*/
 
 int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold) {
     int i, last = 0;

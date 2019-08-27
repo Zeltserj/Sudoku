@@ -64,8 +64,20 @@ int autofill(Board* board, LinkedList *moves);
 */
 void change_cells_to(Board *board, LinkedListCells *values_list);
 
+/**
+ *
+ * @param board != NULL
+ * @param moves the list of moves done so far ( != NULL)
+ * @param r in range [0,board.size)
+ * @param c in range [0,board.size)
+ * @param value in range[o, board.size)
+ *
+ * inserts the value in board[r][c], updates the collisions with other cells in row, column and block.
+ * adds the move to moves
+ */
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
 
+/*TODO: I have a wild guess what this does*/
 int num_solutions_BT(Board* board);
 
 /**
@@ -79,7 +91,11 @@ int num_solutions_BT(Board* board);
  */
 double *get_probability_array(Board* board, double *solution, int i, int j);
 
-
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0
+ * @return 1 iff the board is solvable
+ */
 int validate_command(Board* board);
 
 /**
@@ -99,9 +115,29 @@ int hint_command(Board* board, int row, int col);
 */
 double * guess_hint_command(Board* board, int row, int col);
 
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0
+ * @param moves != NULL, list of moves for undo
+ * @param x < board.num_empty
+ * @param y in range[0,size)
+ * @return 0 iff board filled with X random cells could not be solved for 1000 times.
+ * Otherwise, board consists of cells which were filled and not deleted
+ */
 int generate_command(Board *board, LinkedList *moves, int x, int y);
 
+/**
+ *
+ * @param board != NULL && is_erroneous(board) == 0
+ * @param moves != NULL, list of moves for undo
+ * @param threshold in range(0,1]
+ * @return 1 iff board is solvable
+ */
 int guess_command(Board *board, LinkedList *moves, double threshold);
 
+/**
+ *
+ * @return creates an empty 9*9 sudoku board (used as default in edit mode)
+ */
 Board* generate_basic_board();
 #endif /*SPROJECT_BOARDMODIFIER_H*/
