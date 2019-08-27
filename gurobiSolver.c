@@ -347,17 +347,21 @@ int generate_block_constraints(GRBmodel *model, int size, int row_start, int col
                 if (super_array[get_super_index(i, j, v, size) == 0]) {
                     ind[size_count] = get_gurobi_index(i, j, v, size, dic_array);
                     val[size_count] = 1.0;
+                    size_count++;
+                    printf("size count: %d\n", size_count);
                 }
             }
-            if (size_count > 0) {
-                _error = GRBaddconstr(model, size_count, ind, val, GRB_EQUAL, 1.0, NULL);
+           
+        }
+         if (size_count > 0) {
+                _error = GRBaddconstr(model, size_count-1, ind, val, GRB_EQUAL, 1.0, NULL);
                 if (_error) {
+                    printf("i: %d, j: %d, v: %d\n", i,j,v);
                     error("solver", "generate block constraints", 29);
                     return 1;
                 }
             }
             size_count = 0;
-        }
     }
     return 0;
 }

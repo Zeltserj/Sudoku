@@ -6,19 +6,18 @@
 #include "execute.h"
 
 int mark_errors = 1;
-int mode = 1;
-
+int mode = _INIT;
+/*TODO: fix gurobi in generate_solution*/
 void init_game() {
     Board* board = NULL;
     Command *command;
     LinkedList* moves = alloc_linkedList();
-    char *str = calloc(256, sizeof(char));
+    char *str = calloc(257, sizeof(char));
     int exit=0, won=0, exe_ret;
-    mode = 0;
     add_linked_list(moves, NULL, NULL, NULL);
-    while(!exit && !won){
+    while(!exit){
         printf("enter input:\n");
-        command = parse_input(fgets(str, 256, stdin));
+        command = parse_input(fgets(str, 257, stdin));
         if (validate_user_command(command, board)){
             if(get_type(command)== EXIT){
                 print_exit_command();
@@ -30,6 +29,7 @@ void init_game() {
                     if(!is_erroneous(board)) {
                         announce_winner();
                         won = 1;
+                        mode = _INIT;
                     }
                     else {
                         announce_erroneous();
@@ -38,8 +38,6 @@ void init_game() {
             }
         }
     }
-    if(won)
-        mode=0;
 
 }
 

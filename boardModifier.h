@@ -133,7 +133,7 @@ int generate_command(Board *board, LinkedList *moves, int x, int y);
  * @param threshold in range(0,1]
  * @return 1 iff board is solvable
  */
-int guess_command(Board *board, LinkedList *moves, double threshold);
+int guess_command(Board *board, LinkedList *moves, float threshold);
 
 /**
  *

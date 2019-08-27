@@ -56,13 +56,18 @@ Command *parse_input(char *input) {
     int *parameters = calloc(256, sizeof(int));
     int i, len = (int)strlen(input), offset, num_parameters;
     command_type type;
-    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL;
+    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
     float threshold;
+    char c;
     if(out == NULL ||input_copy == NULL || parameters == NULL){
         error("parser", "parser_input", 1);
         exit(0);
     }
     if(len > 256){
+        c = getchar();
+        while(c != '\n' && c != '\r') {
+            c = getchar();
+        }
         input_error(11);
         set_type(out, "invalid");
         return out;

@@ -17,7 +17,7 @@ void copy_to_board(Board *to, LinkedList *moves, Board *from);
 void fix_y_cells(Board *board, int num_fix);
 void unfix_all(Board *board);
 int count_sols(int* sol_arr,int len);
-int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold);
+int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float threshold);
 void fix_prob_arr(double *arr, int *sol_arr, int size);
 int get_single_value(Board* board,int r, int c);
 
@@ -253,7 +253,9 @@ int solve(Board *board, double *super_array, int gurobi_mode) {
     while(autofills > 0){
         autofills = autofill(board, NULL);
     }
-
+    printf("solve: prit board after autofill\n");
+    print_board(board);
+    
     var_count = generate_variable_array(board, super_array, dictionary_array);
     if(var_count == -1)
         return 0;
@@ -312,6 +314,7 @@ int generate_solution(Board *board, int fill_board) {
                     if (get(board, i, j) == 0) {
                         for (v = 0; v < size; v++) {
                             if (solution[get_super_index(i, j, v, size)] == 1) {
+                                printf("generate_solution: set [%d][%d] = %d\n",i,j,v+1);
                                 set_value(board, i, j, v + 1);                                
                             }
                         }
@@ -544,8 +547,14 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
 int generate_board(Board* board, int x, int y) {
     if(fill_x_cells(board,x) == 0)
         return 0;
+    printf("generate_board: after fill cells\n");
+    print_board(board);
     if(!generate_solution(board,1))
         return 0;
+    else{
+        printf("generate_board: generate_solution succeeded\n");
+        print_board(board);
+    }
     clear_cells(board, y);
     return 1;
 }
@@ -682,7 +691,7 @@ void copy_to_board(Board *to, LinkedList *moves, Board *from) {
     }
 }
 
-int guess_command(Board *board, LinkedList *moves, double threshold) {
+int guess_command(Board *board, LinkedList *moves, float threshold) {
     Board *brd_cpy = brdcpy(board);
     int solved, size = get_size(brd_cpy), i, j, rand_sol, last, len_prob_arr = 100;
     double *solution = (double *) calloc(size * size * size, sizeof(double)), *sols;
@@ -741,7 +750,7 @@ int add_to_score_arr(int* arr, int len, int last, int value, double score) {
 
 /* TODO: document this function*/
 
-int fill_score_arr(int *arr, int len_arr, double *score, int len_score, double threshold) {
+int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float threshold) {
     int i, last = 0;
     for (i = 0; i < len_score; i++) {
         if(score[i]>=threshold)
