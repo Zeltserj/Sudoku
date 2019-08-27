@@ -1,7 +1,6 @@
 
 /.idea/
 /cmake-build-debug/
-/main.c
 /test_faux.txt
 /gurobi_c.h
 /makefile
