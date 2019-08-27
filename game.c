@@ -15,7 +15,7 @@ void init_game() {
     Command *command;
     LinkedList* moves = alloc_linkedList();
     char *str = calloc(257, sizeof(char));
-    int exit=0, won=0, exe_ret;
+    int exit=0, exe_ret;
     add_linked_list(moves, NULL, NULL, NULL);
     while(!exit){
         
@@ -38,7 +38,6 @@ void init_game() {
                 if(get_type(command) == SET && mode == 1 && exe_ret && get_num_empty(board) == 0){
                     if(!is_erroneous(board)) {
                         announce_winner();
-                        won = 1;
                         mode = _INIT;
                     }
                     else {
@@ -51,6 +50,7 @@ void init_game() {
 
 }
 
+/*TODO: Or: move to execute*/
 void print_exit_command() {
     printf("Exiting...\n");
 }

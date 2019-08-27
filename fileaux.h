@@ -5,9 +5,16 @@
 #include <stdio.h>
 #include "board.h"
 
+
+/**
+*
+* @param path - the new file will be saved to path location.
+* @param edit_or_solve - 0 for edit, 1 for solve
+* @return if succeeded returns board with the values loaded.
+* otherwise, returns NULL and prints the proper error.
+*/
 Board *load(char *path, int edit_or_solve);
-int is_zero(char* c);
-void free_load(FILE *f, Board *b, char *c);
+
 /**
 * @param board != NULL
 * @param path - the new file will be saved to path location

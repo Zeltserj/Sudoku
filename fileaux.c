@@ -6,6 +6,8 @@
 
 int input_char(FILE* f,char** ch);
 int input_int(FILE *f, int *num);
+void free_load(FILE *f, Board *b, char *c);
+int is_zero(char* c);
 
 int save(Board *board, char *path) {
     FILE* f = fopen(path,"w");
@@ -16,14 +18,14 @@ int save(Board *board, char *path) {
         return 0;
     }
     int r,c;
-    temp = fprintf(f,"%d %d\n",board->rows_block,board->cols_block);
+    temp = fprintf(f,"%d %d\n",get_block_rows(board),get_block_cols(board));
     if(temp<0){
         error("fileaux","save",14);
         fclose(f);
         return 0;
     }
-    for(r=0;r<board->size;r++){
-        for(c=0;c<board->size;c++){
+    for(r=0;r<get_size(board);r++){
+        for(c=0;c<get_size(board);c++){
             temp = fprintf(f,"%d",get(board,r,c));
             if(temp<0){
                 error("fileaux","save",14);
@@ -39,7 +41,7 @@ int save(Board *board, char *path) {
                 }
             }
 
-            if(c<board->size-1)
+            if(c<get_size(board)-1)
                 temp = fputs(" ",f);
             else
                 temp = fputs("\n",f);
@@ -69,8 +71,8 @@ Board *load(char *path, int edit_or_solve) {
     }
 
     b = alloc_board(m, n);
-    for (row = 0; row < b->size; row++) {
-        for (col = 0; col < b->size; col++) {
+    for (row = 0; row < get_size(b); row++) {
+        for (col = 0; col < get_size(b); col++) {
             scf_ret = input_char(f,&c);
             if (scf_ret == 0) {
                 free_load(f,b,c);
@@ -90,7 +92,7 @@ Board *load(char *path, int edit_or_solve) {
                 free_load(f, b, c);
                 return NULL;
             }
-            if (value > b->size || value < 0) {
+            if (value > get_size(b) || value < 0) {
                 input_error(17);
                 free_load(f, b, c);
                 return NULL;
@@ -107,6 +109,13 @@ Board *load(char *path, int edit_or_solve) {
     free_load(f, NULL, c);
     return b;
 }
+
+/**
+* sets the last input character to &ch
+* @param f != NULL. legal path to a file.
+* @param ch != NULL.
+* @return 0 if the last input character is EOF. 1 otherwise.
+*/
 int input_char(FILE* f,char** ch){
     char* c = *ch;
     int scf_ret;
@@ -121,6 +130,13 @@ int input_char(FILE* f,char** ch){
     }
     return 1;
 }
+
+/**
+* sets the last input integer to &ch
+* @param f != NULL. legal path to a file.
+* @param num != NULL.
+* @return 0 if the last input character is EOF. 1 otherwise.
+*/
 int input_int(FILE* f, int* num) {
     int scf_ret = fscanf(f, "%d", num);
     if (scf_ret == 0) {
@@ -133,6 +149,13 @@ int input_int(FILE* f, int* num) {
     }
     return 1;
 }
+
+/**
+* frees c and b, closes file f.
+* @param f
+* @param b
+* @param c
+*/
 void free_load(FILE *f, Board *b, char *c) {
     free(c);
     fclose(f);
@@ -140,6 +163,11 @@ void free_load(FILE *f, Board *b, char *c) {
         free_board(b);
     }
 }
+
+/**
+* @param c != NULL
+* @return 1 if c is equal to zero. otherwise returns 0.
+*/
 int is_zero(char* c){
     int i=0;
     while(i<strlen(c) && c[i]!= '\0'){
