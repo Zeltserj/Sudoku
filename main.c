@@ -1,12 +1,6 @@
-#include <stdio.h>
-#include "board.h"
+
 #include "game.h"
-#include "parser.h"
-#include "linkedList.h"
-#include "commandValidator.h"
-#include "fileaux.h"
-#include "execute.h"
-#include "command.h"
+
 
 int main() {
     init_game();
