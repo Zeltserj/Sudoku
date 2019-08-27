@@ -314,7 +314,6 @@ int generate_solution(Board *board, int fill_board) {
                     if (get(board, i, j) == 0) {
                         for (v = 0; v < size; v++) {
                             if (solution[get_super_index(i, j, v, size)] == 1) {
-                                printf("generate_solution: set [%d][%d] = %d\n",i,j,v+1);
                                 set_value(board, i, j, v + 1);                                
                             }
                         }
@@ -547,14 +546,8 @@ int generate_command(Board *board, LinkedList *moves, int x, int y) {
 int generate_board(Board* board, int x, int y) {
     if(fill_x_cells(board,x) == 0)
         return 0;
-    printf("generate_board: after fill cells\n");
-    print_board(board);
     if(!generate_solution(board,1))
         return 0;
-    else{
-        printf("generate_board: generate_solution succeeded\n");
-        print_board(board);
-    }
     clear_cells(board, y);
     return 1;
 }
