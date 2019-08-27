@@ -18,8 +18,16 @@ void init_game() {
     int exit=0, won=0, exe_ret;
     add_linked_list(moves, NULL, NULL, NULL);
     while(!exit){
-        printf("enter input:\n");
-        command = parse_input(fgets(str, 257, stdin));
+        
+		str = fgets(str,257,stdin);
+		if(str == NULL){
+			if(feof(stdin)){
+				exit = 1;
+				break;
+			}
+		}
+		printf("enter input:\n");
+        command = parse_input(str);
         if (validate_user_command(command, board)){
             if(get_type(command)== EXIT){
                 print_exit_command();

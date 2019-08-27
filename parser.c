@@ -30,7 +30,7 @@ int parse_input_parameters(char *string, int *parameters) {
     }
     strcpy(input_copy, string);
     ptr = strtok(input_copy, delim);
-    while (ptr != NULL && ptr[0] != '\n') {
+    while (ptr != NULL && ptr[0] != '\n' && ptr[0] != '\r') {
         parameters[i] = (int) strtol(ptr, &end_ptr, 10);
         if (ptr == end_ptr) {
             parameters[i] = -1;
@@ -51,6 +51,7 @@ int parse_input_parameters(char *string, int *parameters) {
 }
 
 Command *parse_input(char *input) {
+
     Command* out = calloc(1, sizeof(Command));
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = calloc(256, sizeof(int));
@@ -59,6 +60,7 @@ Command *parse_input(char *input) {
     char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
     float threshold;
     char c;
+	
     if(out == NULL ||input_copy == NULL || parameters == NULL){
         error("parser", "parser_input", 1);
         exit(0);
@@ -158,11 +160,15 @@ void parse_filepath(char *filepath) {
     if(filepath == NULL){
         return;
     }
+
     int len = (int)strlen(filepath);
     if(filepath[len-1] == '\n'){
         filepath[len-1] = '\0';
     }
-
+	if(filepath[len-2] == '\r'){	
+		filepath[len-2] = '\0';
+		
+	}
 }
 
 /**

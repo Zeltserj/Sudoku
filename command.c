@@ -42,71 +42,71 @@ int *get_parameters(Command *command) {
 }
 
 void set_type(Command *command, char *name) {
-    if (strcmp(name, "solve") == 0 || strcmp(name, "solve\n") == 0) {
+    if (strcmp(name, "solve") == 0 || strcmp(name, "solve\n") == 0 || strcmp(name, "solve\r\n")==0) {
         command->type = SOLVE;
         return;
     }
-    if ((strcmp(name, "edit") == 0) ||(strcmp(name, "edit\n") == 0) ) {
+    if ((strcmp(name, "edit") == 0) ||(strcmp(name, "edit\n") == 0)  || strcmp(name, "edit\r\n")==0 ) {
         command->type = EDIT;
         return;
     }
-    if (strcmp(name, "mark_errors") == 0 || strcmp(name, "mark_errors\n") == 0) {
+    if (strcmp(name, "mark_errors") == 0 || strcmp(name, "mark_errors\n") == 0  || strcmp(name, "mark_errors\r\n")==0) {
         command->type = MARK_ERRORS;
         return;
     }
-    if (strcmp(name, "print_board") == 0 || strcmp(name, "print_board\n") == 0) {
+    if (strcmp(name, "print_board") == 0 || strcmp(name, "print_board\n") == 0  || strcmp(name, "print_board\r\n")==0) {
         command->type = PRINT_BOARD;
         return;
     }
-    if (strcmp(name, "set") == 0 || strcmp(name, "set\n") == 0) {
+    if (strcmp(name, "set") == 0 || strcmp(name, "set\n") == 0  || strcmp(name, "set\r\n")==0) {
         command->type = SET;
         return;
     }
-    if (strcmp(name, "validate") == 0 || strcmp(name, "validate\n")==0) {
+    if (strcmp(name, "validate") == 0 || strcmp(name, "validate\n")==0  || strcmp(name, "validate\r\n")==0) {
         command->type = VALIDATE;
         return;
     }
-    if (strcmp(name, "guess") == 0 || strcmp(name, "guess\n") == 0) {
+    if (strcmp(name, "guess") == 0 || strcmp(name, "guess\n") == 0  || strcmp(name, "guess\r\n")==0) {
         command->type = GUESS;
         return;
     }
-    if (strcmp(name, "generate") == 0 || strcmp(name, "generate\n") == 0) {
+    if (strcmp(name, "generate") == 0 || strcmp(name, "generate\n") == 0  || strcmp(name, "generate\r\n")==0) {
         command->type = GENERATE;
         return;
     }
-    if (strcmp(name, "undo") == 0 || strcmp(name, "undo\n") == 0) {
+    if (strcmp(name, "undo") == 0 || strcmp(name, "undo\n") == 0  || strcmp(name, "undo\r\n")==0) {
         command->type = UNDO;
         return;
     }
-    if (strcmp(name, "redo") == 0 || strcmp(name, "redo\n") == 0) {
+    if (strcmp(name, "redo") == 0 || strcmp(name, "redo\n") == 0  || strcmp(name, "redo\r\n")==0) {
         command->type = REDO;
         return;
     }
-    if (strcmp(name, "save") == 0 || strcmp(name, "save\n") == 0) {
+    if (strcmp(name, "save") == 0 || strcmp(name, "save\n") == 0  || strcmp(name, "save\r\n")==0) {
         command->type = SAVE;
         return;
     }
-    if (strcmp(name, "hint") == 0 || strcmp(name, "hint\n") == 0) {
+    if (strcmp(name, "hint") == 0 || strcmp(name, "hint\n") == 0  || strcmp(name, "hint\r\n")==0) {
         command->type = HINT;
         return;
     }
-    if (strcmp(name, "guess_hint") == 0 || strcmp(name, "guess_hint\n") == 0) {
+    if (strcmp(name, "guess_hint") == 0 || strcmp(name, "guess_hint\n") == 0  || strcmp(name, "guess_hint\r\n")==0) {
         command->type = GUESS_HINT;
         return;
     }
-    if (strcmp(name, "num_solutions") == 0 || strcmp(name, "num_solutions\n") == 0) {
+    if (strcmp(name, "num_solutions") == 0 || strcmp(name, "num_solutions\n") == 0  || strcmp(name, "num_solutions\r\n")==0) {
         command->type = NUM_SOLUTIONS;
         return;
     }
-    if (strcmp(name, "autofill") == 0 || strcmp(name, "autofill\n") == 0) {
+    if (strcmp(name, "autofill") == 0 || strcmp(name, "autofill\n") == 0  || strcmp(name, "autofill\r\n")==0) {
         command->type = AUTOFILL;
         return;
     }
-    if (strcmp(name, "reset") == 0 || strcmp(name, "reset\n") == 0) {
+    if (strcmp(name, "reset") == 0 || strcmp(name, "reset\n") == 0  || strcmp(name, "reset\r\n")==0) {
         command->type = RESET;
         return;
     }
-    if (strcmp(name, "exit") == 0 || strcmp(name, "exit\n") == 0) {
+    if (strcmp(name, "exit") == 0 || strcmp(name, "exit\n") == 0  || strcmp(name, "exit\r\n")==0) {
         command->type = EXIT;
         return;
     } else {
