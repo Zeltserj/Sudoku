@@ -34,19 +34,74 @@ Command* alloc_command(char* name, int* parameters, char* filepath);
 
 /**
  *
- * @param command
- * @return getters and setters for all attributes of Command structure
+ * @param command != NULL
+ * @return command.num_parameters
  */
 int get_num_parameters(Command *command);
+/**
+ *
+ * @param command != NULL
+ * @return command.parameters
+ */
 int* get_parameters(Command* command);
+/**
+ *
+ * @param command != NULL
+ * @return command.filepath
+ */
 char* get_filepath(Command* command);
+/**
+ *
+ * @param command != NULL
+ * @return command.type
+ */
 command_type get_type(Command* command);
+/**
+ *
+ * @param command != NULL
+ * @return command.threshold
+ */
 float get_threshold(Command* command);
+/**
+ *
+ * @param command != NULL
+ * @param num_parameters
+ * @return command.num_parameters == @param num_parameters
+ */
 void set_num_parameters(Command *command, int num_parameters);
+/**
+ *
+ * @param command != NULL
+ * @param parameters
+ * @return command.parameters == @param parameters
+ */
 void set_parameter(Command* command, int* parameters);
+/**
+ *
+ * @param command != NULL
+ * @param filepath
+ * @return command.filepath == @param filepath
+ */
 void set_filepath(Command* command, char* filepath);
+/**
+ *
+ * @param command != NULL
+ * @param name
+ * @return command.type == @param (type) name
+ */
 void set_type(Command *command, char *name);
+/**
+ *
+ * @param command != NULL
+ * @param threshold
+ * @return command.threshold == @param threshold
+ */
 void set_threshold(Command *commnad, float threshold);
+/**
+ *
+ * @param command != NULL
+ * @return command is freed from heap
+ */
 void free_command(Command* command);
 /**
  *
@@ -55,5 +110,6 @@ void free_command(Command* command);
  *
  */
 char * command_name(Command* command);
+/*TODO: delete this*/
 void print_input_parameters(Command *pCommand);
 #endif

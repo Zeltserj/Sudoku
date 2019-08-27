@@ -5,8 +5,15 @@
 #include "linkedList.h"
 #include "board.h"
 
+/*TODO: delete*/
 int execute(Board **game_board, Command *command, LinkedList **game_moves);
+/*TODO: document*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves);
+
+/**
+ *
+ * @param new_mode 0 ( init), 1 ( solver) or 2( (edit)
+ */
 void set_mode(int new_mode);
 
 /**
@@ -27,6 +34,11 @@ int undo(Board *board, LinkedList *moves);
 */
 int redo(Board *board, LinkedList *moves);
 
+/**
+ *
+ * @param mark == 1 || mark == 0
+ * sets mark_errors in the game to mark
+ */
 void mark_errors_command(int mark);
 
 /**

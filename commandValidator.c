@@ -100,6 +100,11 @@ int validate_user_command(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_exit(Command *command) {
     int out = 1;
     if(get_num_parameters(command) != 0){
@@ -109,6 +114,11 @@ int validate_exit(Command *command) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_reset(Command *command) {
     int out = 1;
     if(mode == 0){
@@ -122,6 +132,11 @@ int validate_reset(Command *command) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_autofill(Command *command, Board *board) {
     int out = 1;
     if(mode != 1){
@@ -139,6 +154,11 @@ int validate_autofill(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_num_solutions(Command *command, Board *board) {
     int out = 1;
     if(mode == 0){
@@ -156,7 +176,11 @@ int validate_num_solutions(Command *command, Board *board) {
     return out;
 }
 
-
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_hint(Command *command, Board *board) {
     int out, r, c, *parameters = get_parameters(command);
     if (mode != 1) {
@@ -187,6 +211,11 @@ int validate_hint(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_save(Command *command, Board *board) {
     int out = 1, num_parameters = get_num_parameters(command);
     if (mode == 0) {
@@ -202,6 +231,11 @@ int validate_save(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_undo_redo(Command *command) {
     int out = 1, num_parameters = get_num_parameters(command);
     if (mode == 0) {
@@ -214,6 +248,11 @@ int validate_undo_redo(Command *command) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_generate(Command *command, Board *board) {
     int out = 1, num_parameters = get_num_parameters(command), *parameters = get_parameters(command);
     if (mode != 2) {
@@ -229,6 +268,11 @@ int validate_generate(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_guess(Command *command, Board *board) {
     int out = 1, num_parameters = get_num_parameters(command), is_board_invalid = is_erroneous(board);
     if (mode != 1) {
@@ -247,6 +291,11 @@ int validate_guess(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_validate(Command *command, Board *board) {
     int out = 1, num_parameters = get_num_parameters(command), is_board_invalid = is_erroneous(board);
     if (mode == 0) {
@@ -262,6 +311,11 @@ int validate_validate(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_set(Command *command, Board *board) {
     int  out , num_parameters = get_num_parameters(command), *parameters = get_parameters(
             command), r, c;
@@ -290,6 +344,11 @@ int validate_set(Command *command, Board *board) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_range(int *parameters, int size, int num_parameters) {
     int i, out = 1;
     for (i = 0; i < num_parameters; i++) {
@@ -302,6 +361,11 @@ int validate_range(int *parameters, int size, int num_parameters) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_print_board(Command *command) {
     int out = 1, num_parameters = get_num_parameters(command);
     if (mode == 0) {
@@ -314,6 +378,11 @@ int validate_print_board(Command *command) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_edit(Command *command) {
     int out = 1, num_parameters = get_num_parameters(command);
     if (num_parameters > 1) {
@@ -332,6 +401,11 @@ int validate_solve(Command *command) {
     return out;
 }
 
+/**
+ *
+ * @param command != NULL
+ * @return 1 iff command is valid
+ */
 int validate_mark_errors(Command *command) {
     int out = 1, *parameters = get_parameters(command), num_parameters = get_num_parameters(command);
     if (mode != 1) {

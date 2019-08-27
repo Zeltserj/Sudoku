@@ -5,10 +5,20 @@
 #include "errors.h"
 #include "command.h"
 
-
+/**
+ * An array with command names for use in prints
+ */
 char* commands[] = {"invalid","solve","edit","mark_errors","print_board","set", "validate",
                     "guess","generate","undo","redo","save","hint","guess","num_solutions","autofill","reset","exit"};
 
+/*TODO: this looks deletable but even I don't have the balls*/
+/**
+ *
+ * @param name
+ * @param parameters
+ * @param filepath
+ * @return allocates a new command structure with attribute name, parameters, filepath
+ */
 Command *alloc_command(char *name, int *parameters, char *filepath) {
     Command *command = (Command *) calloc(1, sizeof(Command));
     if (command == NULL) {
@@ -31,11 +41,6 @@ int *get_parameters(Command *command) {
     return command->int_parameters;
 }
 
-/**
- *
- * @param command != NULL
- * @param name != null
- */
 void set_type(Command *command, char *name) {
     if (strcmp(name, "solve") == 0 || strcmp(name, "solve\n") == 0) {
         command->type = SOLVE;
