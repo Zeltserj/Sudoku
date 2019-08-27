@@ -110,6 +110,5 @@ void free_command(Command* command);
  *
  */
 char * command_name(Command* command);
-/*TODO: delete this*/
-void print_input_parameters(Command *pCommand);
+
 #endif

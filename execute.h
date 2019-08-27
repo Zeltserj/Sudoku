@@ -5,8 +5,7 @@
 #include "linkedList.h"
 #include "board.h"
 
-/*TODO: delete*/
-int execute(Board **game_board, Command *command, LinkedList **game_moves);
+
 /*TODO: document*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves);
 

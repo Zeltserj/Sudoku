@@ -11,32 +11,6 @@
 char* commands[] = {"invalid","solve","edit","mark_errors","print_board","set", "validate",
                     "guess","generate","undo","redo","save","hint","guess","num_solutions","autofill","reset","exit"};
 
-/*TODO: this looks deletable but even I don't have the balls*/
-/**
- *
- * @param name
- * @param parameters
- * @param filepath
- * @return allocates a new command structure with attribute name, parameters, filepath
- */
-Command *alloc_command(char *name, int *parameters, char *filepath) {
-    Command *command = (Command *) calloc(1, sizeof(Command));
-    if (command == NULL) {
-        error("command", "alloc_command", 1);
-        return NULL;
-    }
-
-    if (name == NULL) {
-        command->type = INVALID;
-        error("command", "alloc_command", 5);
-        return command;
-    }
-    set_type(command, name);
-    command->int_parameters = parameters;
-    command->string_parameters = filepath;
-    return command;
-}
-
 int *get_parameters(Command *command) {
     return command->int_parameters;
 }

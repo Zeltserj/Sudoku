@@ -77,7 +77,11 @@ void change_cells_to(Board *board, LinkedListCells *values_list);
  */
 void set_command(Board *board, LinkedList *moves, int r, int c, int value);
 
-/*TODO: I have a wild guess what this does*/
+/**
+* counts the number of solutions of input board using backtracking.
+* @param board != NULL
+* @return number of solutions input board has.
+*/
 int num_solutions_BT(Board* board);
 
 /**

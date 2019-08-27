@@ -21,7 +21,7 @@ int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float th
 void fix_prob_arr(double *arr, int *sol_arr, int size);
 int get_single_value(Board* board,int r, int c);
 
-/*TODO: delete this f*cking debug functions*/
+/*TODO: delete this debug functions <3 */
 void print_int_arr(int * arr, int len) {
     int i;
     for (i = 0; i < len; i++)
@@ -366,8 +366,11 @@ int num_solutions_BT(Board *board) {
         error("boardModifier","num_solutions_BT",1);
         exit(0);
     }
-    if(set_first_cell(brd_cpy, stack, next_cell) == 0) /*finds the first empty cell to start from and push it to the stack*/
+    if(set_first_cell(brd_cpy, stack, next_cell) == 0){ /*finds the first empty cell to start from and push it to the stack*/
+        free_command(brd_cpy);
+        free(next_cell);
         return 0;
+    }
     while (size_stack(stack) != 0){
         curr_node = peek(stack);
         i = get_value_stack_node(curr_node);
@@ -714,7 +717,7 @@ int guess_command(Board *board, LinkedList *moves, float threshold) {
                     sols = get_probability_array(brd_cpy, solution, i, j);
                     all_sols = get_all_sol_cell(brd_cpy, i, j);
                     if(count_sols(all_sols,size) > 0){
-                        fix_prob_arr(sols, all_sols, size);
+                        fix_prob_arr(sols, all_sols, size); /*set 0 for illegal solutions*/
                         last = fill_score_arr(prob_sols, len_prob_arr, sols, size, threshold);
                         if(last > 0){
                             rand_sol = rand() % last;
@@ -749,7 +752,15 @@ int add_to_score_arr(int* arr, int len, int last, int value, double score) {
 }
 
 /* TODO: document this function*/
-
+/**
+* for each i iff arr[i]>= threshold fills arr[i] value in 10*arr[i] cells in score array
+* @param arr != NULL. contains the probabilities of solution values for a cell
+* @param len_arr length arr
+* @param score != NULL.
+* @param len_score length of score
+* @param threshold
+* @return the last index filled in score
+*/
 int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float threshold) {
     int i, last = 0;
     for (i = 0; i < len_score; i++) {
@@ -759,6 +770,12 @@ int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float th
     return last;
 }
 
+/**
+* sets 0 in arr[i] if i+1 is illegal value by sol_arr.
+* @param arr != NULL. contains the probabilities of solution values for a cell
+* @param sol_arr != NULL. boolean array (for a cell) contains at index i whether i is a legal solutions of a cell
+* @param size the length of input arrays
+*/
 void fix_prob_arr(double *arr, int *sol_arr, int size) {
     int i;
     for (i = 0; i < size; i++) {

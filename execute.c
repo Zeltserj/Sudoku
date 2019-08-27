@@ -15,14 +15,14 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
     LinkedListCells *old_values, *new_values;
     int succeeded = 0, *parameters = get_parameters(command), hint;
     double *sol_prob;
-    /*TODO: do you hate getters?*/
-    if (command->type == SET || command->type == GENERATE || command->type == GUESS || command->type == AUTOFILL) {
+    command_type type = get_type(command);
+    if (type == SET || type == GENERATE || type == GUESS || type == AUTOFILL) {
         old_values = alloc_linked_list_cells();
         new_values = alloc_linked_list_cells();
         add_linked_list(moves, command, old_values, new_values);
         advance_curr(moves);
     }
-    switch (command->type) {
+    switch (type) {
         case SOLVE:
             succeeded = edit_solve_command(game_board, moves, command, 1);
             break;
@@ -104,7 +104,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             succeeded = 1;
             break;
     }
-    if (command->type != SET && command->type != GENERATE && command->type != GUESS && command->type != AUTOFILL)
+    if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
         free_command(command);
     return succeeded;
 }
