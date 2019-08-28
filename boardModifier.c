@@ -366,7 +366,7 @@ int num_solutions_BT(Board *board) {
         exit(0);
     }
     if(set_first_cell(brd_cpy, stack, next_cell) == 0){ /*finds the first empty cell to start from and push it to the stack*/
-        free_command(brd_cpy);
+        free_board(brd_cpy);
         free(next_cell);
         free_stack(stack);
         return 0;
