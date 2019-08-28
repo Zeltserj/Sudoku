@@ -104,8 +104,6 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             succeeded = 1;
             break;
     }
-    if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
-        free_command(command);
     return succeeded;
 }
 

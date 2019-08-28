@@ -119,12 +119,16 @@ void set_num_parameters(Command *command, int num_parameters) {
 
 
 
-void free_command(Command *command) {
+int free_command(Command *command) {
     if(command != NULL) {
-        free(command->int_parameters);
-        free(command->string_parameters);
+        if(command->int_parameters != NULL)
+            free(command->int_parameters);
+        if(command->string_parameters != NULL)
+            free(command->string_parameters);
+        free(command);
+        return 1;
     }
-    free(command);
+    return 0;
 }
 
 float get_threshold(Command *command) {

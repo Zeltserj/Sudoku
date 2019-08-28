@@ -23,7 +23,7 @@ int parse_input_parameters(char *string, int *parameters) {
         return 0;
     }
     len = (int) strlen(string);
-    input_copy = (char *) malloc(len * sizeof(char));
+    input_copy = (char *) malloc((len +1)* sizeof(char));
     if (input_copy == NULL) {
         error("parser", "parse_input_parameters", 1);
         exit(0);
@@ -39,7 +39,6 @@ int parse_input_parameters(char *string, int *parameters) {
         ptr = strtok(NULL, delim);
     }
     if (i > 0) {
-        parameters = realloc(parameters, (i) * sizeof(int));
         if (parameters == NULL) {
             error("parser", "parse_input_parameters", 1);
             exit(0);
@@ -57,7 +56,7 @@ Command *parse_input(char *input) {
     int *parameters = calloc(256, sizeof(int));
     int i, len = (int)strlen(input), offset, num_parameters;
     command_type type;
-    char *input_copy = (char*)malloc(len* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
+    char *input_copy = (char*)malloc((len+1)* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
     float threshold;
     char c;
 	
@@ -86,8 +85,7 @@ Command *parse_input(char *input) {
     offset = get_whitespace_offset(input_copy);
 
     ptr = cpy_input(input,i+offset,len-1);
-
-    type = (int)get_type(out);
+    type = get_type(out);
     if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
         if(ptr != NULL)
@@ -106,6 +104,7 @@ Command *parse_input(char *input) {
                 set_num_parameters(out, 2);
             }
         }
+		free(ptr);
         return out;
     }
     else if(type == GUESS){
@@ -122,6 +121,7 @@ Command *parse_input(char *input) {
                 set_num_parameters(out, 2);
             }
         }
+		free(ptr);
         return out;
     }
     else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
@@ -131,6 +131,7 @@ Command *parse_input(char *input) {
         parse_filepath(get_filepath(out));
         if(ptr == NULL || ptr[0] == '\n'){
             set_num_parameters(out, 0);
+			free(ptr);
             return out;
         }
         else{
@@ -141,12 +142,13 @@ Command *parse_input(char *input) {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
+		free(ptr);
         return out;
     }
     num_parameters = parse_input_parameters(ptr, parameters);
     set_num_parameters(out, num_parameters);
     set_parameter(out, parameters);
-
+	free(ptr);
     return out;
 }
 
@@ -191,10 +193,11 @@ int get_whitespace_offset(char *copy) {
 */
 char *cpy_input(char *str, int from, int to) {
     int size = to - from + 1, i, j = 0;
-    char *new_str = calloc(size, sizeof(char));
+    char *new_str = calloc(size+1, sizeof(char));
 
     for (i = from; i <= to; i++) {
         new_str[j] = str[i];
+
         j++;
     }
     return new_str;

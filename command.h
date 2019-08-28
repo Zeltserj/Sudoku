@@ -102,7 +102,7 @@ void set_threshold(Command *commnad, float threshold);
  * @param command != NULL
  * @return command is freed from heap
  */
-void free_command(Command* command);
+int free_command(Command* command);
 /**
  *
  * @param command != NULL && command.type != NULL
