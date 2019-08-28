@@ -368,6 +368,7 @@ int num_solutions_BT(Board *board) {
     if(set_first_cell(brd_cpy, stack, next_cell) == 0){ /*finds the first empty cell to start from and push it to the stack*/
         free_command(brd_cpy);
         free(next_cell);
+        free_stack(stack);
         return 0;
     }
     while (size_stack(stack) != 0){
@@ -412,6 +413,7 @@ int num_solutions_BT(Board *board) {
     }
     free(next_cell);
     free_board(brd_cpy);
+    free_stack(stack);
     return sol_count;
 }
 
