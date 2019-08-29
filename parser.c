@@ -71,6 +71,8 @@ Command *parse_input(char *input) {
         }
         input_error(11);
         set_type(out, "invalid");
+		free(input_copy);
+		free(parameters);
         return out;
     }
     strcpy(input_copy, input);
@@ -79,6 +81,8 @@ Command *parse_input(char *input) {
     type = get_type(out);
     if(type == INVALID){
         input_error(6);
+		free(input_copy);
+		free(parameters);
         return out;
     }
     i = (int)strlen(name);
@@ -104,8 +108,8 @@ Command *parse_input(char *input) {
                 set_num_parameters(out, 2);
             }
         }
-		free(ptr);
-        return out;
+		
+        
     }
     else if(type == GUESS){
         ptr = strtok(NULL, delim);
@@ -121,8 +125,8 @@ Command *parse_input(char *input) {
                 set_num_parameters(out, 2);
             }
         }
-		free(ptr);
-        return out;
+		
+       
     }
     else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
@@ -132,7 +136,6 @@ Command *parse_input(char *input) {
         if(ptr == NULL || ptr[0] == '\n'){
             set_num_parameters(out, 0);
 			free(ptr);
-            return out;
         }
         else{
             set_num_parameters(out, 1);
@@ -142,12 +145,15 @@ Command *parse_input(char *input) {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
-		free(ptr);
-        return out;
+		
+        
     }
-    num_parameters = parse_input_parameters(ptr, parameters);
+	else{
+	num_parameters = parse_input_parameters(ptr, parameters);
     set_num_parameters(out, num_parameters);
     set_parameter(out, parameters);
+	}
+    free(input_copy);
 	free(ptr);
     return out;
 }
