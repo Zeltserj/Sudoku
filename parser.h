@@ -14,5 +14,5 @@
  * exits on memory failure. all else is given to command validator
  *
  */
-Command* parse_input(char* input);
+void parse_input(char *input, Command *out);
 #endif

@@ -23,23 +23,24 @@ void init_game() {
     add_linked_list(moves, NULL, NULL, NULL);
     command_type type;
     while (!exit) {
-		str = calloc(257, sizeof(char));
-		if(str == NULL){
-			error("game","init_game",1);
-			exit = 1;
-		}
+        str = calloc(257, sizeof(char));
+        command = (Command*)calloc(1, sizeof(Command));
+        if (str == NULL) {
+            error("game", "init_game", 1);
+            exit = 1;
+        }
         printf("enter input:\n");
         str = fgets(str, 257, stdin);
         if (str == NULL) {
             if (feof(stdin)) {
-                command = parse_input("exit");
+                parse_input("exit", command);
                 execute_command(&board, command, &moves);
                 free_command(command);
                 free(str);
                 break;
             }
         }
-        command = parse_input(str);
+        parse_input(str, command);
         type = get_type(command);
         if (validate_user_command(command, board)) {
             exe_ret = execute_command(&board, command, &moves);
@@ -59,8 +60,9 @@ void init_game() {
                 }
             }
         }
-    free(str);
-	}
+        free(str);
+        free_command(command);
+    }
 }
 
 void announce_winner() {
