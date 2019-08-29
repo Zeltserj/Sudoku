@@ -110,9 +110,11 @@ void set_filepath(Command *command, char *filepath) {
 }
 
 void set_parameter(Command *command, int *parameters, int num_parameters) {
-
+    int i = 0;
     int* insert  = (int*)calloc(num_parameters, sizeof(int));
-    memcpy(insert, parameters, num_parameters);
+    for(i = 0; i < num_parameters; i++){
+        insert[i] = parameters[i];
+    }
     command->int_parameters = insert;
 
 }
