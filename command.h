@@ -75,7 +75,7 @@ void set_num_parameters(Command *command, int num_parameters);
  * @param parameters
  * @return command.parameters == @param parameters
  */
-void set_parameter(Command* command, int* parameters);
+void set_parameter(Command *command, int *parameters, int num_parameters);
 /**
  *
  * @param command != NULL

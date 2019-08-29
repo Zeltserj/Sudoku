@@ -146,10 +146,11 @@ void parse_input(char *input, Command *out) {
             parameters[1] = temp_yx;
         }
         set_num_parameters(out, num_parameters);
-        set_parameter(out, parameters);
+        set_parameter(out, parameters, 0);
     }
     free(input_copy);
     free(ptr);
+    free(parameters);
     return;
 }
 
