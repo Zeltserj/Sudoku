@@ -253,8 +253,6 @@ int solve(Board *board, double *super_array, int gurobi_mode) {
     while(autofills > 0){
         autofills = autofill(board, NULL);
     }
-    printf("solve: prit board after autofill\n");
-    print_board(board);
     
     var_count = generate_variable_array(board, super_array, dictionary_array);
     if(var_count == -1)

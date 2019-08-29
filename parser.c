@@ -55,9 +55,9 @@ void parse_input(char *input, Command *out) {
 
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = calloc(256, sizeof(int));
-    int i, len = (int) strlen(input), offset, num_parameters, temp_yx;
+    int i, len = (int) strlen(input), offset, num_parameters,temp_yx;
     command_type type;
-    char *input_copy = (char *) malloc((len + 1) * sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
+    char *input_copy = (char *) malloc((len + 1) * sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL;
     float threshold;
     char c;
 
@@ -139,19 +139,16 @@ void parse_input(char *input, Command *out) {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
-		
-        
-    }
-	else{
-	num_parameters = parse_input_parameters(ptr, parameters);
+    } else {
+        num_parameters = parse_input_parameters(ptr, parameters);
         if(type == SET || type == HINT || type == GUESS_HINT){
             temp_yx = parameters[0];
             parameters[0] = parameters[1];
             parameters[1] = temp_yx;
         }
-    set_num_parameters(out, num_parameters);
-    set_parameter(out, parameters);
-	}
+        set_num_parameters(out, num_parameters);
+        set_parameter(out, parameters);
+    }
     free(input_copy);
     free(ptr);
     return;

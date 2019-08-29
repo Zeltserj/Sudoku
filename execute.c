@@ -43,9 +43,9 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
         case VALIDATE:
             if (validate_command(board)) {
                 succeeded = 1;
-                printf("board is solvable.\n");
+                printf("board is solvable\n");
             } else
-                printf("board is not solvable.\n");
+                printf("board is not solvable\n");
             break;
         case GUESS:
             succeeded = guess_command(board, moves, get_threshold(command));
@@ -57,7 +57,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
                 succeeded = 1;
                 print_board(board);
             } else
-                printf("error in the puzzle generator.\n");
+                printf("error in the puzzle generator\n");
             break;
         case UNDO:
             succeeded = undo_redo_command(board,moves,0);
@@ -72,7 +72,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             hint = hint_command(board, parameters[0], parameters[1]);
             if (hint>0) {
                 succeeded = 1;
-                printf("hint: try to set %d in cell (%d,%d).\n", hint, parameters[0] + 1, parameters[1] + 1);
+                printf("hint: try to set %d in cell (%d,%d)\n", hint, parameters[0] + 1, parameters[1] + 1);
             }
             else
                 command_error(33);
@@ -87,7 +87,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             free(sol_prob);
             break;
         case NUM_SOLUTIONS:
-            printf("There are %d solutions for current board.\n", num_solutions_BT(board));
+            printf("There are %d solutions for current board\n", num_solutions_BT(board));
             break;
         case AUTOFILL:
             autofill_command(board, moves);
