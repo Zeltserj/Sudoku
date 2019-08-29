@@ -9,7 +9,9 @@
 int get_whitespace_offset(char *copy);
 
 void parse_filepath(char *filepath);
+
 char *cpy_input(char *str, int from, int to);
+
 /**
  *
  * @param string given from user after the command name
@@ -23,7 +25,7 @@ int parse_input_parameters(char *string, int *parameters) {
         return 0;
     }
     len = (int) strlen(string);
-    input_copy = (char *) malloc((len +1)* sizeof(char));
+    input_copy = (char *) malloc((len + 1) * sizeof(char));
     if (input_copy == NULL) {
         error("parser", "parse_input_parameters", 1);
         exit(0);
@@ -49,113 +51,104 @@ int parse_input_parameters(char *string, int *parameters) {
     return i;
 }
 
-Command *parse_input(char *input) {
+void parse_input(char *input, Command *out) {
 
-    Command* out = calloc(1, sizeof(Command));
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = calloc(256, sizeof(int));
-    int i, len = (int)strlen(input), offset, num_parameters;
+    int i, len = (int) strlen(input), offset, num_parameters;
     command_type type;
-    char *input_copy = (char*)malloc((len+1)* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
+    char *input_copy = (char *) malloc((len + 1) * sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
     float threshold;
     char c;
-	
-    if(out == NULL ||input_copy == NULL || parameters == NULL){
+
+    if (out == NULL || input_copy == NULL || parameters == NULL) {
         error("parser", "parser_input", 1);
         exit(0);
     }
-    if(len > 256){
+    if (len > 256) {
         c = getchar();
-        while(c != '\n' && c != '\r') {
+        while (c != '\n' && c != '\r') {
             c = getchar();
         }
         input_error(11);
         set_type(out, "invalid");
-		free(input_copy);
-		free(parameters);
-        return out;
+        free(input_copy);
+        free(parameters);
+        return;
     }
     strcpy(input_copy, input);
     name = strtok(input_copy, delim);
     set_type(out, name);
     type = get_type(out);
-    if(type == INVALID){
+    if (type == INVALID) {
         input_error(6);
-		free(input_copy);
-		free(parameters);
-        return out;
+        free(input_copy);
+        free(parameters);
+        return;
     }
-    i = (int)strlen(name);
+    i = (int) strlen(name);
     offset = get_whitespace_offset(input_copy);
 
-    ptr = cpy_input(input,i+offset,len-1);
+    ptr = cpy_input(input, i + offset, len - 1);
     type = get_type(out);
-    if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
+    if (type == EDIT) { /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
-        if(ptr != NULL)
-            temp = cpy_input(ptr,0,strlen(ptr));
+        if (ptr != NULL)
+            temp = cpy_input(ptr, 0, strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
-        if(ptr == NULL || ptr[0] == '\n'){
+        if (ptr == NULL || ptr[0] == '\n') {
             set_num_parameters(out, 0);
-        }
-        else{
+        } else {
             ptr = strtok(NULL, delim);
-            if(ptr == NULL || ptr[0] == '\n'){
+            if (ptr == NULL || ptr[0] == '\n') {
                 set_num_parameters(out, 1);
-            }
-            else{
+            } else {
                 set_num_parameters(out, 2);
             }
         }
-		
-        
-    }
-    else if(type == GUESS){
+
+
+    } else if (type == GUESS) {
         ptr = strtok(NULL, delim);
-        if(ptr == NULL){
+        if (ptr == NULL) {
             set_num_parameters(out, 0);
-        }
-        else{
-            threshold = (float)strtof(ptr, &ptr);
+        } else {
+            threshold = (float) strtof(ptr, &ptr);
             set_threshold(out, threshold);
             set_num_parameters(out, 1);
             ptr = strtok(NULL, delim);
-            if(ptr != NULL && ptr[0] != '\n'){
+            if (ptr != NULL && ptr[0] != '\n') {
                 set_num_parameters(out, 2);
             }
         }
-		
-       
-    }
-    else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
+
+
+    } else if (type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
-        temp = cpy_input(ptr,0,strlen(ptr));
+        temp = cpy_input(ptr, 0, strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
-        if(ptr == NULL || ptr[0] == '\n'){
+        if (ptr == NULL || ptr[0] == '\n') {
             set_num_parameters(out, 0);
-			free(ptr);
-        }
-        else{
+        } else {
             set_num_parameters(out, 1);
         }
         ptr = strtok(NULL, delim);
-        if(ptr != NULL && ptr[0] != '\n'){
+        if (ptr != NULL && ptr[0] != '\n') {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
-		
-        
+
+
+    } else {
+        num_parameters = parse_input_parameters(ptr, parameters);
+        set_num_parameters(out, num_parameters);
+        set_parameter(out, parameters);
     }
-	else{
-	num_parameters = parse_input_parameters(ptr, parameters);
-    set_num_parameters(out, num_parameters);
-    set_parameter(out, parameters);
-	}
     free(input_copy);
-	free(ptr);
-    return out;
+    free(ptr);
+    return;
 }
 
 
@@ -165,18 +158,18 @@ Command *parse_input(char *input) {
  * removes the last '\n' leftover character if one exists
  */
 void parse_filepath(char *filepath) {
-    if(filepath == NULL){
+    if (filepath == NULL) {
         return;
     }
 
-    int len = (int)strlen(filepath);
-    if(filepath[len-1] == '\n'){
-        filepath[len-1] = '\0';
+    int len = (int) strlen(filepath);
+    if (filepath[len - 1] == '\n') {
+        filepath[len - 1] = '\0';
     }
-	if(filepath[len-2] == '\r'){	
-		filepath[len-2] = '\0';
-		
-	}
+    if (filepath[len - 2] == '\r') {
+        filepath[len - 2] = '\0';
+
+    }
 }
 
 /**
@@ -186,7 +179,7 @@ void parse_filepath(char *filepath) {
  */
 int get_whitespace_offset(char *copy) {
     int i = 0;
-    while(isspace(copy[i])){
+    while (isspace(copy[i])) {
         i++;
     }
     return i;
@@ -199,11 +192,10 @@ int get_whitespace_offset(char *copy) {
 */
 char *cpy_input(char *str, int from, int to) {
     int size = to - from + 1, i, j = 0;
-    char *new_str = calloc(size+1, sizeof(char));
+    char *new_str = calloc(size + 1, sizeof(char));
 
     for (i = from; i <= to; i++) {
         new_str[j] = str[i];
-
         j++;
     }
     return new_str;
