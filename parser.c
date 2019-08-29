@@ -146,7 +146,7 @@ void parse_input(char *input, Command *out) {
             parameters[1] = temp_yx;
         }
         set_num_parameters(out, num_parameters);
-        set_parameter(out, parameters, 0);
+        set_parameter(out, parameters, num_parameters);
     }
     free(input_copy);
     free(ptr);
