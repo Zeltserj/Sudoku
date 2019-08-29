@@ -124,8 +124,7 @@ void parse_input(char *input, Command *out) {
         }
     } else if (type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
-        temp = cpy_input(ptr, 0, strlen(ptr));
-        set_filepath(out, temp);
+        set_filepath(out, ptr);
         parse_filepath(get_filepath(out));
         if (ptr == NULL || ptr[0] == '\n' || ptr[0] == '\r') {
             set_num_parameters(out, 0);
