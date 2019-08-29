@@ -127,15 +127,14 @@ void parse_input(char *input, Command *out) {
         temp = cpy_input(ptr, 0, strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
-        if (ptr == NULL || ptr[0] == '\n') {
+        if (ptr == NULL || ptr[0] == '\n' || ptr[0] == '\r') {
             set_num_parameters(out, 0);
-			free(ptr); /*TODO: delete?*/
         }
         else{
             set_num_parameters(out, 1);
         }
         ptr = strtok(NULL, delim);
-        if (ptr != NULL && ptr[0] != '\n') {
+        if (ptr != NULL && ptr[0] != '\n' && ptr[0] != '\r') {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
