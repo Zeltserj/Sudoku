@@ -58,7 +58,7 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     int optimstatus, _error, size = get_size(board);
     double  *var_arr = (double*)calloc(var_count, sizeof(double));
     double* val = (double*)calloc(size,sizeof(double));
-    double* objective = (double*)calloc(size, sizeof(double));
+    double* objective = (double*)calloc(var_count, sizeof(double));
     int* ind = (int*)calloc(size, sizeof(int));
     char* vtype = (char*)calloc(var_count, sizeof(char));
      if (var_arr == NULL || ind == NULL || vtype == NULL || objective == NULL || val == NULL) {
@@ -132,6 +132,7 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     free(val);
     GRBfreemodel(model);
     GRBfreeenv(env);
+
     return 1;
 
 }
