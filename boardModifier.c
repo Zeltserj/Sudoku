@@ -226,6 +226,7 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
                     dic_array[get_super_index(i, j, v, dim)] = -1;
                 }    /*a non empty cell gets value or illegal value set to -1 in super array*/
             }
+            free(solution_for_cell);
         }
 
     }
