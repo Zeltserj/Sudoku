@@ -145,6 +145,7 @@ void free_linked_list(LinkedList *list) {
             temp=temp->prev;
             free_node(temp->next);
         }
+        free_node(temp);
         free(list);
     }
 }

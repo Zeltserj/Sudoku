@@ -52,7 +52,6 @@ int parse_input_parameters(char *string, int *parameters) {
 }
 
 void parse_input(char *input, Command *out) {
-
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = calloc(256, sizeof(int));
     int i, len = (int) strlen(input), offset, num_parameters,temp_yx;
