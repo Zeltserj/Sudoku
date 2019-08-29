@@ -36,8 +36,9 @@ int generate_solution(Board *board, int fill_board);
 
 /**
 * @param board != NULL
-* @param changed_cells != NULL pointer to the list of the changed cells of the command
-* notice: if input mark_errors == 0, changed_cells can be NULL.
+* @param old_values != NULL pointer to the list of the cell values before the command execution
+* @param new_values != NULL pointer to the list of the cell values after the command execution
+* notice: if input mark_errors == 0, both lists described above can be NULL.
 * @param r in range [0,board.size-1]
 * @param c in range [0,board.size-1]
 * @param value in range [1,board.size]
@@ -45,7 +46,8 @@ int generate_solution(Board *board, int fill_board);
 * 0 otherwise.
 * @return 1 if cell is valid for input value. 0 otherwise.
 */
-int validate_cell(Board *board, LinkedListCells *changed_cells, int r, int c, int value, int inc_or_dec);
+int validate_cell(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value,
+                  int inc_or_dec);
 
 /**
  *
