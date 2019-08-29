@@ -1,6 +1,8 @@
-#include "gurobi_c.h"
+
 #ifndef PROJECT_ERRORS_H
 #define PROJECT_ERRORS_H
+#include "gurobi_c.h"
+
 /**
  *
  * @param module is one of the program's .c files

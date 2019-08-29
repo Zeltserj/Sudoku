@@ -50,111 +50,104 @@ int parse_input_parameters(char *string, int *parameters) {
 }
 
 Command *parse_input(char *input) {
-
-    Command* out = calloc(1, sizeof(Command));
+    Command *out = calloc(1, sizeof(Command));
     const char *delim = " \t"; /*unlike HW3, we don't take \n as input*/
     int *parameters = calloc(256, sizeof(int));
-    int i, len = (int)strlen(input), offset, num_parameters;
+    int i, len = (int) strlen(input), offset, num_parameters, temp_yx;
     command_type type;
-    char *input_copy = (char*)malloc((len+1)* sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
+    char *input_copy = (char *) malloc((len + 1) * sizeof(char)), *name = NULL, *ptr = NULL, *temp = NULL, *str;
     float threshold;
     char c;
-	
-    if(out == NULL ||input_copy == NULL || parameters == NULL){
+
+    if (out == NULL || input_copy == NULL || parameters == NULL) {
         error("parser", "parser_input", 1);
         exit(0);
     }
-    if(len > 256){
+    if (len > 256) {
         c = getchar();
-        while(c != '\n' && c != '\r') {
+        while (c != '\n' && c != '\r') {
             c = getchar();
         }
         input_error(11);
         set_type(out, "invalid");
-		free(input_copy);
-		free(parameters);
+        free(input_copy);
+        free(parameters);
         return out;
     }
     strcpy(input_copy, input);
     name = strtok(input_copy, delim);
     set_type(out, name);
     type = get_type(out);
-    if(type == INVALID){
+    if (type == INVALID) {
         input_error(6);
-		free(input_copy);
-		free(parameters);
+        free(input_copy);
+        free(parameters);
         return out;
     }
-    i = (int)strlen(name);
+    i = (int) strlen(name);
     offset = get_whitespace_offset(input_copy);
 
-    ptr = cpy_input(input,i+offset,len-1);
+    ptr = cpy_input(input, i + offset, len - 1);
     type = get_type(out);
-    if(type == EDIT){ /*edit command has optional parameter which will be null if not given */
+    if (type == EDIT) { /*edit command has optional parameter which will be null if not given */
         ptr = strtok(NULL, delim);
-        if(ptr != NULL)
-            temp = cpy_input(ptr,0,strlen(ptr));
+        if (ptr != NULL)
+            temp = cpy_input(ptr, 0, strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
-        if(ptr == NULL || ptr[0] == '\n'){
+        if (ptr == NULL || ptr[0] == '\n') {
             set_num_parameters(out, 0);
-        }
-        else{
+        } else {
             ptr = strtok(NULL, delim);
-            if(ptr == NULL || ptr[0] == '\n'){
+            if (ptr == NULL || ptr[0] == '\n') {
                 set_num_parameters(out, 1);
-            }
-            else{
+            } else {
                 set_num_parameters(out, 2);
             }
         }
-		
-        
-    }
-    else if(type == GUESS){
+
+
+    } else if (type == GUESS) {
         ptr = strtok(NULL, delim);
-        if(ptr == NULL){
+        if (ptr == NULL) {
             set_num_parameters(out, 0);
-        }
-        else{
-            threshold = (float)strtof(ptr, &ptr);
+        } else {
+            threshold = (float) strtof(ptr, &ptr);
             set_threshold(out, threshold);
             set_num_parameters(out, 1);
             ptr = strtok(NULL, delim);
-            if(ptr != NULL && ptr[0] != '\n'){
+            if (ptr != NULL && ptr[0] != '\n') {
                 set_num_parameters(out, 2);
             }
         }
-		
-       
-    }
-    else if(type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
+    } else if (type == SOLVE || type == SAVE) /*all commands which don't need int parameters*/{
         ptr = strtok(NULL, delim);
-        temp = cpy_input(ptr,0,strlen(ptr));
+        temp = cpy_input(ptr, 0, strlen(ptr));
         set_filepath(out, temp);
         parse_filepath(get_filepath(out));
-        if(ptr == NULL || ptr[0] == '\n'){
+        if (ptr == NULL || ptr[0] == '\n') {
             set_num_parameters(out, 0);
-			free(ptr);
-        }
-        else{
+            free(ptr);
+        } else {
             set_num_parameters(out, 1);
         }
         ptr = strtok(NULL, delim);
-        if(ptr != NULL && ptr[0] != '\n'){
+        if (ptr != NULL && ptr[0] != '\n') {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
-		
-        
+    } else {
+        num_parameters = parse_input_parameters(ptr, parameters);
+        if(type == SET || type == HINT || type == GUESS_HINT){
+            temp_yx = parameters[0];
+            parameters[0] = parameters[1];
+            parameters[1] = temp_yx;
+        }
+        set_num_parameters(out, num_parameters);
+        set_parameter(out, parameters);
     }
-	else{
-	num_parameters = parse_input_parameters(ptr, parameters);
-    set_num_parameters(out, num_parameters);
-    set_parameter(out, parameters);
-	}
     free(input_copy);
-	free(ptr);
+    free(ptr);
     return out;
 }
 
