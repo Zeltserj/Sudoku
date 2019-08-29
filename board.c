@@ -102,16 +102,19 @@ int is_error(Board *board, int r, int c) {
 
 void free_matrix(Cell ***matrix, int size) {
     int i;
-    for (i = 0; i < size; i++) {
-        free_row(matrix[i], size);
+    if(matrix != NULL){
+        for (i = 0; i < size; i++) {
+            free_row(matrix[i], size);
+        }
+        free(matrix);
     }
-    free(matrix);
 }
 
 void free_board(Board *board) {
-    free_matrix(board->matrix, board->size);
-    free(board);
-
+    if(board!=NULL){
+        free_matrix(board->matrix, board->size);
+        free(board);
+    }
 }
 
 Board *brdcpy(Board *board) {

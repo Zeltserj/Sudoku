@@ -19,15 +19,15 @@ void init_game() {
     Command *command;
     LinkedList *moves = alloc_linkedList();
     char *str, *temp_str;
-    int exit = 0, exe_ret;
+    int _exit = 0, exe_ret;
     add_linked_list(moves, NULL, NULL, NULL);
     command_type type;
-    while (!exit) {
+    while (!_exit) {
         str = calloc(257, sizeof(char));
         command = (Command*)calloc(1, sizeof(Command));
-        if (str == NULL) {
+        if (str == NULL || command == NULL) {
             error("game", "init_game", 1);
-            exit = 1;
+            exit(0);
         }
         printf("enter input:\n");
         temp_str = fgets(str, 257, stdin);
@@ -47,7 +47,7 @@ void init_game() {
             if (get_type(command) == EXIT) {
                 free_command(command);
 
-                exit = 1;
+                _exit = 1;
             } else {
                 if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
                     free_command(command);
@@ -61,7 +61,6 @@ void init_game() {
             }
         }
         free(temp_str);
-        free(str);
     }
 }
 
