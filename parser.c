@@ -114,11 +114,11 @@ void parse_input(char *input, Command *out) {
         if (token == NULL) {
             set_num_parameters(out, 0);
         } else {
-            threshold = (float) strtof(ptr, &ptr);
+            threshold = (float) strtof(token, &token);
             set_threshold(out, threshold);
             set_num_parameters(out, 1);
             token = strtok(NULL, delim);
-            if (token != NULL && (token[0] != '\n' || token[0] != '\r')) {
+            if (token != NULL && (token[0] != '\n' && token[0] != '\r')) {
                 set_num_parameters(out, 2);
             }
         }
