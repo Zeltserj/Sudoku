@@ -11,9 +11,6 @@ int mode = _INIT;
 void announce_winner();
 void announce_erroneous();
 
-
-/*TODO: make sure program exits in EOF */
-
 void init_game() {
     Board *board = NULL;
     Command *command;
@@ -46,7 +43,6 @@ void init_game() {
             exe_ret = execute_command(&board, command, &moves);
             if (get_type(command) == EXIT) {
                 free_command(command);
-
                 _exit = 1;
             } else {
                 if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
@@ -60,7 +56,7 @@ void init_game() {
                 }
             }
         }
-        free(temp_str);
+        free(str);
     }
 }
 

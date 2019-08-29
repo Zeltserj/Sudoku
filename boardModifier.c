@@ -345,6 +345,7 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
     int prev_value=get(board,r,c);
     if(value!= prev_value)
     {
+        /*TODO: Or: make sure to save cells that has same value but new error value*/
         add_cell_after_curr(curr_old_values, get_cell_cpy(board, r, c));
         if(is_error(board,r,c))
             validate_cell(board, curr_old_values, r, c, prev_value, -1);

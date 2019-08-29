@@ -199,6 +199,7 @@ void set_cell(Board *board, Cell *cell) {
     int c = get_cell_col(cell);
     set_cell_fixed(board->matrix[r][c],get_cell_fixed(cell));
     set_cell_error(board->matrix[r][c],get_cell_error(cell));
+    /*printf("set_cell: curr - [%d][%d], error = %d",r,c,cell->error );*/
     set_value(board,r,c,get_cell_value(cell));
 }
 
