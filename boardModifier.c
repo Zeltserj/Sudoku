@@ -226,6 +226,7 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
                     dic_array[get_super_index(i, j, v, dim)] = -1;
                 }    /*a non empty cell gets value or illegal value set to -1 in super array*/
             }
+            free(solution_for_cell);
         }
 
     }
@@ -725,12 +726,12 @@ int guess_command(Board *board, LinkedList *moves, float threshold) {
         }
     } else{
         free(solution);
-        free(brd_cpy);
+        free_board(brd_cpy);
         return 0;
     }
     copy_to_board(board, moves, brd_cpy);
     free(solution);
-    free(brd_cpy);
+    free_board(brd_cpy);
     return 1;
 }
 

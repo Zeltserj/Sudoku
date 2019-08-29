@@ -69,10 +69,12 @@ Board *alloc_board(int r, int c) {
 
 void free_row(Cell **cell_row, int size) {
     int i;
-    for (i = 0; i < size; i++) {
-        free(cell_row[i]);
+    if(cell_row != NULL){
+        for (i = 0; i < size; i++) {
+            free(cell_row[i]);
+        }
+        free(cell_row);
     }
-    free(cell_row);
 }
 
 void set_value(Board *board, int r, int c, int value) {
