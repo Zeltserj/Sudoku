@@ -725,12 +725,12 @@ int guess_command(Board *board, LinkedList *moves, float threshold) {
         }
     } else{
         free(solution);
-        free(brd_cpy);
+        free_board(brd_cpy);
         return 0;
     }
     copy_to_board(board, moves, brd_cpy);
     free(solution);
-    free(brd_cpy);
+    free_board(brd_cpy);
     return 1;
 }
 
