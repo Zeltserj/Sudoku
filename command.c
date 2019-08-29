@@ -99,7 +99,14 @@ char *get_filepath(Command *command) {
 }
 
 void set_filepath(Command *command, char *filepath) {
-    command->string_parameters = filepath;
+    int len = (int)strlen(filepath) + 1;
+    char* curr = (char*)calloc(len+1, sizeof(char));
+	if(curr == NULL){
+		error("command","set_filepath",1);
+		exit(0);
+	}
+    memcpy(curr, filepath, len);
+    command->string_parameters = curr;
 }
 
 void set_parameter(Command *command, int *parameters) {
