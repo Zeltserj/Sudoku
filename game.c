@@ -61,7 +61,6 @@ void init_game() {
             }
         }
         free(str);
-        free_command(command);
     }
 }
 
