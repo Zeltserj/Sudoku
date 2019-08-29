@@ -63,6 +63,7 @@ Board *load(char *path, int edit_or_solve) {
     int row, col, m, n, len_c, value,scf_ret;
     if(f==NULL){
         error("fileaux","load",13);
+        free(c);
         return NULL;
     }
     if (input_int(f,&m) == 0 || input_int(f,&n) == 0) {

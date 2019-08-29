@@ -91,17 +91,17 @@ void parse_input(char *input, Command *out) {
     ptr = cpy_input(input, i + offset, len - 1);
     type = get_type(out);
     if (type == EDIT) { /*edit command has optional parameter which will be null if not given */
-        temp = strtok(ptr, delim);
-        if (temp != NULL) {
-            temp = cpy_input(ptr, 0, strlen(ptr));
+        token = strtok(ptr, delim);
+        if (token != NULL) {
+            temp = cpy_input(token, 0, strlen(token));
             set_filepath(out, temp);
             parse_filepath(get_filepath(out));
         }
-        if (temp == NULL || temp[0] == '\n'|| temp[0] == '\r') {
+        if (token == NULL || token[0] == '\n'|| token[0] == '\r') {
             set_num_parameters(out, 0);
         } else {
-            temp = strtok(NULL, delim);
-            if (temp == NULL || temp[0] == '\n') {
+            token = strtok(NULL, delim);
+            if (token == NULL || token[0] == '\n') {
                 set_num_parameters(out, 1);
             } else {
                 set_num_parameters(out, 2);
@@ -148,6 +148,7 @@ void parse_input(char *input, Command *out) {
         set_num_parameters(out, num_parameters);
         set_parameter(out, parameters, num_parameters);
     }
+    free(temp);
     free(input_copy);
     free(ptr);
     free(parameters);
