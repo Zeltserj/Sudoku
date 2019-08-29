@@ -62,7 +62,6 @@ Board *load(char *path, int edit_or_solve) {
     char *c = calloc(3, sizeof(char));
     int row, col, m, n, len_c, value,scf_ret;
     if(f==NULL){
-        printf("load: path = %s\n",path);
         error("fileaux","load",13);
         free(c);
         return NULL;
