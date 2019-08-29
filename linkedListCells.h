@@ -6,12 +6,19 @@
 #include "cell.h"
 #include "errors.h"
 
+/**
+* struct for node in list of cells. Contains a pointer to a cell and two pointers: previous and next nodes on the list.
+*/
 typedef struct NodeLinkedListCells{
     Cell* cell;
     struct NodeLinkedListCells* prev;
     struct NodeLinkedListCells* next;
 }NodeCell;
 
+/**
+* struct of linked list of cells. Contains a field for list length and two pointers: head node of the list
+* and current node of the list.
+*/
 typedef struct LinkedListCells{
     NodeCell* head;
     NodeCell* current;

@@ -7,7 +7,11 @@
 
 int mark_errors = 1;
 int mode = _INIT;
-/*TODO: fix gurobi in generate_solution*/
+
+void announce_winner();
+void announce_erroneous();
+
+
 /*TODO: make sure program exits in EOF */
 
 void init_game() {
@@ -15,7 +19,7 @@ void init_game() {
     Command *command;
     LinkedList *moves = alloc_linkedList();
     char *str;
-    int exit = 0, exe_ret, freed;
+    int exit = 0, exe_ret;
     add_linked_list(moves, NULL, NULL, NULL);
     command_type type;
     while (!exit) {
@@ -28,49 +32,35 @@ void init_game() {
         str = fgets(str, 257, stdin);
         if (str == NULL) {
             if (feof(stdin)) {
-				print_exit_command();
-				command = parse_input("exit");
-				execute_command(&board, command, &moves);
-				free_command(command);
-				free(str);
-                exit = 1;
+                command = parse_input("exit");
+                execute_command(&board, command, &moves);
+                free_command(command);
+                free(str);
                 break;
             }
         }
         command = parse_input(str);
-		
         type = get_type(command);
         if (validate_user_command(command, board)) {
+            exe_ret = execute_command(&board, command, &moves);
             if (get_type(command) == EXIT) {
-                print_exit_command();
-				execute_command(&board, command, &moves);
-				free(str);
+                free_command(command);
+
                 exit = 1;
             } else {
-                exe_ret = execute_command(&board, command, &moves);
-
                 if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
                     free_command(command);
-
                 else if (get_type(command) == SET && mode == 1 && exe_ret && get_num_empty(board) == 0) {
                     if (!is_erroneous(board)) {
                         announce_winner();
                         mode = _INIT;
-                    } else {
+                    } else
                         announce_erroneous();
-                    }
                 }
             }
         }
     free(str);
 	}
-}
-
-
-
-/*TODO: Or: move to execute*/
-void print_exit_command() {
-    printf("Exiting...\n");
 }
 
 void announce_winner() {

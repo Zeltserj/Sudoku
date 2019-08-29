@@ -152,6 +152,7 @@ void reset_command(Board *board, LinkedList *moves) {
 void exit_command(Board *board, LinkedList *moves) {
     free_board(board);
     free_linked_list(moves);
+    printf("Exiting...\n");
 }
 
 /**

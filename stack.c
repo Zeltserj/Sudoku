@@ -19,11 +19,6 @@ StackNode *alloc_stack_node(int row, int col, int value) {
         error("stack","alloc_stack_node",1);
         exit(0);
     }
-    /*node->possible_sols = calloc(board_size, sizeof(int));
-    if(node->possible_sols == NULL){
-        error("stack","alloc_stack_node",1);
-        exit(0);
-    }*/
     node->possible_sols=NULL;
     node->row=row;
     node->col=col;
