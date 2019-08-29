@@ -18,7 +18,7 @@ void init_game() {
     Board *board = NULL;
     Command *command;
     LinkedList *moves = alloc_linkedList();
-    char *str;
+    char *str, *temp_str;
     int exit = 0, exe_ret;
     add_linked_list(moves, NULL, NULL, NULL);
     command_type type;
@@ -30,8 +30,8 @@ void init_game() {
             exit = 1;
         }
         printf("enter input:\n");
-        str = fgets(str, 257, stdin);
-        if (str == NULL) {
+        temp_str = fgets(str, 257, stdin);
+        if (temp_str == NULL) {
             if (feof(stdin)) {
                 parse_input("exit", command);
                 execute_command(&board, command, &moves);
@@ -60,6 +60,7 @@ void init_game() {
                 }
             }
         }
+        free(temp_str);
         free(str);
     }
 }

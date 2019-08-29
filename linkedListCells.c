@@ -55,17 +55,19 @@ void free_node_cell(NodeCell *node) {
 
 void free_linked_list_cells(LinkedListCells *list) {
     NodeCell* temp;
-    if(get_len_linked_list_cells(list) > 0) {
-        temp = list->head;
-        while (temp->next != NULL)
-            temp = temp->next;
-        while (temp != list->head) {
-            temp = temp->prev;
-            free_node_cell(temp->next);
+    if(list!= NULL){
+        if(get_len_linked_list_cells(list) > 0) {
+            temp = list->head;
+            while (temp->next != NULL)
+                temp = temp->next;
+            while (temp != list->head) {
+                temp = temp->prev;
+                free_node_cell(temp->next);
+            }
+            free_node_cell(temp);
         }
-        free_node_cell(temp);
+        free(list);
     }
-    free(list);
 }
 
 
