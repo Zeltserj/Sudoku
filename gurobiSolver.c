@@ -30,7 +30,6 @@ int get_gurobi_index(int i, int j, int v, int size, int *dic_array) {
     return dic_array[get_super_index(i, j, v, size)];
 }
 
-
 void filter_variables(double *super_array, double *sol_array, int size);
 
 int set_cell_constraints(GRBmodel *model, double *super_array, int size, int *dic_array, int *ind, double *val);
@@ -141,6 +140,12 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
 
 }
 
+/**
+ *
+ * @param model working gurobi Model
+ * @param var_count number of variables in the model
+ * @return 0 iff range constraints were added successfully
+ */
 int set_range_constraints(GRBmodel *model, int var_count) {
     int i, _error = 0;
     int ind[1];
@@ -158,6 +163,18 @@ int set_range_constraints(GRBmodel *model, int var_count) {
     return 0;
 }
 
+/**
+ *
+ * @param model Gurobi model
+ * @param super_array an array of length size^3
+ * @param dictionary_array the mapping between the index in gurobi's input and the super_array
+ * @param var_count number of variables in the gurobi
+ * @param size == get_size(board) of current board
+ * @param mode == LP || mode == ILP
+ * @param vtype empty array for gurobi's vtype (binary or continuous)
+ * @param objective empty array to insert coefficients as explained in header
+ * @return 0 iff objective functions was successfully added to the model
+ */
 int set_objective(GRBmodel *model, double *super_array, int *dictionary_array, int var_count, int size, int mode,
                   char *vtype, double *objective) {
     int i, j, v, index, _error;
@@ -182,6 +199,14 @@ int set_objective(GRBmodel *model, double *super_array, int *dictionary_array, i
     return _error;
 }
 
+/**
+ *
+ * @param super_array an array of length size^3 where super_array[get_super_index(i,j,v,size)] == 0 corresponds to a variable
+ * @param i rows index of variable
+ * @param j col index of variable
+ * @param size == get_size(board) of current game board
+ * @return sets the coefficient of x(i,j,k) if it is a relevant variable as explained in header file
+ */
 double set_coeff(double *super_array, int i, int j, int size) {
     int offset = rand() %10;
     int v, count = 0;
@@ -201,6 +226,8 @@ double set_coeff(double *super_array, int i, int j, int size) {
  * @param super_array an array of length size^3
  * @param size = m*n where m , n are the columns, rows per block of the board the module is solving respectively
  * @param dic_array the mapping between the index in gurobi's input and the super_array
+ * @ind array for indices
+ * @val array for values
  * @return 0 if successful and all column constraints were added to the model (single value in each column), or error code of gurobi.
  */
 
@@ -237,6 +264,8 @@ int set_col_constraints(GRBmodel *model, double *super_array, int size, int *dic
  * @param super_array an array of length size^3
  * @param size = m*n where m , n are the columns, rows per block of the board the module is solving respectively
  * @param dic_array the mapping between the index in gurobi's input and the super_array
+ * @ind array for indices
+ * @val array for values
  * @return 0 if successful and all cell constraints were added to the model (each cell holds one value), or error code of gurobi.
  */
 
@@ -273,6 +302,8 @@ int set_cell_constraints(GRBmodel *model, double *super_array, int size, int *di
  * @param super_array an array of length size^3
  * @param size = m*n where m , n are the columns, rows per block of the board the module is solving respectively
  * @param dic_array the mapping between the index in gurobi's input and the super_array
+ * @ind array for indices
+ * @val array for values
  * @return 0 if successful and all row constraints were added to the model (single value in each row), or error code of gurobi.
  */
 
@@ -310,6 +341,8 @@ int set_row_constraints(GRBmodel *model, double *super_array, int size, int *dic
  * @param dic_array the mapping between the index in gurobi's input and the super_array
  * @param rows number of rows in each block (n)
  * @param cols number of columns in each block (m)
+ * @ind array for indices
+ * @val array for values
  * @return 0 if successful and all block constraints were added to the model (single value in each block), or error code of gurobi.
  */
 
@@ -339,6 +372,8 @@ int set_block_constraints(GRBmodel *model, double *super_array, int size, int *d
  * @param cols number of columns in block (m)
  * @param super_array an array of length size^3 with -1 corresponding to variables not included in the gurobi model
  * @param dic_array the mapping between the index in gurobi's input and the super_array
+ * @ind array for indices
+ * @val array for values
  * @return 0 if successful and all block constraints of block starting at (row_start,col_start) were added to the model
  * (each value appears once in the block), or error code of gurobi.
  */

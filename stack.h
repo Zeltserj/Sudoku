@@ -6,6 +6,10 @@
 #include "errors.h"
 
 /**
+ * stack DS
+ */
+
+/**
 * struct of stack element referred as node. Each contains properties of a cell: row, column, value, array of possible
 * solutions for the cell, and a pointer to next element of the stack.
 */

@@ -7,6 +7,11 @@
 #include "errors.h"
 
 /**
+ * linkedListCell are nodes of linkedList, part of the linked list DS
+ */
+
+
+/**
 * struct for node in list of cells. Contains a pointer to a cell and two pointers: previous and next nodes on the list.
 */
 typedef struct NodeLinkedListCells{

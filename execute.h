@@ -4,7 +4,10 @@
 #include "command.h"
 #include "linkedList.h"
 #include "board.h"
-
+/**
+ * execute model takes in a valid command (validated by commandValidator) and is the "terminal" for execution.
+ * it invokes functions in board modifier, fileaux, etc.
+ */
 
 /**
 * executes the input command. For commands that change the board, updates game_moves so the current

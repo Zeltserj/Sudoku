@@ -6,6 +6,12 @@
 #include "stack.h"
 
 /**
+ * the boardModifier module is the only module that changes values in a board. all logic of commands which do so
+ * (e.g. set) are here. it also consists of solve function which enables gurobi
+ */
+
+
+/**
 * @param board != NULL
 * @param r in range [0,board.size]
 * @param c in range [0,board.size]

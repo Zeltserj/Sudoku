@@ -3,6 +3,12 @@
 #define PROJECT_ERRORS_H
 #include "gurobi_c.h"
 
+
+/**
+ * all error prints occur here, this module handles prints + messages
+ */
+
+
 /**
  *
  * @param module is one of the program's .c files

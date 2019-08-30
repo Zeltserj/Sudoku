@@ -7,6 +7,10 @@
 #include "command.h"
 
 /**
+ *the linked list DS to support undo/redo
+ */
+
+/**
 * struct of node contains a command, two list of cells: one for the cells values before the command execution
 * and one for the cells values after the command execution. In addition, a node contains a pointer to the previous node
 * and a pointer to the next node.

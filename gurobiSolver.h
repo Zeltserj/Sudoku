@@ -4,6 +4,21 @@ This module communicates with the gurobi optimizer in order to solve a n*m*m*n S
 
  **/
 
+/**
+ * LP explained:
+ * the variable X(i,j,k) corresponds to value k in cell(i,j) of the game board.
+ * the solver minimizes the number of variables given to the optimizer (eliminating obvious values, etc.),
+ * therefore a mapping is used to map an index in the list of variables back to X(i,j,k)
+ *
+ * objective function, in LP only:
+ * minimize sum(c(i,j,k)*x(i,j,k))
+ * where x(i,j,k) is the variable as explained above and c(i,j,k) is its coefficient
+ *
+ * c(i,j,k) is computed by multiplying the number of possible solutions in cell(i,j) by 10 and adding a random number between 0 and 9
+ * thus, we achieve both a degree of randomness (adding a random offset benefits variables with lower random offsets) and a preference for more probable values
+ * trying to minimize will cause the optimizer to give higher values (between 0 and 1) to variables with lower coefficients, which are more likely to be placed
+ * in a certain cell
+ */
 
 #ifndef SP_GUROBISOLVER_H
 #define SP_GUROBISOLVER_H

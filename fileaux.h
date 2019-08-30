@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include "board.h"
 
+/**
+ * fileaux module is handles file loading, save and encapsulates I/O from the rest of the program
+ */
 
 /**
 *

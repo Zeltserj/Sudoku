@@ -2,6 +2,12 @@
 #ifndef SP_PARSER_H
 #define SP_PARSER_H
 #include "command.h"
+
+/**
+ * parser accepts the string from game, and creates a command (which could be invalid) to be sent to
+ * commandValidator
+ */
+
 /**
  *
  * @param input string from user
