@@ -615,8 +615,10 @@ int set_random_value(Board* board, int row, int col) {
         if (sol_arr[i]==1)
             num_sol++;
     }
-    if (num_sol == 0)
+    if (num_sol == 0){
+        free(sol_arr);
         return 0;
+    }
 
     sol_place = rand() % num_sol;
     i=0;
@@ -626,7 +628,7 @@ int set_random_value(Board* board, int row, int col) {
         i++;
     }
     set_value(board, row, col, i);
-
+    free(sol_arr);
     return 1;
 }
 
