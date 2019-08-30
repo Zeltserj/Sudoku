@@ -182,8 +182,13 @@ void print_probability_array(double* prob, int len) {
 * @return 1 if succeeded, 0 otherwise.
 */
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
-    Board* board;
+    Board* board, *temp;
     char* file_path = get_filepath(command);
+    if(*game_board != NULL){
+        temp = *game_board;
+       free_board(temp);
+       clear_linked_list(moves);
+    }
     if(get_num_parameters(command) == 0)
         board = generate_basic_board();
     else
