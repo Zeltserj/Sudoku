@@ -59,7 +59,7 @@ int save(Board *board, char *path) {
 Board *load(char *path, int edit_or_solve) {
     FILE *f = fopen(path, "r");
     Board *b;
-    char *c = calloc(3, sizeof(char));
+    char *c = calloc(4, sizeof(char));
     int row, col, m, n, len_c, value,scf_ret;
     if(f==NULL){
         error("fileaux","load",13);

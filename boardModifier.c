@@ -737,6 +737,7 @@ int guess_command(Board *board, LinkedList *moves, float threshold) {
                         }
                     }
                     free(prob_sols);
+                    free(sols);
                     free(all_sols);
                 }
             }
