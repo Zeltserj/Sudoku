@@ -514,9 +514,10 @@ int hint_command(Board *board, int row, int col) {
     int hint;
     if(generate_solution(brd_cpy,1)){
         hint = get(brd_cpy,row,col);
-        free(brd_cpy);
+        free_board(brd_cpy);
         return hint;
     }
+    free_board(brd_cpy);
     return 0;
 }
 
@@ -528,8 +529,10 @@ double * guess_hint_command(Board *board, int row, int col) {
     if(solved){
         sols = get_probability_array(brd_cpy,solution,row,col);
         free(solution);
+        free_board(brd_cpy);
         return sols;
     }
+    free_board(brd_cpy);
     free(solution);
     return NULL;
 }
