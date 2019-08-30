@@ -407,8 +407,10 @@ int num_solutions_BT(Board *board) {
                         curr_node = peek(stack);
                         set_possible_sols(curr_node,possible_sols_cell);
                     }
-                    else
+                    else{
+                        free(possible_sols_cell);
                         exist_next =0;
+                    }
                 }
             }
         }

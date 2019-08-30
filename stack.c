@@ -69,8 +69,8 @@ void free_stack(Stack* stack) {
     if(stack!=NULL && !is_empty_stack(stack)) {
         temp = pop(stack);
         while (temp!= NULL && !is_empty_stack(stack)) {
+            free_stack_node(temp);
             temp = pop(stack);
-            free(temp);
         }
     }
     free(stack);
