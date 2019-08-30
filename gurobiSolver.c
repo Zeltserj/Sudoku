@@ -101,8 +101,8 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
     _error = GRBoptimize(model);
     if (_error) { gurobi_error(_error, env); }
 
-/*    _error = GRBwrite(model, "sudokuProgram.lp");
-    if (_error) { gurobi_error(_error, env); }*/
+   _error = GRBwrite(model, "sudokuProgram.lp");
+    if (_error) { gurobi_error(_error, env); }
 
     _error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
     if (_error) { gurobi_error(_error, env); }
@@ -119,8 +119,8 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
         return 0;
     }
 
-/*    _error = GRBwrite(model, "sudoku.sol");
-    if (_error) { gurobi_error(_error, env); }*/
+    _error = GRBwrite(model, "sudoku.sol");
+    if (_error) { gurobi_error(_error, env); }
 
 
     _error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, var_count, var_arr);
