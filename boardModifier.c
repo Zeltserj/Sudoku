@@ -242,7 +242,6 @@ int generate_variable_array(Board *board, double *super_array, int *dic_array) {
         }
 
     }
-    free(solution_for_cell);
     return var_count;
 }
 int count_sols(int* sol_arr,int len) {
