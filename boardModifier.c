@@ -422,7 +422,7 @@ int num_solutions_BT(Board *board) {
         
     }
     free(next_cell);
-    free(sol_count);
+    free(possible_sols_cell);
     free_board(brd_cpy);
     free_stack(stack);
     return sol_count;
