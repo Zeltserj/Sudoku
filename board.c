@@ -6,7 +6,7 @@
 
 void free_row(Cell **cell_row, int size);
 
-Cell ***matrix_copy(Cell ***matrix, int size);
+void matrix_copy(Cell ***to, Cell ***from, int size);
 
 
 void print_dashes(int length);
@@ -125,7 +125,8 @@ Board *brdcpy(Board *board) {
         error("board", "brdcpy", 1);
         exit(0);
     }
-    out->matrix = matrix_copy(board->matrix, board->size);
+
+    matrix_copy(out->matrix,board->matrix,get_size(board));
     out->num_empty = board->num_empty;
     return out;
 }
@@ -181,19 +182,13 @@ void print_dashes(int length) {
 }
 
 
-Cell ***matrix_copy(Cell ***matrix, int size) {
+void matrix_copy(Cell ***to, Cell ***from, int size) {
     int i, j;
-    Cell ***out = alloc_matrix(size);
-    /*if (out == NULL) {
-        error(NULL, NULL, 10501);
-        return NULL;
-    }*/
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-            cell_copy(out[i][j], matrix[i][j]);
+            cell_copy(to[i][j], from[i][j]);
         }
     }
-    return out;
 }
 
 void set_cell(Board *board, Cell *cell) {
