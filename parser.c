@@ -134,7 +134,7 @@ void parse_input(char *input, Command *out) {
             set_num_parameters(out, 1);
         }
         token = strtok(NULL, delim);
-        if (token != NULL && (token[0] != '\n' || token[0] != '\r')) {
+        if (token != NULL && token[0] != '\n' && token[0] != '\r') {
             set_num_parameters(out, 2);
             /*to or more parameters doesn't change*/
         }
