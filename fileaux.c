@@ -60,7 +60,7 @@ Board *load(char *path, int edit_or_solve) {
     FILE *f = fopen(path, "r");
     Board *b;
     char *c = calloc(4, sizeof(char));
-    int row, col, m, n, len_c, value,scf_ret;
+    int row, col, m, n, len_c, value,scf_ret, fixed_cell=0;
     if(f==NULL){
         error("fileaux","load",13);
         free(c);
@@ -83,15 +83,23 @@ Board *load(char *path, int edit_or_solve) {
 
             /*if loading to solve mode*/
             if (c[len_c - 1] == '.') {
+                fixed_cell=1;
                 if(edit_or_solve == 1)
                     fix_cell(b, row, col);
                 c[len_c - 1] = '\0';
             }
             value = atoi(c);
-            if(value==0 && !is_zero(c)){
-                input_error(18);
-                free_load(f, b, c);
-                return NULL;
+            if(value==0) {
+                if (!is_zero(c)){
+                    input_error(18);
+                    free_load(f, b, c);
+                    return NULL;
+                }
+                else if (fixed_cell) {
+                    input_error(34);
+                    free_load(f, b, c);
+                    return NULL;
+                }
             }
             if (value > get_size(b) || value < 0) {
                 input_error(17);

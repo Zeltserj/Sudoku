@@ -367,68 +367,78 @@ void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
 }
 int num_solutions_BT(Board *board) {
     Stack *stack = alloc_stack();
-    StackNode* curr_node;
-    Board* brd_cpy = brdcpy(board);
-    int *next_cell = (int*)calloc(2, sizeof(int)), *possible_sols_cell;
-    int sol_count = 0, next_r =0,next_c =0, i=0, len = get_size(brd_cpy), exist_next;
+    StackNode *curr_node;
+    Board *brd_cpy = brdcpy(board);
+    int *next_cell = (int *) calloc(2, sizeof(int)), *possible_sols_cell;
+    int sol_count = 0, next_r = 0, next_c = 0, i = 0, len = get_size(brd_cpy), exist_next;
     if (next_cell == NULL) {
-        error("boardModifier","num_solutions_BT",1);
+        error("boardModifier", "num_solutions_BT", 1);
         exit(0);
     }
-    if(set_first_cell(brd_cpy, stack, next_cell) == 0){ /*finds the first empty cell to start from and push it to the stack*/
+    if (set_first_cell(brd_cpy, stack, next_cell) == 0) { /*finds the first empty cell to start from and push it to the stack*/
         free_board(brd_cpy);
         free(next_cell);
         free_stack(stack);
         return 0;
     }
-    while (size_stack(stack) != 0){
+    if (get_num_empty(board) == 0 && !is_erroneous(board)) {
+        free_board(brd_cpy);
+        free(next_cell);
+        free_stack(stack);
+        return 1;
+    }
+    while (size_stack(stack) != 0) {
         curr_node = peek(stack);
         i = get_value_stack_node(curr_node);
         possible_sols_cell = get_possible_sols(curr_node);
         while (i < len && possible_sols_cell[i] != 1)
             i++;
-        if(i<len){
-            exist_next =1 ;
-            set_value_stack_node(curr_node, i+1);
-            set_value(brd_cpy,get_row_stack_node(curr_node),get_col_stack_node(curr_node),i+1);
-            while(exist_next){
-                exist_next = get_next_cell(brd_cpy, get_row_stack_node(curr_node), get_col_stack_node(curr_node), next_cell);
+        if (i < len) {
+            exist_next = 1;
+            set_value_stack_node(curr_node, i + 1);
+            set_value(brd_cpy, get_row_stack_node(curr_node), get_col_stack_node(curr_node), i + 1);
+            while (exist_next) {
+                exist_next = get_next_cell(brd_cpy, get_row_stack_node(curr_node), get_col_stack_node(curr_node),
+                                           next_cell);
                 if (exist_next) {
                     next_r = next_cell[0];
                     next_c = next_cell[1];
                     possible_sols_cell = get_all_sol_cell(brd_cpy, next_r, next_c);
-                    i=0;
-                    while (i < len && possible_sols_cell[i]!= 1)
+                    i = 0;
+                    while (i < len && possible_sols_cell[i] != 1)
                         i++;
-                    if(i!=len){
+                    if (i != len) {
                         i++;
-                        set_value(brd_cpy,next_r,next_c,i);
-                        push(stack,next_r,next_c,i);
+                        set_value(brd_cpy, next_r, next_c, i);
+                        push(stack, next_r, next_c, i);
                         curr_node = peek(stack);
-                        set_possible_sols(curr_node,possible_sols_cell);
-                    }
-                    else{
+                        set_possible_sols(curr_node, possible_sols_cell);
+                    } else {
                         free(possible_sols_cell);
-                        exist_next =0;
+                        exist_next = 0;
                     }
                 }
             }
-        }
-        else {
+        } else {
             curr_node = pop(stack);
-            set_value(brd_cpy,get_row_stack_node(curr_node),get_col_stack_node(curr_node),0);
+            set_value(brd_cpy, get_row_stack_node(curr_node), get_col_stack_node(curr_node), 0);
             free_stack_node(curr_node);
         }
-        if(get_num_empty(brd_cpy) == 0)
+        if (get_num_empty(brd_cpy) == 0)
             sol_count++;
-        
+
     }
     free(next_cell);
     free_board(brd_cpy);
     free_stack(stack);
     return sol_count;
 }
-
+/*TODO: try this free with valgrind*/
+void free_num_solutions_BT(Board * b, Stack *s, int* next_cell) {
+    free(next_cell);
+    free_board(b);
+    free_stack(s);
+}
 int get_next_cell(Board *board, int r, int c, int *next_cell) {
     int next_r = r, next_c = c, len=get_size(board);
     if (c == len) {

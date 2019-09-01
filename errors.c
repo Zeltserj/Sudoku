@@ -104,6 +104,9 @@ char *errors(int errornum) {
         case 33:
             out = "board is not solvable";
             break;
+        case 34:
+            out = "file error: file data is not legal for a game board";
+            break;
         default:
             out = "Unknown error";
     }
