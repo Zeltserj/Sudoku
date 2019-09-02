@@ -14,6 +14,7 @@ typedef struct GameCell{
     int error;
     int row;
     int col;
+    int was_changed;
 } Cell;
 /**
  *
@@ -71,6 +72,12 @@ void set_cell_location(Cell *cell, int r, int c);
 /**
  *
  * @param cell != NULL
+ * @param was_changed == 1 iff cell value changed during set_cell
+ */
+void set_cell_was_changed(Cell *cell, int was_changed);
+/**
+ *
+ * @param cell != NULL
  * @return cell.value
  */
 int get_cell_value(Cell *cell);
@@ -99,7 +106,12 @@ int get_cell_row(Cell *cell);
  * @return cell.col
  */
 int get_cell_col(Cell *cell);
-
+/**
+ *
+ * @param cell != NULL
+ * @return cell.was_changed
+ */
+int get_cell_was_changed(Cell *cell);
 /**
  *
  * @param to != NULL, source cell
