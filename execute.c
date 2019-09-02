@@ -7,6 +7,8 @@
 void print_probability_array(double* prob, int len);
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
 int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo);
+int valid_board(Board *board);
+void set_all_board(Board *to);
 
 /*the first node in moves has command==NULL as the basic list. Therefore moves is not empty*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves) {
@@ -36,7 +38,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             print_board(board);
             break;
         case SET:
-            set_command(board, moves, parameters[0], parameters[1], parameters[2]);
+            set_command(board, moves, parameters[0], parameters[1], parameters[2], 1);
             succeeded = 1;
             print_board(board);
             break;
@@ -182,7 +184,7 @@ void print_probability_array(double* prob, int len) {
 * @return 1 if succeeded, 0 otherwise.
 */
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve) {
-    Board* board, *temp;
+    Board* board, *temp;/* *new_board=NULL;*/
     char* file_path = get_filepath(command);
     if(*game_board != NULL){
         temp = *game_board;
@@ -191,10 +193,18 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
     }
     if(get_num_parameters(command) == 0)
         board = generate_basic_board();
-    else
+    else{
         board = load(file_path, edit_or_solve);
-
-    *game_board = board;
+        if(board != NULL){
+            if(!valid_board(board) ){
+                command_error(34);
+                free_board(board);
+                return 0;
+            }
+            set_all_board(board);
+        }
+    }
+    *game_board =board;
     if (board != NULL) {
         if(edit_or_solve)
             set_mode(1); /*EDIT*/
@@ -202,9 +212,45 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
             set_mode(2); /*SOLVE*/
         clear_linked_list(moves);
         print_board(board);
+
         return 1;
     }
     return 0;
+}
+
+void delete_not_fixed(Board *board){
+    int r,c, size=get_size(board);
+    for(r=0; r<size; r++){
+        for(c=0;c<size; c++){
+            if(!is_fixed(board,r,c))
+                set_value(board,r,c,0);
+        }
+    }
+}
+int valid_board(Board *board){
+    int r, c, size=get_size(board), value;
+    Board* brd_cpy = brdcpy(board);
+    delete_not_fixed(brd_cpy);
+    for(r=0; r<size; r++){
+        for(c=0;c<size; c++){
+            value = get(brd_cpy,r,c);
+            if(!validate_cell(brd_cpy,NULL,NULL,r,c,value,0)) {
+                free_board(brd_cpy);
+                return 0;
+            }
+        }
+    }
+    free_board(brd_cpy);
+    return 1;
+}
+void set_all_board(Board *to) {
+    int r,c, size=get_size(to), value;
+    for(r=0; r<size; r++){
+        for(c=0;c<size; c++){
+            value= get(to,r,c);
+            validate_cell(to,NULL,NULL,r,c,value,2);
+        }
+    }
 }
 
 /**

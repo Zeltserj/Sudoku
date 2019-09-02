@@ -44,16 +44,15 @@ int generate_solution(Board *board, int fill_board);
 * @param board != NULL
 * @param old_values != NULL pointer to the list of the cell values before the command execution
 * @param new_values != NULL pointer to the list of the cell values after the command execution
-* notice: if input mark_errors == 0, both lists described above can be NULL.
+* notice: if input inc_or_dec == 0, both lists described above can be NULL.
 * @param r in range [0,board.size-1]
 * @param c in range [0,board.size-1]
 * @param value in range [1,board.size]
 * @param inc_or_dec: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
-* 0 otherwise.
+* 0 otherwise. 2 for increasing error without saving changes into input lists.
 * @return 1 if cell is valid for input value. 0 otherwise.
 */
-int validate_cell(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value,
-                  int inc_or_dec);
+int validate_cell(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value, int inc_or_dec);
 
 /**
  *
@@ -79,11 +78,12 @@ void change_cells_to(Board *board, LinkedListCells *values_list);
  * @param r in range [0,board.size)
  * @param c in range [0,board.size)
  * @param value in range[o, board.size)
- *
+ * @param save_changed - if 1, the changed cell will be saved to current move. if 0, changed will not be saved.
+ * moves can be NULL.
  * inserts the value in board[r][c], updates the collisions with other cells in row, column and block.
  * adds the move to moves
  */
-void set_command(Board *board, LinkedList *moves, int r, int c, int value);
+void set_command(Board *board, LinkedList *moves, int r, int c, int value, int save_changed);
 
 /**
 * counts the number of solutions of input board using backtracking.

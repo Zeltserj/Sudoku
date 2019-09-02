@@ -29,7 +29,7 @@ void free_num_solutions_BT(Board * b, Stack *s, int* next_cell);
 * @param c in range [0,board.size-1]
 * @param value in range [1,board.size]
 * @param inc_or_dec: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
-* 0 otherwise.
+* 0 otherwise. 2 for increasing error without saving changes into input lists
 * @return num of conflicts for cell board[r][c] with its row
 */
 int validate_cell_row(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value,
@@ -40,12 +40,12 @@ int validate_cell_row(Board *board, LinkedListCells *old_values, LinkedListCells
         if (i != c && get(board, r, i) == value && value!= 0) {
             if (!is_fixed(board, r, i)) {
                 cell_cpy = get_cell_cpy(board, r, i);
-                if (inc_or_dec == 1)
+                if (inc_or_dec >= 1 )
                     is_changed = increase_error(board, r, i);
                 else if (inc_or_dec == -1)
                     is_changed = decrease_error(board, r, i);
 
-                if (inc_or_dec != 0 && is_changed) {
+                if ((inc_or_dec == 1 || inc_or_dec == -1) && is_changed) {
                     add_cell_after_curr(old_values, cell_cpy);
                     add_cell_after_curr(new_values,get_cell_cpy(board,r,i));
                 }
@@ -66,7 +66,7 @@ int validate_cell_row(Board *board, LinkedListCells *old_values, LinkedListCells
 * @param c in range [0,board.size-1]
 * @param value in range [1,board.size]
 * @param inc_or_dec: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
-* 0 otherwise.
+* 0 otherwise. 2 for increasing error without saving changes into input lists
 * @return num of conflicts for cell board[r][c] with its column
 */
 int validate_cell_col(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value,
@@ -77,12 +77,12 @@ int validate_cell_col(Board *board, LinkedListCells *old_values, LinkedListCells
         if (i != r && get(board, i, c) == value && value!= 0) {
             if (!is_fixed(board, i, c)) {
                 cell_cpy = get_cell_cpy(board, i, c);
-                if (inc_or_dec == 1)
+                if (inc_or_dec >= 1)
                     is_changed = increase_error(board, i, c);
                 else if (inc_or_dec == -1)
                     is_changed = decrease_error(board, i, c);
 
-                if (inc_or_dec != 0 && is_changed){
+                if ((inc_or_dec == 1 || inc_or_dec == -1) && is_changed){
                     add_cell_after_curr(old_values, cell_cpy);
                     add_cell_after_curr(new_values,get_cell_cpy(board,i,c));
                 }
@@ -103,7 +103,7 @@ int validate_cell_col(Board *board, LinkedListCells *old_values, LinkedListCells
 * @param c in range [0,board.size-1]
 * @param value in range [1,board.size]
 * @param inc_or_dec: 1 for increasing error for each conflict, -1 for decreasing error for each conflict,
-* 0 otherwise.
+* 0 otherwise. 2 for increasing error without saving changes into input lists
 * @return num of conflicts for cell board[r][c] with its block.
 */
 int validate_cell_block(Board *board, LinkedListCells *old_values, LinkedListCells *new_values, int r, int c, int value,
@@ -120,12 +120,12 @@ int validate_cell_block(Board *board, LinkedListCells *old_values, LinkedListCel
             if ((i != r && j != c) && get(board, i, j) == value && value!= 0) {
                 if (!is_fixed(board, i, j)) {
                     cell_cpy = get_cell_cpy(board, i, j);
-                    if (inc_or_dec == 1)
+                    if (inc_or_dec >= 1)
                         is_changed = increase_error(board, i, j);
                     else if (inc_or_dec == -1)
                         is_changed = decrease_error(board, i, j);
 
-                    if (inc_or_dec != 0 && is_changed) { /*row & col conflicts are handled by validate_cell_row/cell. */
+                    if ((inc_or_dec == 1 || inc_or_dec == -1) && is_changed) { /*row & col conflicts are handled by validate_cell_row/cell. */
                         add_cell_after_curr(old_values, cell_cpy);
                         add_cell_after_curr(new_values,get_cell_cpy(board,i,j));
                     } else
@@ -257,7 +257,7 @@ int autofill(Board* board, LinkedList *moves) {
 
                 if (v != 0) {
                     if (moves != NULL)
-                        set_command(board, moves, i, j, v);
+                        set_command(board, moves, i, j, v, 1);
                     else
                         set_value(board, i, j, v);
                     count++;
@@ -322,19 +322,28 @@ void change_cells_to(Board *board, LinkedListCells *values_list) {
 }
 
 
-void set_command(Board *board, LinkedList *moves, int r, int c, int value) {
+void set_command(Board *board, LinkedList *moves, int r, int c, int value, int save_changed) {
     Node* curr = get_curr(moves);
-    LinkedListCells* curr_old_values = get_old_values_cells_list(curr);
-    LinkedListCells* curr_new_values = get_new_values_cells_list(curr);
+    LinkedListCells* curr_old_values =NULL;
+    LinkedListCells* curr_new_values = NULL;
+    if(save_changed){
+        curr_old_values = get_old_values_cells_list(curr);
+        curr_new_values = get_new_values_cells_list(curr);
+    }
     int prev_value=get(board,r,c);
     if(value!= prev_value)
     {
-        add_cell_after_curr(curr_old_values, get_cell_cpy(board, r, c));
+        if(save_changed)
+            add_cell_after_curr(curr_old_values, get_cell_cpy(board, r, c));
+
         if(is_error(board,r,c))
             validate_cell(board, curr_old_values, curr_new_values, r, c, prev_value, -1);
-        validate_cell(board, curr_old_values, curr_new_values, r, c, value, 1);
+        validate_cell(board, curr_old_values, curr_new_values, r, c, value, 2-save_changed);
+
         set_value(board,r,c,value);
-        add_cell_after_curr(curr_new_values, get_cell_cpy(board, r, c));
+
+        if(save_changed)
+            add_cell_after_curr(curr_new_values, get_cell_cpy(board, r, c));
     }
 }
 int num_solutions_BT(Board *board) {
