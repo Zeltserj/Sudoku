@@ -1,8 +1,8 @@
 
-#include "cell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "errors.h"
+#include "cell.h"
 
 void set_cell_value(Cell *cell, int value) { cell->value = value; }
 
