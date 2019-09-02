@@ -74,7 +74,7 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             hint = hint_command(board, parameters[0], parameters[1]);
             if (hint>0) {
                 succeeded = 1;
-                printf("hint: try to set %d in cell (%d,%d)\n", hint, parameters[0] + 1, parameters[1] + 1);
+                printf("hint: try to set %d in cell (%d,%d)\n", hint, parameters[1] + 1, parameters[0] + 1);
             }
             else
                 command_error(33);

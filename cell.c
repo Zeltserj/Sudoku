@@ -25,9 +25,9 @@ int get_cell_error(Cell *cell) { return cell->error; }
 
 int get_cell_row(Cell *cell) { return cell->row; }
 
-int get_cell_col(Cell *cell) {
-    return cell->col;
-}
+int get_cell_col(Cell *cell) { return cell->col;}
+int get_cell_was_changed(Cell *cell) { return cell->was_changed;}
+
 
 Cell *alloc_cell(int r, int c) {
     Cell *cell = (Cell *) calloc(1, sizeof(Cell));
@@ -54,5 +54,9 @@ int is_equal_cell(Cell *c1, Cell *c2) {
         c1->row != c2->row)
         return 0;
     return 1;
+}
+
+void set_cell_was_changed(Cell *cell, int was_changed) {
+    cell->was_changed = was_changed;
 }
 

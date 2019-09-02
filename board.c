@@ -76,6 +76,7 @@ void free_row(Cell **cell_row, int size) {
 
 void set_value(Board *board, int r, int c, int value) {
     int prev_value = get(board, r, c);
+
     if (prev_value != 0 && value == 0)
         board->num_empty++;
     else if (prev_value == 0 && value != 0)
@@ -191,6 +192,12 @@ void matrix_copy(Cell ***to, Cell ***from, int size) {
 void set_cell(Board *board, Cell *cell) {
     int r = get_cell_row(cell);
     int c = get_cell_col(cell);
+    int prev_val = get_cell_value(board->matrix[r][c]), curr_val = get_cell_value(cell);
+    if(prev_val!=curr_val)
+        set_cell_was_changed(board->matrix[r][c], 1);
+    else
+        set_cell_was_changed(board->matrix[r][c], 0);
+
     set_cell_fixed(board->matrix[r][c],get_cell_fixed(cell));
     set_cell_error(board->matrix[r][c],get_cell_error(cell));
     set_value(board,r,c,get_cell_value(cell));
