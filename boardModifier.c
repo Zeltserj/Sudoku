@@ -335,9 +335,9 @@ void change_cells_to(Board *board, LinkedListCells *values_list) {
         row = get_cell_row(curr) + 1;
         if (get_cell_was_changed(board->matrix[row-1][col-1])) {
             if (get_cell_value(curr) != 0)
-                printf("cell %d, %d, set to %d\n", col, row, get_cell_value(curr));
+                printf("cell (%d, %d) set to %d\n", col, row, get_cell_value(curr));
             else
-                printf("cleared cell %d, %d\n", col, row);
+                printf("cleared cell (%d, %d)\n", col, row);
         }
 
         advance_curr_cell(values_list);
