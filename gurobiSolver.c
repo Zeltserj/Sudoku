@@ -109,7 +109,6 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
 
     if (optimstatus != GRB_OPTIMAL) {
         free(var_arr);
-        free(dictionary_array);
         free(objective);
         free(vtype);
         free(ind);
@@ -128,7 +127,6 @@ int gurobi_solve(Board *board, double *super_array, int *dictionary_array, int v
 
     filter_variables(super_array, var_arr, size);
     free(var_arr);
-    free(dictionary_array);
     free(objective);
     free(vtype);
     free(ind);

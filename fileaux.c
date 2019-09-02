@@ -107,6 +107,7 @@ Board *load(char *path, int edit_or_solve) {
                 return NULL;
             }
             set_value(b, row, col, value);
+            fixed_cell=0;
         }
     }
     scf_ret = fscanf(f,"%s",c);

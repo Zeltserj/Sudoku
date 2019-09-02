@@ -20,6 +20,7 @@ int count_sols(int* sol_arr,int len);
 int fill_score_arr(int *arr, int len_arr, double *score, int len_score, float threshold);
 void fix_prob_arr(double *arr, int *sol_arr, int size);
 int get_single_value(Board* board,int r, int c);
+void free_num_solutions_BT(Board * b, Stack *s, int* next_cell);
 
 /*TODO: delete this debug functions <3 */
 void print_int_arr(int * arr, int len) {
@@ -255,7 +256,7 @@ int count_sols(int* sol_arr,int len) {
 
 
 int solve(Board *board, double *super_array, int gurobi_mode) {
-    int size = get_size(board), var_count, autofills;
+    int size = get_size(board), var_count, autofills, out;
     int *dictionary_array = (int*)calloc(size * size * size, sizeof(int));
     if (super_array == NULL || dictionary_array == NULL) {
         error("solver", "solve", 1);
@@ -267,9 +268,14 @@ int solve(Board *board, double *super_array, int gurobi_mode) {
     }
     
     var_count = generate_variable_array(board, super_array, dictionary_array);
-    if(var_count == -1)
+    if(var_count == -1) {
+        free(dictionary_array);
         return 0;
-    return gurobi_solve(board, super_array, dictionary_array, var_count, gurobi_mode);
+    }
+
+    out =gurobi_solve(board, super_array, dictionary_array, var_count, gurobi_mode);
+    free(dictionary_array);
+    return out;
 }
 
 int autofill(Board* board, LinkedList *moves) {
@@ -376,15 +382,11 @@ int num_solutions_BT(Board *board) {
         exit(0);
     }
     if (set_first_cell(brd_cpy, stack, next_cell) == 0) { /*finds the first empty cell to start from and push it to the stack*/
-        free_board(brd_cpy);
-        free(next_cell);
-        free_stack(stack);
+        free_num_solutions_BT(brd_cpy,stack,next_cell);
         return 0;
     }
     if (get_num_empty(board) == 0 && !is_erroneous(board)) {
-        free_board(brd_cpy);
-        free(next_cell);
-        free_stack(stack);
+        free_num_solutions_BT(brd_cpy,stack,next_cell);
         return 1;
     }
     while (size_stack(stack) != 0) {
@@ -428,12 +430,9 @@ int num_solutions_BT(Board *board) {
             sol_count++;
 
     }
-    free(next_cell);
-    free_board(brd_cpy);
-    free_stack(stack);
+    free_num_solutions_BT(brd_cpy,stack,next_cell);
     return sol_count;
 }
-/*TODO: try this free with valgrind*/
 void free_num_solutions_BT(Board * b, Stack *s, int* next_cell) {
     free(next_cell);
     free_board(b);
