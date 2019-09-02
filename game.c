@@ -6,7 +6,7 @@
 #include "execute.h"
 
 int mark_errors = 1;
-int mode = _INIT;
+int mode = 0;
 
 void announce_winner();
 void announce_erroneous();
@@ -50,7 +50,7 @@ void init_game() {
                 else if ( mode == 1 && exe_ret && get_num_empty(board) == 0) {
                     if (!is_erroneous(board)) {
                         announce_winner();
-                        mode = _INIT;
+                        mode = 0;
                     } else
                         announce_erroneous();
                 }
