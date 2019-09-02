@@ -5,6 +5,7 @@
 /**
  * cell structure for use in the autofill list, and board structure contains a matrix of these cells
  * contains all information regarding cells (value, erroneous in relation to the board, fixed/free, and cell's location
+ * was changed is relevant (meaning was_changed == 1 signifies cell value changed) only after undo/redo command
  */
 extern int mode;
 extern int mark_errors;
