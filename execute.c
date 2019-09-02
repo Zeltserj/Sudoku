@@ -8,7 +8,7 @@ void print_probability_array(double* prob, int len);
 int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, int edit_or_solve);
 int undo_redo_command(Board *board, LinkedList *moves, int undo_or_redo);
 int valid_board(Board *board);
-void set_all_board(Board *to);
+void update_conflicts(Board *to);
 
 /*the first node in moves has command==NULL as the basic list. Therefore moves is not empty*/
 int execute_command(Board **game_board, Command *command, LinkedList **game_moves) {
@@ -201,7 +201,7 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
                 free_board(board);
                 return 0;
             }
-            set_all_board(board);
+            update_conflicts(board);
         }
     }
     *game_board =board;
@@ -218,6 +218,12 @@ int edit_solve_command(Board **game_board, LinkedList *moves, Command *command, 
     return 0;
 }
 
+/**
+ *
+ * @param board != NULL
+ *
+ * at termination, board[i][j] == 0 iff cell is not fixed
+ */
 void delete_not_fixed(Board *board){
     int r,c, size=get_size(board);
     for(r=0; r<size; r++){
@@ -227,6 +233,11 @@ void delete_not_fixed(Board *board){
         }
     }
 }
+/**
+ *
+ * @param board != NULL
+ * @return 1 iff the board is legal and contains 0 conflicts of values among fixed cells only
+ */
 int valid_board(Board *board){
     int r, c, size=get_size(board), value;
     Board* brd_cpy = brdcpy(board);
@@ -243,7 +254,13 @@ int valid_board(Board *board){
     free_board(brd_cpy);
     return 1;
 }
-void set_all_board(Board *to) {
+
+/**
+ *
+ * @param to != NULL
+ * for every i,j in range [0, get_size(to)) to[i][j].errors == number of conflicting cells (exclusive) at termination
+ */
+void update_conflicts(Board *to) {
     int r,c, size=get_size(to), value;
     for(r=0; r<size; r++){
         for(c=0;c<size; c++){
