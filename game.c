@@ -47,7 +47,7 @@ void init_game() {
             } else {
                 if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
                     free_command(command);
-                else if ( mode == 1 && exe_ret && get_num_empty(board) == 0) {
+                if (mode == 1 && exe_ret && get_num_empty(board) == 0) {
                     if (!is_erroneous(board)) {
                         announce_winner();
                         mode = 0;
