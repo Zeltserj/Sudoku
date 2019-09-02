@@ -64,9 +64,10 @@ void parse_input(char *input, Command *out) {
         error("parser", "parser_input", 1);
         exit(0);
     }
-    if (len > 256) {
+    if (len >= 256) {
+
         c = getchar();
-        while (c != '\n' && c != '\r') {
+        while (c != '\n' && c != '\r' && c!= EOF) {
             c = getchar();
         }
         input_error(11);
