@@ -53,6 +53,8 @@ int execute_command(Board **game_board, Command *command, LinkedList **game_move
             succeeded = guess_command(board, moves, get_threshold(command));
             if (succeeded)
                 print_board(board);
+            else
+                command_error(33);
             break;
         case GENERATE:
             if (generate_command(board, moves, parameters[0], parameters[1])) {
