@@ -70,7 +70,6 @@ Board *load(char *path, int edit_or_solve) {
         free_load(f,NULL,c);
         return NULL;
     }
-
     b = alloc_board(m, n);
     for (row = 0; row < get_size(b); row++) {
         for (col = 0; col < get_size(b); col++) {
@@ -80,9 +79,7 @@ Board *load(char *path, int edit_or_solve) {
                 return NULL;
             }
             len_c = strlen(c);
-
-            /*if loading to solve mode*/
-            if (c[len_c - 1] == '.') {
+            if (c[len_c - 1] == '.') {/*if loading to solve mode*/
                 fixed_cell=1;
                 if(edit_or_solve == 1)
                     fix_cell(b, row, col);

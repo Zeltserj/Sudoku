@@ -42,24 +42,8 @@ void add_cell_after_curr(LinkedListCells *list, Cell *c);
 * @return cell of current node of list. NULL if list is empty
 */
 Cell *get_curr_cell(LinkedListCells *list);
-/**
-*
-* @param list
-* @return cell of head node of list. NULL if list is empty
-*/
-Cell * get_head_cell(LinkedListCells *list);
 
 int get_len_linked_list_cells(LinkedListCells* list);
-/**
-* moves current node to next cell on the list
-* @return 1 if succeeded, 0 if there isn't next cell
-*/
-int next_cell(LinkedListCells *list);
-/**
-* moves current node to previous cell on the list
-* @return 1 if succeeded, 0 if there isn't previous cell
-*/
-int prev_cell(LinkedListCells *list);
 
 /**
 * moves the current cell pointer of the input list to the head cell.
@@ -99,5 +83,4 @@ void free_node_cell(NodeCell *node);
 */
 void free_linked_list_cells(LinkedListCells *list);
 
-void print_linked_list_cells(LinkedListCells* list);
 #endif

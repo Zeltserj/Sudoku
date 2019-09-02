@@ -47,7 +47,7 @@ void init_game() {
             } else {
                 if (type != SET && type != GENERATE && type != GUESS && type != AUTOFILL)
                     free_command(command);
-                else if (get_type(command) == SET && mode == 1 && exe_ret && get_num_empty(board) == 0) {
+                else if ( mode == 1 && exe_ret && get_num_empty(board) == 0) {
                     if (!is_erroneous(board)) {
                         announce_winner();
                         mode = _INIT;
@@ -68,5 +68,9 @@ void announce_winner() {
 }
 
 void announce_erroneous() {
-    printf("The board is not correct (try to mark errors).\n");
+    printf("Notice: the board is not correct");
+    if(mark_errors == 0)
+        printf(" (try to mark errors)");
+    printf("\n");
+
 }

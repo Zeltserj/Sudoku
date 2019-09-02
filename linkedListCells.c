@@ -1,6 +1,5 @@
 
 #include "linkedListCells.h"
-#include <stdio.h>
 
 void add_cell_after_curr(LinkedListCells *list, Cell *c) {
     NodeCell* newNode;
@@ -71,28 +70,6 @@ void free_linked_list_cells(LinkedListCells *list) {
 }
 
 
-Cell *get_head_cell(LinkedListCells *list) {
-    return list->head->cell;
-}
-
-int next_cell(LinkedListCells *list) {
-    if (list->current->next == NULL) {
-        error("linkedListCells","next_cell",3);
-        return 0;
-    }
-    list->current = list->current->next;
-    return 1;
-}
-
-int prev_cell(LinkedListCells *list) {
-    if(list->head = list->current) {
-        error("linkedListCells","prev_cell",4);
-        return 0;
-    }
-    list->current = list->current->prev;
-    return 1;
-}
-
 void move_curr_to_head(LinkedListCells *list) {
     list->current=list->head;
 }
@@ -109,17 +86,3 @@ int get_len_linked_list_cells(LinkedListCells *list) {
     return list->len;
 }
 
-void print_linked_list_cells(LinkedListCells *list) {
-    NodeCell* temp;
-    Cell* temp_cell;
-    temp = list->head;
-    if(temp!=NULL){
-        while(temp->next!=NULL){
-            temp_cell= temp->cell;
-            printf("[%d][%d]: %d ,",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
-            temp=temp->next;
-        }
-        temp_cell= temp->cell;
-        printf("[%d][%d]: %d\n",get_cell_row(temp_cell),get_cell_col(temp_cell),get_cell_value(temp_cell));
-    }
-}

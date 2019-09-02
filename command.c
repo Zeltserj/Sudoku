@@ -5,12 +5,6 @@
 #include "errors.h"
 #include "command.h"
 
-/**
- * An array with command names for use in prints
- */
-char* commands[] = {"invalid","solve","edit","mark_errors","print_board","set", "validate",
-                    "guess","generate","undo","redo","save","hint","guess","num_solutions","autofill","reset","exit"};
-
 int *get_parameters(Command *command) {
     return command->int_parameters;
 }
@@ -128,9 +122,6 @@ void set_num_parameters(Command *command, int num_parameters) {
 
 }
 
-
-
-
 int free_command(Command *command) {
     if(command != NULL) {
         if(command->int_parameters != NULL)
@@ -147,20 +138,7 @@ float get_threshold(Command *command) {
     return command->threshold;
 }
 
-char * command_name(Command *command) {
-    return commands[(int)command->type];
-}
 
 void set_threshold(Command *commnad, float threshold) {
     commnad->threshold = threshold;
-}
-void print_input_parameters(Command *pCommand) {
-    int i;
-    if (get_parameters(pCommand) == NULL) {
-        return;
-    }
-    for (i = 0; i < pCommand->num_parameters; i++) {
-        printf("paramter %d: %d ", i, pCommand->int_parameters[i]);
-    }
-
 }

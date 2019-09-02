@@ -24,16 +24,6 @@ typedef struct UserCommand{
 
 /**
  *
- * @param name sets command type
- * @param parameters in case of commands other than edit and solve
- * @param filepath a string consisting of the file path.
- * @pre   parameters != NULL xor filepath != NULL
- * @return new command instance, ONLY COMMAND TYPE IS CHECKED
- */
-Command* alloc_command(char* name, int* parameters, char* filepath);
-
-/**
- *
  * @param command != NULL
  * @return command.num_parameters
  */
@@ -103,12 +93,5 @@ void set_threshold(Command *commnad, float threshold);
  * @return command is freed from heap
  */
 int free_command(Command* command);
-/**
- *
- * @param command != NULL && command.type != NULL
- * @return  the name of the command
- *
- */
-char * command_name(Command* command);
 
 #endif

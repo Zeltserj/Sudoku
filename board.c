@@ -8,7 +8,6 @@ void free_row(Cell **cell_row, int size);
 
 void matrix_copy(Cell ***to, Cell ***from, int size);
 
-
 void print_dashes(int length);
 
 Cell ***alloc_matrix(int size) {
@@ -51,8 +50,6 @@ Board *alloc_board(int r, int c) {
         error("board", "alloc_board", 1);
         exit(0);
     }
-
-
     board->rows_block = r;
     board->cols_block = c;
     board->size = r * c;
@@ -196,12 +193,8 @@ void set_cell(Board *board, Cell *cell) {
     int c = get_cell_col(cell);
     set_cell_fixed(board->matrix[r][c],get_cell_fixed(cell));
     set_cell_error(board->matrix[r][c],get_cell_error(cell));
-    /*printf("set_cell: curr - [%d][%d], error = %d",r,c,cell->error );*/
     set_value(board,r,c,get_cell_value(cell));
 }
-
-
-
 
 int get_size(Board *board) {
     return board->size;

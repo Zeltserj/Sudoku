@@ -9,50 +9,6 @@ Node *get_curr(LinkedList *list) {
     return list->current;
 }
 
-int remove_next_after_curr(LinkedList *list) {
-    Node *next = list->current->next;
-    if (list->current == NULL) {
-        error("linkedList","remove_next_after_curr",2);
-        exit(0);
-    }
-    if (list->current->next == NULL) {
-        return 1;
-    }
-    if (list->current->next->next == NULL) {
-        list->current->next = NULL;
-        free_node(next);
-        list->len--;
-        return 1;
-    }
-    list->current->next = list->current->next->next;
-    list->current->next->next->prev = list->current;
-    free_node(next);
-    list->len--;
-    return 1;
-}
-
-void remove_node(LinkedList *list, Node *node) {
-    if (list->head == node) {
-        list->head = node->next;
-    } else {
-        node->prev->next = node->next;
-    }
-    if(node->next != NULL){
-        node->next->prev = node->prev;
-    }
-    if(list->current == node){
-        if(list->current == list->head){
-            list->current = node->next;
-        }
-        else{
-            list->current = node->prev;
-        }
-    }
-    free_node(node);
-    list->len--;
-
-}
-
 void remove_all_after_curr(LinkedList *list) {
     Node* temp = list->current->next;
     list->current->next = NULL;
@@ -61,6 +17,7 @@ void remove_all_after_curr(LinkedList *list) {
             temp = temp->next;
             temp->prev->next=NULL;
             list->len--;
+            free_node(temp->prev);
         }
         free_node(temp);
         list->len--;
@@ -150,19 +107,6 @@ void free_linked_list(LinkedList *list) {
     }
 }
 
-void print_linked_list(LinkedList* list){
-    Node* temp=list->head;
-    printf("Linked list:\n");
-    while(temp!=NULL){
-        if(temp->c!= NULL)
-            printf("%s, ",command_name(temp->c));
-        else
-            printf("command is null ; ");
-        temp=temp->next;
-    }
-    printf("\n");
-}
-
 Command *get_command(Node *node) {
     return node->c;
 }
@@ -175,8 +119,6 @@ int is_curr_last(LinkedList *list) {
 
 LinkedListCells * get_old_values_cells_list(Node *node) { return node->old_values; }
 LinkedListCells * get_new_values_cells_list(Node *node) { return node->new_values; }
-
-int get_len_linked_list(LinkedList *list) { return list->len; }
 
 void clear_linked_list(LinkedList *list) {
     while (get_curr(list) != get_head(list))

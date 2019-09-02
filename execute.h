@@ -74,6 +74,4 @@ void reset_command(Board *board, LinkedList *moves);
 */
 void exit_command(Board *board, LinkedList *moves);
 
-
-
 #endif /*SPROJECT_EXECUTE_H*/

@@ -1,8 +1,6 @@
 
 
 #include <stdlib.h>
-#include <stdio.h>
-#include "execute.h"
 #include "boardModifier.h"
 #include "linkedList.h"
 #include "gurobiSolver.h"
@@ -22,38 +20,6 @@ void fix_prob_arr(double *arr, int *sol_arr, int size);
 int get_single_value(Board* board,int r, int c);
 void free_num_solutions_BT(Board * b, Stack *s, int* next_cell);
 
-/*TODO: delete this debug functions <3 */
-void print_int_arr(int * arr, int len) {
-    int i;
-    for (i = 0; i < len; i++)
-        printf("arr[%d] = %d\n", i, (arr[i]));
-}
-void print_double_arr(double * arr, int len) {
-    int i;
-    for (i = 0; i < len; i++)
-        printf("arr[%d] = %f\n", i, (arr[i]));
-}
-/**
- *
- * @param size = board dimension
- * @return matrix of size*size
- */
-
-int **allocate_int_matrix(int size) {
-    int **matrix = (int **) calloc(size, sizeof(int *));
-    int i;
-    if (matrix == NULL) {
-        error("solver", "allocate_int_matrix", 1);
-        exit(0);
-    }
-    for (i = 0; i < size; i++) {
-        matrix[i] = calloc(size, sizeof(int));
-        if (matrix[i] == NULL) {
-            error("solver", "allocate_int_matrix", 1);
-        }
-    }
-    return matrix;
-}
 
 /**
 * @param board != NULL

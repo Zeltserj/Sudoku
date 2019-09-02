@@ -26,5 +26,4 @@ Board *load(char *path, int edit_or_solve);
 */
 int save(Board *board, char *path);
 
-
 #endif /*SPROJECT_FILEAUX_H*/

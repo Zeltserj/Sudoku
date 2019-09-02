@@ -33,7 +33,6 @@ typedef struct LinkedList{
     int len;
 }LinkedList;
 
-int get_len_linked_list(LinkedList* list);
 /**
 * @param list - with pointers to its head and to a current node
 * @return the first node of the list
@@ -105,21 +104,6 @@ void advance_curr(LinkedList *list);
 * @param list
 */
 void backward_curr(LinkedList *list);
-/**
-* @param list != NULL
-* @return 1 if succeeded, otherwise the number of error
-*/
-int remove_next_after_curr(LinkedList *list);
-
-/**
-* @pre node is in list
-* @param list != NULL. list of nodes type Node
-* @param node
-* removes input node from input list, and frees it.
-* notice - if node == list.current: new current = node.prev
-* if also node == list.head: new current = node.next
-*/
-void remove_node(LinkedList *list, Node *node);
 
 /**
 * removes all the nodes after current.
@@ -140,7 +124,6 @@ void free_node(Node *node);
 */
 void free_linked_list(LinkedList* list);
 
-void print_linked_list(LinkedList* list);
 
 /**
 * remove all nodes of the list but the head node. At the end, current node points to head node.
